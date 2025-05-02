@@ -2,5 +2,6 @@ olaa
 ## Desenvolvedores
 
  * [Matheus](https://github.com/MLangendolf)
- * [Beltrano](https://github.com/lilialnas)
+ * [Cristiano](https://github.com/Criswxyz)
  * [Sicrano](https://github.com/lilialnas)
+
