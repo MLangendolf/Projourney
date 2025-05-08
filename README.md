@@ -2,15 +2,14 @@ Projourney
 
 📌 Visão Geral
 
-Este projeto tem como objetivo criar uma plataforma web que facilite a busca por cursos online gratuitos, com ênfase em instituições confiáveis e cursos com certificação reconhecida pelo MEC. Além disso, a plataforma poderá incluir uma seção para divulgação de cursos presenciais encontrados na web, organizados por região do país.
+Este projeto visa criar uma plataforma web que facilite a busca por cursos online gratuitos, dando maior ênfase em instituições confiáveis e cursos com certificação reconhecida pelos principais orgãos regulamentadores e ensino.
 
 🎯 Objetivo Principal
 
     Fornecer uma ferramenta intuitiva para encontrar cursos online gratuitos de qualidade;
 
-    Priorizar cursos de instituições reconhecidas e com certificação válida pelo MEC;
-
-    Possibilitar a descoberta de cursos presenciais por região geográfica.
+    Priorizar cursos de instituições reconhecidas e com certificação válidadas por instituições regulamentadoras de esino, exemplo: MEC.
+  
 
 🛠 Desenvolvedores:
 
