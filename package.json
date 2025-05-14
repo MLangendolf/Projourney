@@ -1,0 +1,37 @@
+{
+  "name": "projourney",
+  "version": "1.0.0",
+  "description": "Projeto estudantil acadêmico. Curso de TSI (Tecnologia em Sistemas para Internet),instituição IFPE, campus Igarassu. Este projeto visa criar uma plataforma web que facilite a busca por cursos online gratuitos, dando maior ênfase em instituições confiáveis e cursos com certificação reconhecida pelos principais orgãos regulamentadores e ensino.O projeto usa TypeScripte como dependência de desenvolvimento.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MLangendolf/Projourney.git"
+  },
+  "keywords": [
+    "Projeto",
+    "typescript",
+    "dependência",
+    "desenvolvimento",
+    "acadêmico",
+    "estudantil",
+    "IFPE",
+    "Igarassu",
+    "busca",
+    "curso",
+    "online",
+    "gratuito."
+  ],
+  "author": "Matheus, Cristiano, Gabriel, Guilherme, Maviael Melo, Arthur.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MLangendolf/Projourney/issues"
+  },
+  "homepage": "https://github.com/MLangendolf/Projourney#readme",
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "typescript": "^5.8.3"
+  }
+}
