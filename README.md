@@ -6,9 +6,9 @@ Este projeto visa criar uma plataforma web que facilite a busca por cursos onlin
 
 🎯 Objetivo Principal
 
-    Fornecer uma ferramenta intuitiva para encontrar cursos online gratuitos de qualidade;
+Fornecer uma ferramenta intuitiva para encontrar cursos online gratuitos de qualidade;
 
-    Priorizar cursos de instituições reconhecidas e com certificação válidadas por instituições regulamentadoras de esino, exemplo: MEC.
+Priorizar cursos de instituições reconhecidas e com certificação válidadas por instituições regulamentadoras de esino, exemplo: MEC.
   
 
 🛠 Desenvolvedores:
