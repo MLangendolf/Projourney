@@ -4,7 +4,10 @@
   "description": "Projeto estudantil acadêmico. Curso de TSI (Tecnologia em Sistemas para Internet),instituição IFPE, campus Igarassu. Este projeto visa criar uma plataforma web que facilite a busca por cursos online gratuitos, dando maior ênfase em instituições confiáveis e cursos com certificação reconhecida pelos principais orgãos regulamentadores e ensino.O projeto usa TypeScripte como dependência de desenvolvimento.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",   
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -32,6 +35,14 @@
   "homepage": "https://github.com/MLangendolf/Projourney#readme",
   "devDependencies": {
     "@types/node": "^22.15.17",
-    "typescript": "^5.8.3"
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }
