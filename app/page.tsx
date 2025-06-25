@@ -137,7 +137,7 @@ export default function HomePage(): JSX.Element {
             <InteractiveButton href="/simulado" variant="nav">
               Simulados
             </InteractiveButton>
-            <InteractiveButton href="#" variant="nav">
+            <InteractiveButton href="/cursos" variant="nav">
               Cursos
             </InteractiveButton>
             <InteractiveButton href="#" variant="nav">
