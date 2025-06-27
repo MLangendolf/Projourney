@@ -6,6 +6,7 @@
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path'; // Importe o módulo 'path'
 
 export default defineConfig({
   plugins: [react()],
@@ -14,4 +15,9 @@ export default defineConfig({
     outDir: 'dist', // onde os arquivos de build serão gerados
   },
   publicDir: 'public',
-})
+  resolve: { // Adicione esta seção
+    alias: {
+      '@': path.resolve(__dirname, './src'), // Mapeia @/ para o diretório src
+    },
+  },
+});
