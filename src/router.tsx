@@ -1,4 +1,3 @@
-
 // src/router.tsx
 
 import { Routes, Route } from 'react-router-dom';
@@ -7,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from './app/layout';
 import CadastrarPage from './app/cadastrar/page';
 import LoginPage from './app/login/page';
+import { CoursesPage, CourseDetailPage } from './app/cursos/page';
 
 function Router() {
   return (
@@ -15,6 +15,8 @@ function Router() {
       <Route path="/" element={<HomePage />} /> {/* Rota para a página inicial */}
       <Route path="/cadastrar" element={<CadastrarPage />} /> {/* Rota para a página de cadastro */}
       <Route path="/login" element={<LoginPage />} /> {/* Rota para a página de login */}
+      <Route path="/cursos" element={<CoursesPage />} /> {/* Rota para a página de cursos */}
+      <Route path="/cursos/:id" element={<CourseDetailPage />} /> {/* Rota para detalhes do curso */}
 
       {/* Adicione suas outras rotas aqui, mapeando o caminho para o componente */}
       {/* Exemplo: <Route path="/simulado" element={<SimuladoPage />} /> */}

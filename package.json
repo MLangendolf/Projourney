@@ -2,6 +2,7 @@
   "name": "projourney",
   "version": "1.0.0",
   "description": "Projeto estudantil acadêmico. Curso de TSI (Tecnologia em Sistemas para Internet),instituição IFPE, campus Igarassu. Este projeto visa criar uma plataforma web que facilite a busca por cursos online gratuitos, dando maior ênfase em instituições confiáveis e cursos com certificação reconhecida pelos principais orgãos regulamentadores e ensino.O projeto usa TypeScripte como dependência de desenvolvimento.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -38,9 +39,9 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.11",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"
   },

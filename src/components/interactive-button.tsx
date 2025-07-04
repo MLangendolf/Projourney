@@ -1,4 +1,3 @@
-
 // src/components/interactive-button.tsx
 //  COMPONENTE DE BOTÃO INTERATIVO
 
@@ -14,6 +13,7 @@ export default function InteractiveButton({ // <-- Este é o componente do botã
   children,
   variant = "primary",
   className,
+  onClick,
 }: InteractiveButtonProps): JSX.Element {
   const [ripples, setRipples] = useState<RippleProps[]>([])
   const buttonRef = useRef<HTMLAnchorElement>(null)
@@ -49,6 +49,9 @@ export default function InteractiveButton({ // <-- Este é o componente do botã
     setRipples([...ripples, { x, y, size }])
     setIsPressed(true)
     setTimeout((): void => setIsPressed(false), 150)
+
+    // Chama o onClick se existir
+    onClick?.(e)
   }
 
   const variantStyles: Record<string, string> = {
