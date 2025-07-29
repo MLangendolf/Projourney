@@ -1,467 +1,186 @@
+import { useState } from "react";
+import type React from "react";
+// Corrija o import do Link para usar o de react-router-dom
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import { Textarea } from "../../components/ui/textarea";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
+import { ArrowLeft, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 
-import { useState } from "react"
-import type React from "react"
-import { Button } from  "../../components/ui/button"
-import { Input } from "../../components/ui/input"
-import { Label } from "../../components/ui/label"
-import { Textarea } from "../../components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card"
-import { Badge } from "../../components/ui/badge"
-import { ArrowLeft, Code, Database, Shield, Smartphone, Globe, Cpu, Brain, Zap } from "lucide-react"
- import {Link} from "react-router-dom"  // Mudança do 'next/link' para o 'react-router-dom"
-import type { TechArea, ExperienceLevel, FormData } from "../../types" // "@/types"
-import type { JSX } from "react/jsx-runtime"
+// Interface simplificada para os dados do formulário, correspondendo à tabela PJ_ALUNO
+interface AlunoFormData {
+    nome: string;
+    email: string;
+    senha: string;
+    confirmarSenha: string;
+    idade: string; // Usamos string no formulário para facilitar a digitação
+    telefone: string;
+    cidade: string;
+    objetivos: string; // Mapeado para a coluna 'descricao' no banco
+    areasInteresse: string[]; // Exemplo: ['frontend', 'backend']
+}
 
-const techAreas: TechArea[] = [
-  { id: "frontend", label: "Desenvolvimento Frontend", icon: Globe },
-  { id: "backend", label: "Desenvolvimento Backend", icon: Database },
-  { id: "mobile", label: "Desenvolvimento Mobile", icon: Smartphone },
-  { id: "security", label: "Segurança da Informação", icon: Shield },
-  { id: "data", label: "Ciência de Dados", icon: Brain },
-  { id: "devops", label: "DevOps e Cloud", icon: Cpu },
-  { id: "ai", label: "Inteligência Artificial", icon: Zap },
-  { id: "fullstack", label: "Desenvolvimento Full Stack", icon: Code },
-]
+export default function CadastrarAlunoPage(): JSX.Element {
+    const navigate = useNavigate(); // Hook para redirecionamento
+    const [formData, setFormData] = useState<AlunoFormData>({
+        nome: "",
+        email: "",
+        senha: "",
+        confirmarSenha: "",
+        idade: "",
+        telefone: "",
+        cidade: "",
+        objetivos: "",
+        areasInteresse: [], // Começa vazio
+    });
 
-const programmingLanguages: string[] = [
-  "JavaScript",
-  "Python",
-  "Java",
-  "C#",
-  "C++",
-  "PHP",
-  "TypeScript",
-  "Go",
-  "Rust",
-  "Swift",
-  "Kotlin",
-  "Ruby",
-  "C",
-  "SQL",
-  "HTML/CSS",
-]
+    // Estados para controlar o feedback da interface
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
 
-const experienceLevels: ExperienceLevel[] = [
-  { value: "iniciante", label: "Iniciante - Nunca programei" },
-  { value: "basico", label: "Básico - Conheço conceitos básicos" },
-  { value: "intermediario", label: "Intermediário - Já desenvolvi alguns projetos" },
-  { value: "avancado", label: "Avançado - Trabalho na área" },
-  { value: "expert", label: "Expert - Sou líder técnico/arquiteto" },
-]
+    // Função para lidar com a mudança nos inputs
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({ ...prev, [id]: value }));
+    };
 
-export default function CadastrarPage(): JSX.Element {
-  const [formData, setFormData] = useState<FormData>({
-    nome: "",
-    email: "",
-    telefone: "",
-    idade: "",
-    cidade: "",
-    experiencia: "",
-    areasInteresse: [],
-    linguagens: [],
-    objetivos: "",
-    disponibilidade: "",
-    motivacao: "",
-  })
+    // Função para enviar o formulário para a API PHP
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setError(null);
+        setSuccess(null);
 
-  const [currentStep, setCurrentStep] = useState<number>(1)
-  const totalSteps: number = 4
+        if (formData.senha !== formData.confirmarSenha) {
+            setError("As senhas não coincidem.");
+            return;
+        }
 
-  const handleAreaToggle = (areaId: string): void => {
-    setFormData(
-      (prev: FormData): FormData => ({
-        ...prev,
-        areasInteresse: prev.areasInteresse.includes(areaId)
-          ? prev.areasInteresse.filter((id: string): boolean => id !== areaId)
-          : [...prev.areasInteresse, areaId],
-      }),
-    )
-  }
+        setLoading(true); // Mostra um indicador de carregamento
 
-  const handleLanguageToggle = (language: string): void => {
-    setFormData(
-      (prev: FormData): FormData => ({
-        ...prev,
-        linguagens: prev.linguagens.includes(language)
-          ? prev.linguagens.filter((lang: string): boolean => lang !== language)
-          : [...prev.linguagens, language],
-      }),
-    )
-  }
+        try {
+            // Envia os dados para a API PHP
+            // URL para ser usada com a API rodando no comando 'php -S localhost:8000'
+            const response = await fetch('http://localhost:8000/cada/strar_aluno.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // Enviamos apenas os dados que o script PHP espera
+                body: JSON.stringify({ // Converte os dados do formulário para JSON
+                    nome: formData.nome,
+                    email: formData.email,
+                    senha: formData.senha,
+                    idade: formData.idade,
+                    telefone: formData.telefone,
+                    cidade: formData.cidade,
+                    objetivos: formData.objetivos,
+                    areasInteresse: formData.areasInteresse, // Você pode adicionar a seleção de áreas depois
+                }),
+            });
 
-  const nextStep = (): void => {
-    if (currentStep < totalSteps) setCurrentStep(currentStep + 1)
-  }
+            const result = await response.json(); // Pega a resposta da API em JSON
 
-  const prevStep = (): void => {
-    if (currentStep > 1) setCurrentStep(currentStep - 1)
-  }
+            if (!response.ok) {
+                // Se a resposta não for 2xx, lança um erro com a mensagem do PHP
+                throw new Error(result.mensagem || `Erro ${response.status}`);
+            }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-    console.log("Dados do cadastro:", formData)
-    alert("Cadastro realizado com sucesso! Bem-vindo à plataforma de cursos de tecnologia!")
-  }
+            setSuccess(result.mensagem);
+            setTimeout(() => {
+                navigate('/login'); // Redireciona para o login após o sucesso
+            }, 2000);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#16213e] text-white">
-      {/* Header */}
-      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-6 py-4">
-        <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <Link to="/" className="flex items-center space-x-3">
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-xl font-bold text-[#00aaff]">Voltar</span>
-          </Link>
-          <h1 className="text-2xl font-bold text-[#00aaff]">Cadastro Tech</h1>
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Falha na comunicação com o servidor.';
+            setError(errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-8">
+            <div className="max-w-2xl mx-auto">
+                <header className="mb-8">
+                    <Link to="/" className="flex items-center space-x-2 text-blue-400 hover:text-blue-300">
+                        <ArrowLeft className="w-5 h-5" />
+                        <span>Voltar para o Início</span>
+                    </Link>
+                </header>
+
+                <Card className="bg-gray-800 border-gray-700">
+                    <CardHeader>
+                        <CardTitle className="text-3xl text-white">Crie sua Conta</CardTitle>
+                        <CardDescription className="text-gray-400">
+                            Preencha os campos abaixo para iniciar sua jornada.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="text-white">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Campos do formulário */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <Label htmlFor="nome">Nome Completo *</Label>
+                                    <Input id="nome" value={formData.nome} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="email">E-mail *</Label>
+                                    <Input id="email" type="email" value={formData.email} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="senha">Senha *</Label>
+                                    <Input id="senha" type="password" value={formData.senha} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="confirmarSenha">Confirmar Senha *</Label>
+                                    <Input id="confirmarSenha" type="password" value={formData.confirmarSenha} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="idade">Idade *</Label>
+                                    <Input id="idade" type="number" value={formData.idade} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                </div>
+                                <div>
+                                    <Label htmlFor="telefone">Telefone *</Label>
+                                    <Input id="telefone" type="tel" value={formData.telefone} onChange={handleChange} required placeholder="(11) 99999-9999" className="bg-gray-700 border-gray-600" />
+                                </div>
+                            </div>
+                            <div>
+                                <Label htmlFor="cidade">Cidade (Opcional)</Label>
+                                <Input id="cidade" value={formData.cidade} onChange={handleChange} className="bg-gray-700 border-gray-600" />
+                            </div>
+                            <div>
+                                <Label htmlFor="objetivos">Descreva seus objetivos (Opcional)</Label>
+                                <Textarea id="objetivos" value={formData.objetivos} onChange={handleChange} placeholder="Ex: Conseguir meu primeiro emprego como dev front-end." className="bg-gray-700 border-gray-600" />
+                            </div>
+
+                            {/* Botão de Envio e Feedback */}
+                            <div className="pt-4">
+                                {/* Mensagem de Sucesso */}
+                                {success && (
+                                    <div className="flex items-center gap-2 text-green-400 p-3 bg-green-900/50 rounded-md mb-4">
+                                        <CheckCircle size={20} />
+                                        <span>{success}</span>
+                                    </div>
+                                )}
+                                {/* Mensagem de Erro */}
+                                {error && (
+                                    <div className="flex items-center gap-2 text-red-400 p-3 bg-red-900/50 rounded-md mb-4">
+                                        <AlertCircle size={20} />
+                                        <span>{error}</span>
+                                    </div>
+                                )}
+
+                                <Button type="submit" disabled={loading || !!success} className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500">
+                                    {loading ? <Loader2 className="animate-spin" /> : 'Finalizar Cadastro'}
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
-      </header>
-
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-3xl font-bold">Cadastro de Desenvolvedor</h1>
-            <span className="text-sm text-gray-400">
-              Etapa {currentStep} de {totalSteps}
-            </span>
-          </div>
-          <div className="w-full bg-gray-700 rounded-full h-2">
-            <div
-              className="bg-gradient-to-r from-blue-500 to-cyan-400 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-            />
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          {/* Etapa 1: Informações Pessoais */}
-          {currentStep === 1 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Code className="w-6 h-6 text-blue-400" />
-                  Informações Pessoais
-                </CardTitle>
-                <CardDescription className="text-gray-300">Vamos começar com suas informações básicas</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="nome" className="text-white">
-                      Nome Completo *
-                    </Label>
-                    <Input
-                      id="nome"
-                      value={formData.nome}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, nome: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="Seu nome completo"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email" className="text-white">
-                      E-mail *
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="seu@email.com"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="telefone" className="text-white">
-                      Telefone
-                    </Label>
-                    <Input
-                      id="telefone"
-                      value={formData.telefone}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, telefone: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="(11) 99999-9999"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="idade" className="text-white">
-                      Idade
-                    </Label>
-                    <Input
-                      id="idade"
-                      type="number"
-                      value={formData.idade}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, idade: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="25"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="cidade" className="text-white">
-                    Cidade
-                  </Label>
-                  <Input
-                    id="cidade"
-                    value={formData.cidade}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                      setFormData({ ...formData, cidade: e.target.value })
-                    }
-                    className="bg-gray-800 border-gray-600 text-white"
-                    placeholder="São Paulo, SP"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Etapa 2: Experiência Técnica */}
-          {currentStep === 2 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Brain className="w-6 h-6 text-green-400" />
-                  Experiência Técnica
-                </CardTitle>
-                <CardDescription className="text-gray-300">
-                  Conte-nos sobre seu nível de experiência em tecnologia
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label className="text-white mb-3 block">Nível de Experiência *</Label>
-                  <Select
-                    value={formData.experiencia}
-                    onValueChange={(value: string): void => setFormData({ ...formData, experiencia: value })}
-                  >
-                    <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
-                      <SelectValue placeholder="Selecione seu nível" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-600">
-                      {experienceLevels.map((level: ExperienceLevel) => (
-                        <SelectItem key={level.value} value={level.value} className="text-white">
-                          {level.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-white mb-3 block">Linguagens de Programação Conhecidas</Label>
-                  <p className="text-sm text-gray-400 mb-4">Selecione todas que você conhece (mesmo que básico)</p>
-                  <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
-                    {programmingLanguages.map((language: string) => (
-                      <div
-                        key={language}
-                        onClick={(): void => handleLanguageToggle(language)}
-                        className={`p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 text-center ${
-                          formData.linguagens.includes(language)
-                            ? "border-blue-400 bg-blue-400/20 text-blue-300"
-                            : "border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500"
-                        }`}
-                      >
-                        <span className="text-sm font-medium">{language}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Etapa 3: Áreas de Interesse */}
-          {currentStep === 3 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Zap className="w-6 h-6 text-yellow-400" />
-                  Áreas de Interesse
-                </CardTitle>
-                <CardDescription className="text-gray-300">
-                  Quais áreas da tecnologia mais despertam seu interesse?
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {techAreas.map((area: TechArea) => {
-                    const Icon = area.icon
-                    return (
-                      <div
-                        key={area.id}
-                        onClick={(): void => handleAreaToggle(area.id)}
-                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                          formData.areasInteresse.includes(area.id)
-                            ? "border-cyan-400 bg-cyan-400/20 text-cyan-300"
-                            : "border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500"
-                        }`}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <Icon className="w-6 h-6" />
-                          <span className="font-medium">{area.label}</span>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Etapa 4: Objetivos e Motivação */}
-          {currentStep === 4 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Shield className="w-6 h-6 text-purple-400" />
-                  Objetivos e Disponibilidade
-                </CardTitle>
-                <CardDescription className="text-gray-300">
-                  Finalize seu cadastro com seus objetivos de carreira
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label htmlFor="objetivos" className="text-white">
-                    Objetivos Profissionais
-                  </Label>
-                  <Textarea
-                    id="objetivos"
-                    value={formData.objetivos}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
-                      setFormData({ ...formData, objetivos: e.target.value })
-                    }
-                    className="bg-gray-800 border-gray-600 text-white"
-                    placeholder="Ex: Quero me tornar um desenvolvedor full-stack, conseguir meu primeiro emprego na área..."
-                    rows={4}
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-white mb-3 block">Disponibilidade para Estudos</Label>
-                  <Select
-                    value={formData.disponibilidade}
-                    onValueChange={(value: string): void => setFormData({ ...formData, disponibilidade: value })}
-                  >
-                    <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
-                      <SelectValue placeholder="Selecione sua disponibilidade" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-600">
-                      <SelectItem value="1-2h" className="text-white">
-                        1-2 horas por dia
-                      </SelectItem>
-                      <SelectItem value="3-4h" className="text-white">
-                        3-4 horas por dia
-                      </SelectItem>
-                      <SelectItem value="5-6h" className="text-white">
-                        5-6 horas por dia
-                      </SelectItem>
-                      <SelectItem value="tempo-integral" className="text-white">
-                        Tempo integral
-                      </SelectItem>
-                      <SelectItem value="fins-semana" className="text-white">
-                        Apenas fins de semana
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="motivacao" className="text-white">
-                    O que te motiva a estudar tecnologia?
-                  </Label>
-                  <Textarea
-                    id="motivacao"
-                    value={formData.motivacao}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
-                      setFormData({ ...formData, motivacao: e.target.value })
-                    }
-                    className="bg-gray-800 border-gray-600 text-white"
-                    placeholder="Conte-nos o que te inspira na área de tecnologia..."
-                    rows={3}
-                  />
-                </div>
-
-                {/* Resumo das seleções */}
-                <div className="bg-gray-800/50 p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-white mb-3">Resumo do seu perfil:</h3>
-                  <div className="space-y-2">
-                    <p className="text-gray-300">
-                      <strong>Experiência:</strong>{" "}
-                      {experienceLevels.find((l: ExperienceLevel): boolean => l.value === formData.experiencia)
-                        ?.label || "Não informado"}
-                    </p>
-                    {formData.areasInteresse.length > 0 && (
-                      <div>
-                        <strong className="text-gray-300">Áreas de interesse:</strong>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                          {formData.areasInteresse.map((areaId: string) => {
-                            const area: TechArea | undefined = techAreas.find((a: TechArea): boolean => a.id === areaId)
-                            return area ? (
-                              <Badge key={areaId} variant="secondary">
-                                {area.label}
-                              </Badge>
-                            ) : null
-                          })}
-                        </div>
-                      </div>
-                    )}
-                    {formData.linguagens.length > 0 && (
-                      <div>
-                        <strong className="text-gray-300">Linguagens conhecidas:</strong>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                          {formData.linguagens.map((lang: string) => (
-                            <Badge key={lang} variant="outline">
-                              {lang}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8">
-            <Button
-              type="button"
-              onClick={prevStep}
-              disabled={currentStep === 1}
-              variant="outline"
-              className="bg-gray-800 border-gray-600 text-white hover:bg-gray-700"
-            >
-              Anterior
-            </Button>
-
-            {currentStep < totalSteps ? (
-              <Button type="button" onClick={nextStep} className="bg-blue-600 hover:bg-blue-700 text-white">
-                Próximo
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white px-8"
-              >
-                Finalizar Cadastro
-              </Button>
-            )}
-          </div>
-        </form>
-      </div>
-    </div>
-  )
+    );
 }
