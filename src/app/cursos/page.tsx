@@ -279,12 +279,10 @@ export const CoursesPage: React.FC = () => {
             <InteractiveButton href="/" variant="nav">
               Início
             </InteractiveButton>
-            <InteractiveButton href="/simulado" variant="nav">
-              Simulados
+            <InteractiveButton href="/trilhas" variant="nav">
+              Trilhas
             </InteractiveButton>
-            <InteractiveButton href="/cursos" variant="nav">
-              Cursos
-            </InteractiveButton>
+
             <InteractiveButton href="#" variant="nav">
               Sobre
             </InteractiveButton>
