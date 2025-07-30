@@ -1,5 +1,3 @@
-
-
 import { useState } from "react"
 import type React from "react"
 import { Button } from  "../../components/ui/button"
@@ -52,6 +50,7 @@ const experienceLevels: ExperienceLevel[] = [
 ]
 
 export default function CadastrarPage(): JSX.Element {
+  // ✅ MUDANÇA 1: areasInteresse agora é string (não array)
   const [formData, setFormData] = useState<FormData>({
     nome: "",
     email: "",
@@ -59,7 +58,7 @@ export default function CadastrarPage(): JSX.Element {
     idade: "",
     cidade: "",
     experiencia: "",
-    areasInteresse: [],
+    areasInteresse: "", // ← ERA: [] AGORA: ""
     linguagens: [],
     objetivos: "",
     disponibilidade: "",
@@ -69,15 +68,12 @@ export default function CadastrarPage(): JSX.Element {
   const [currentStep, setCurrentStep] = useState<number>(1)
   const totalSteps: number = 3
 
-  const handleAreaToggle = (areaId: string): void => {
-    setFormData(
-      (prev: FormData): FormData => ({
-        ...prev,
-        areasInteresse: prev.areasInteresse.includes(areaId)
-          ? prev.areasInteresse.filter((id: string): boolean => id !== areaId)
-          : [...prev.areasInteresse, areaId],
-      }),
-    )
+  // ✅ MUDANÇA 2: Nova função para seleção única
+  const handleAreaSelect = (areaId: string): void => {
+    setFormData((prev: FormData): FormData => ({
+      ...prev,
+      areasInteresse: areaId, // Simplesmente substitui o valor anterior
+    }))
   }
 
   const handleLanguageToggle = (language: string): void => {
@@ -122,7 +118,7 @@ export default function CadastrarPage(): JSX.Element {
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-3xl font-bold">Ecolha sua trilha de estudos!</h1>
+            <h1 className="text-3xl font-bold">Escolha sua trilha de estudos!</h1>
             <span className="text-sm text-gray-400">
               Etapa {currentStep} de {totalSteps}
             </span>
@@ -136,8 +132,19 @@ export default function CadastrarPage(): JSX.Element {
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* Etapa 1: Informações Pessoais */}
-        {/*
+          {/* 
+          ========================================
+          ETAPA 1: INFORMAÇÕES PESSOAIS
+          ========================================
+          Esta seção coleta dados básicos do usuário como:
+          - Nome completo
+          - Email 
+          - Telefone
+          - Idade
+          - Cidade
+          Está comentada para não aparecer no formulário atual
+          */}
+          {/*
           {currentStep === 1 && (
             <Card className="bg-gray-900/50 border-gray-700">
               <CardHeader>
@@ -227,8 +234,18 @@ export default function CadastrarPage(): JSX.Element {
               </CardContent>
             </Card>
           )}
-        */}
-          {/* Etapa 2: Experiência Técnica */}
+          */}
+          
+          {/* 
+          ========================================
+          ETAPA 2: EXPERIÊNCIA TÉCNICA
+          ========================================
+          Esta seção avalia o nível técnico do usuário:
+          - Nível de experiência (iniciante até expert)
+          - Linguagens de programação conhecidas
+          Está comentada para não aparecer no formulário atual
+          */}
+          {/*
           {currentStep === 1 && (
             <Card className="bg-gray-900/50 border-gray-700">
               <CardHeader>
@@ -282,17 +299,18 @@ export default function CadastrarPage(): JSX.Element {
               </CardContent>
             </Card>
           )}
+          */}
 
-          {/* Etapa 3: Áreas de Interesse */}
+          {/* ✅ ETAPA 3: SELEÇÃO ÚNICA DE TRILHA */}
           {currentStep === 2 && (
             <Card className="bg-gray-900/50 border-gray-700">
               <CardHeader>
                 <CardTitle className="text-2xl text-white flex items-center gap-2">
                   <Zap className="w-6 h-6 text-yellow-400" />
-                  Áreas de Interesse
+                  Escolha sua Trilha
                 </CardTitle>
                 <CardDescription className="text-gray-300">
-                  Quais áreas da tecnologia mais despertam seu interesse?
+                  Selecione UMA trilha da tecnologia que deseja seguir
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -302,9 +320,9 @@ export default function CadastrarPage(): JSX.Element {
                     return (
                       <div
                         key={area.id}
-                        onClick={(): void => handleAreaToggle(area.id)}
+                        onClick={(): void => handleAreaSelect(area.id)} // ✅ Nova função
                         className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                          formData.areasInteresse.includes(area.id)
+                          formData.areasInteresse === area.id // ✅ Comparação simples
                             ? "border-cyan-400 bg-cyan-400/20 text-cyan-300"
                             : "border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500"
                         }`}
@@ -317,11 +335,32 @@ export default function CadastrarPage(): JSX.Element {
                     )
                   })}
                 </div>
+                
+                {/* ✅ Feedback visual da trilha selecionada */}
+                {formData.areasInteresse && (
+                  <div className="mt-6 p-4 bg-cyan-900/30 border border-cyan-500/30 rounded-lg">
+                    <h3 className="text-cyan-300 font-semibold mb-2">Trilha Selecionada:</h3>
+                    <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-300">
+                      {techAreas.find(area => area.id === formData.areasInteresse)?.label}
+                    </Badge>
+                  </div>
+                )}
               </CardContent>
             </Card>
           )}
 
-          {/* Etapa 4: Objetivos e Motivação */}
+          {/* 
+          ========================================
+          ETAPA 4: OBJETIVOS E MOTIVAÇÃO
+          ========================================
+          Esta seção coleta informações sobre:
+          - Objetivos profissionais do usuário
+          - Disponibilidade de tempo para estudos
+          - Motivação para estudar tecnologia
+          - Resumo do perfil selecionado
+          Está comentada para não aparecer no formulário atual
+          */}
+          {/*
           {currentStep === 3 && (
             <Card className="bg-gray-900/50 border-gray-700">
               <CardHeader>
@@ -395,7 +434,8 @@ export default function CadastrarPage(): JSX.Element {
                   />
                 </div>
 
-                {/* Resumo das seleções */}
+                {/* ✅ Resumo atualizado para seleção única */}
+                {/*
                 <div className="bg-gray-800/50 p-4 rounded-lg">
                   <h3 className="text-lg font-semibold text-white mb-3">Resumo do seu perfil:</h3>
                   <div className="space-y-2">
@@ -404,18 +444,18 @@ export default function CadastrarPage(): JSX.Element {
                       {experienceLevels.find((l: ExperienceLevel): boolean => l.value === formData.experiencia)
                         ?.label || "Não informado"}
                     </p>
-                    {formData.areasInteresse.length > 0 && (
+                    {formData.areasInteresse && (
                       <div>
-                        <strong className="text-gray-300">Áreas de interesse:</strong>
+                        <strong className="text-gray-300">Trilha escolhida:</strong>
                         <div className="flex flex-wrap gap-2 mt-1">
-                          {formData.areasInteresse.map((areaId: string) => {
-                            const area: TechArea | undefined = techAreas.find((a: TechArea): boolean => a.id === areaId)
+                          {(() => {
+                            const area = techAreas.find((a: TechArea): boolean => a.id === formData.areasInteresse)
                             return area ? (
-                              <Badge key={areaId} variant="secondary">
+                              <Badge key={area.id} variant="secondary">
                                 {area.label}
                               </Badge>
                             ) : null
-                          })}
+                          })()}
                         </div>
                       </div>
                     )}
@@ -436,7 +476,8 @@ export default function CadastrarPage(): JSX.Element {
               </CardContent>
             </Card>
           )}
-
+          */}
+        
           {/* Navigation Buttons */}
           <div className="flex justify-between mt-8">
             <Button

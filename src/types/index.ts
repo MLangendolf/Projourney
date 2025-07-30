@@ -18,7 +18,7 @@ export interface FormData {
   idade: string
   cidade: string
   experiencia: string
-  areasInteresse: string[]
+  areasInteresse: string
   linguagens: string[]
   objetivos: string
   disponibilidade: string
