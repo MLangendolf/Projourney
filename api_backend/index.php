@@ -16,3 +16,5 @@ if (is_bool($teste)) {
 };
 
 echo get_debug_type($teste), "\n";
+
+phpinfo();

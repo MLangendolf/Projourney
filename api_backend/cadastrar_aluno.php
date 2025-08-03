@@ -42,7 +42,7 @@ if (
     !isset($dados->nome) || empty(trim($dados->nome)) ||
     !isset($dados->email) || !filter_var($dados->email, FILTER_VALIDATE_EMAIL) ||
     !isset($dados->senha) || empty($dados->senha) ||
-    !isset($dados->idade) || !is_numeric($dados->idade) ||
+    !isset($dados->data_nascimento) || !strtotime($dados->data_nascimento) ||
     !isset($dados->telefone) || empty(trim($dados->telefone))
 ) {
     http_response_code(400); // Bad Request
@@ -53,7 +53,7 @@ if (
 // 3. Preparar os dados para inserção
 $nome = trim($dados->nome);
 $email = $dados->email;
-$idade = (int)$dados->idade;
+$data_nascimento = $dados->data_nascimento;
 $telefone = preg_replace('/[^0-9]/', '', $dados->telefone); // Remove caracteres não numéricos do telefone
 $senhaHash = password_hash($dados->senha, PASSWORD_ARGON2ID); // Usando Argon2, mais moderno e seguro
 
@@ -78,7 +78,7 @@ try {
 }
 
 // 5. Inserir o novo aluno no banco
-$sql = "INSERT INTO PJ_ALUNO (nome, email, idade, telefone, senha, cidade, descricao, area_interesse) 
+$sql = "INSERT INTO PJ_ALUNO (nome, email, data_nascimento, telefone, senha, cidade, descricao, area_interesse) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 try {
@@ -86,7 +86,7 @@ try {
     $stmt->execute([
         $nome,
         $email,
-        $idade,
+        $data_nascimento,
         $telefone,
         $senhaHash,
         $cidade,

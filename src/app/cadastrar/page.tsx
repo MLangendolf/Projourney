@@ -15,7 +15,7 @@ interface AlunoFormData {
     email: string;
     senha: string;
     confirmarSenha: string;
-    idade: string; // Usamos string no formulário para facilitar a digitação
+    data_nascimento: string; // Usamos string no formulário para facilitar a digitação
     telefone: string;
     cidade: string;
     objetivos: string; // Mapeado para a coluna 'descricao' no banco
@@ -29,7 +29,7 @@ export default function CadastrarAlunoPage(): JSX.Element {
         email: "",
         senha: "",
         confirmarSenha: "",
-        idade: "",
+        data_nascimento: "",
         telefone: "",
         cidade: "",
         objetivos: "",
@@ -73,7 +73,7 @@ export default function CadastrarAlunoPage(): JSX.Element {
                     nome: formData.nome,
                     email: formData.email,
                     senha: formData.senha,
-                    idade: formData.idade,
+                    data_nascimento: formData.data_nascimento,
                     telefone: formData.telefone,
                     cidade: formData.cidade,
                     objetivos: formData.objetivos,
@@ -139,8 +139,8 @@ export default function CadastrarAlunoPage(): JSX.Element {
                                     <Input id="confirmarSenha" type="password" value={formData.confirmarSenha} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
                                 </div>
                                 <div>
-                                    <Label htmlFor="idade">Idade *</Label>
-                                    <Input id="idade" type="number" value={formData.idade} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                    <Label htmlFor="data_nascimento">Data de nascimento *</Label>
+                                    <Input id="data_nascimento" type="date" value={formData.data_nascimento} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
                                 </div>
                                 <div>
                                     <Label htmlFor="telefone">Telefone *</Label>
