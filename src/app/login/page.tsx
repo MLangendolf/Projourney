@@ -57,9 +57,8 @@ export default function LoginPage(): JSX.Element {
             // Guarda os dados do usuário no navegador para 'lembrar' que está logado.
             localStorage.setItem('usuarioLogado', JSON.stringify(result.dados_usuario))
 
-             navigate('/cursos')
 
-            
+             navigate('/perfil')
 
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'falha na comunicação.';

@@ -1,6 +1,6 @@
 
 <?php
-  require_once 'db.php';
+require_once 'db.php';
 
 
 // Habilita o CORS para permitir que seu app React acesse a API

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react"
 import type { MousePosition, ParticleProps } from "../types"
-import InteractiveButton from "../components/interactive-button" // <-- Importe o InteractiveButton do local CORRETO
+import InteractiveButton from "../components/interactive-button" 
 import type { JSX } from "react/jsx-runtime"
 
 // Particle class with TypeScript (mantida aqui por ser parte do background da HomePage)
@@ -133,17 +133,14 @@ function ParticleBackground(): JSX.Element {
 
 export default function HomePage(): JSX.Element {
     return (
-        <>
+        <body className=" text-white font-['Poppins',Arial,sans-serif]">
             <ParticleBackground />
-            <div className="relative min-h-screen text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
                 {/* Header */}
                 <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
                     <div className="flex justify-between items-center">
-                        <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">PROJOURNEY</div>
+                        <img src="/image/pj1.png" alt="projourney border-" className="w-24 h-24 " />
+                        <div className="text-3xl font-bold text-[#00aaff] ">PROJOURNEY</div>
                         <nav className="flex items-center space-x-6">
-                            <InteractiveButton href="/inicio" variant="nav">
-                                Início
-                            </InteractiveButton>
                             <InteractiveButton href="/cursos" variant="nav">
                                 Cursos
                             </InteractiveButton>
@@ -164,8 +161,8 @@ export default function HomePage(): JSX.Element {
                 </header>
 
                 {/* Hero Section */}
-                <main>
-                    <section className="relative z-10 flex flex-col items-center justify-center min-h-[80vh] px-8 py-24 text-center">
+                <main className=" m-[10%]">
+                    <section className=" relative z-10 flex flex-col items-center justify-center  px-8 py-24 text-center ">
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 max-w-4xl leading-tight drop-shadow-lg">
                             Prepare-se para sua formação de forma inteligente
                         </h1>
@@ -179,8 +176,7 @@ export default function HomePage(): JSX.Element {
                         </div>
                     </section>
                 </main>
-            </div>
-        </>
+        </body>
     )
 }
 

@@ -1,510 +1,215 @@
-import { useState } from "react"
-import type React from "react"
-import { Button } from  "../../components/ui/button"
-import { Input } from "../../components/ui/input"
-import { Label } from "../../components/ui/label"
-import { Textarea } from "../../components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card"
-import { Badge } from "../../components/ui/badge"
-import { ArrowLeft, Code, Database, Shield, Smartphone, Globe, Cpu, Brain, Zap } from "lucide-react"
- import {Link} from "react-router-dom"  // Mudança do 'next/link' para o 'react-router-dom"
-import type { TechArea, ExperienceLevel, FormData } from "../../types" // "@/types"
-import type { JSX } from "react/jsx-runtime"
+// src/app/trilhas/page.tsx
 
-const techAreas: TechArea[] = [
-  { id: "frontend", label: "Desenvolvimento Frontend", icon: Globe },
-  { id: "backend", label: "Desenvolvimento Backend", icon: Database },
-  { id: "mobile", label: "Desenvolvimento Mobile", icon: Smartphone },
-  { id: "security", label: "Segurança da Informação", icon: Shield },
-  { id: "data", label: "Ciência de Dados", icon: Brain },
-  { id: "devops", label: "DevOps e Cloud", icon: Cpu },
-  { id: "ai", label: "Inteligência Artificial", icon: Zap },
-  { id: "fullstack", label: "Desenvolvimento Full Stack", icon: Code },
-]
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Code, Database, Shield, Smartphone, Globe, Cpu, Brain, Zap, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 
-const programmingLanguages: string[] = [
-  "JavaScript",
-  "Python",
-  "Java",
-  "C#",
-  "C++",
-  "PHP",
-  "TypeScript",
-  "Go",
-  "Rust",
-  "Swift",
-  "Kotlin",
-  "Ruby",
-  "C",
-  "SQL",
-  "HTML/CSS",
-]
+// --- Interfaces e Mapeamento de Ícones ---
 
-const experienceLevels: ExperienceLevel[] = [
-  { value: "iniciante", label: "Iniciante - Nunca programei" },
-  { value: "basico", label: "Básico - Conheço conceitos básicos" },
-  { value: "intermediario", label: "Intermediário - Já desenvolvi alguns projetos" },
-  { value: "avancado", label: "Avançado - Trabalho na área" },
-  { value: "expert", label: "Expert - Sou líder técnico/arquiteto" },
-]
+// Interface para os dados da trilha que virão da API PHP
+interface Trilha {
+  ID: number;   // O PHP retorna chaves em maiúsculas por padrão do PDO::FETCH_ASSOC
+  nome: string;
+}
 
-export default function CadastrarPage(): JSX.Element {
-  // ✅ MUDANÇA 1: areasInteresse agora é string (não array)
-  const [formData, setFormData] = useState<FormData>({
-    nome: "",
-    email: "",
-    telefone: "",
-    idade: "",
-    cidade: "",
-    experiencia: "",
-    areasInteresse: "", // ← ERA: [] AGORA: ""
-    linguagens: [],
-    objetivos: "",
-    disponibilidade: "",
-    motivacao: "",
-  })
+// Interface para os dados do usuário armazenados no localStorage
+interface UsuarioLogado {
+    ID: number;
+    nome: string;
+    // outros campos que o login.php retorna...
+}
 
-  const [currentStep, setCurrentStep] = useState<number>(1)
-  const totalSteps: number = 3
+// Mapeamento para associar o nome da trilha a um ícone
+const iconMap: { [key: string]: React.ElementType } = {
+  "Desenvolvimento Frontend": Globe,
+  "Desenvolvimento Backend": Database,
+  "Desenvolvimento Mobile": Smartphone,
+  "Segurança da Informação": Shield,
+  "Ciência de Dados": Brain,
+  "DevOps e Cloud": Cpu,
+  "Inteligência Artificial": Zap,
+  "Desenvolvimento Full Stack": Code,
+};
 
-  // ✅ MUDANÇA 2: Nova função para seleção única
-  const handleAreaSelect = (areaId: string): void => {
-    setFormData((prev: FormData): FormData => ({
-      ...prev,
-      areasInteresse: areaId, // Simplesmente substitui o valor anterior
-    }))
-  }
+export default function TrilhasPage(): React.JSX.Element {
+  const navigate = useNavigate();
 
-  const handleLanguageToggle = (language: string): void => {
-    setFormData(
-      (prev: FormData): FormData => ({
-        ...prev,
-        linguagens: prev.linguagens.includes(language)
-          ? prev.linguagens.filter((lang: string): boolean => lang !== language)
-          : [...prev.linguagens, language],
-      }),
-    )
-  }
+  // --- Estados do Componente ---
+  const [trilhas, setTrilhas] = useState<Trilha[]>([]);
+  const [trilhaSelecionada, setTrilhaSelecionada] = useState<number | null>(null);
+  const [usuario, setUsuario] = useState<UsuarioLogado | null>(null);
+  
+  // Estados para controle da UI
+  const [status, setStatus] = useState<'loading' | 'idle' | 'error' | 'success'>('loading');
+  const [feedback, setFeedback] = useState<string>('');
 
-  const nextStep = (): void => {
-    if (currentStep < totalSteps) setCurrentStep(currentStep + 1)
-  }
+  // --- Efeitos para carregar dados ---
 
-  const prevStep = (): void => {
-    if (currentStep > 1) setCurrentStep(currentStep - 1)
-  }
+  // 1. Pega os dados do usuário logado do localStorage
+  useEffect(() => {
+    const dadosUsuarioString = localStorage.getItem('usuarioLogado');
+    if (dadosUsuarioString) {
+        setUsuario(JSON.parse(dadosUsuarioString));
+    } else {
+        // Se não houver usuário logado, redireciona para a página de login
+        alert("Você precisa estar logado para acessar esta página.");
+        navigate('/login');
+    }
+  }, [navigate]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault()
-    console.log("Dados do cadastro:", formData)
-    alert("Cadastro de trilha realizado com sucesso! Bem-vindo à plataforma de cursos de tecnologia!")
-  }
+  // 2. Busca a lista de trilhas da API PHP
+  useEffect(() => {
+    const fetchTrilhas = async () => {
+      setStatus('loading');
+      setFeedback('');
+      try {
+        const response = await fetch('http://localhost:8000/listar_trilhas.php' );
+        if (!response.ok) {
+          throw new Error('Não foi possível carregar as trilhas.');
+        }
+        const data: Trilha[] = await response.json();
+        setTrilhas(data);
+        setStatus('idle');
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Falha na comunicação com o servidor.';
+        setFeedback(errorMessage);
+        setStatus('error');
+      }
+    };
+
+    fetchTrilhas();
+  }, []);
+
+  // --- Função de Inscrição ---
+  const handleInscricao = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (!trilhaSelecionada) {
+      setFeedback("Por favor, selecione uma trilha para continuar.");
+      setStatus('error');
+      return;
+    }
+
+    if (!usuario) {
+        setFeedback("Erro: Usuário não identificado. Por favor, faça login novamente.");
+        setStatus('error');
+        return;
+    }
+
+    setStatus('loading');
+    setFeedback('');
+
+    try {
+      const response = await fetch('http://localhost:8000/inscrever_trilha.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          alunoId: usuario.ID,
+          trilhaId: trilhaSelecionada,
+        } ),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.mensagem || `Erro ${response.status}`);
+      }
+
+      setFeedback(result.mensagem);
+      setStatus('success');
+      
+      setTimeout(() => {
+
+        navigate('/perfil'); // Redireciona para o perfil do aluno
+
+      }, 2000);
+
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Falha ao realizar inscrição.';
+      setFeedback(errorMessage);
+      setStatus('error');
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#16213e] text-white">
-      {/* Header */}
-      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-6 py-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#16213e] text-white font-sans flex flex-col">
+      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-6 py-4 sticky top-0 z-10">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <Link to="/" className="flex items-center space-x-3">
+          <Link to="/perfil" className="flex items-center space-x-3 text-[#00aaff] text-xl font-bold">
             <ArrowLeft className="w-5 h-5" />
-            <span className="text-xl font-bold text-[#00aaff]">Voltar</span>
+            <span>Voltar</span>
           </Link>
-          <h1 className="text-2xl font-bold text-[#00aaff]">Trilhas de Cursos</h1>
+          <h1 className="text-2xl font-bold text-[#00aaff]">Escolha sua Trilha</h1>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-3xl font-bold">Escolha sua trilha de estudos!</h1>
-            <span className="text-sm text-gray-400">
-              Etapa {currentStep} de {totalSteps}
-            </span>
-          </div>
-          <div className="w-full bg-gray-700 rounded-full h-2">
-            <div
-              className="bg-gradient-to-r from-blue-500 to-cyan-400 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-            />
-          </div>
-        </div>
+      <main className="flex-grow flex items-center justify-center p-6">
+        <div className="w-full max-w-4xl bg-gray-900/50 border border-gray-700 rounded-lg p-6 md:p-8">
+          <h2 className="text-3xl font-bold flex items-center gap-3 mb-2 text-white">
+            <Zap className="w-8 h-8 text-yellow-400" />
+            Trilhas de Conhecimento
+          </h2>
+          <p className="text-gray-400">
+            Olá, {usuario?.nome || 'aventureiro(a)'}! Selecione a trilha que mais se alinha com seus objetivos.
+          </p>
 
-        <form onSubmit={handleSubmit}>
-          {/* 
-          ========================================
-          ETAPA 1: INFORMAÇÕES PESSOAIS
-          ========================================
-          Esta seção coleta dados básicos do usuário como:
-          - Nome completo
-          - Email 
-          - Telefone
-          - Idade
-          - Cidade
-          Está comentada para não aparecer no formulário atual
-          */}
-          {/*
-          {currentStep === 1 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Code className="w-6 h-6 text-blue-400" />
-                  Informações Pessoais
-                </CardTitle>
-                <CardDescription className="text-gray-300">Vamos começar com suas informações básicas</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="nome" className="text-white">
-                      Nome Completo *
-                    </Label>
-                    <Input
-                      id="nome"
-                      value={formData.nome}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, nome: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="Seu nome completo"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email" className="text-white">
-                      E-mail *
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="seu@email.com"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="telefone" className="text-white">
-                      Telefone
-                    </Label>
-                    <Input
-                      id="telefone"
-                      value={formData.telefone}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, telefone: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="(11) 99999-9999"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="idade" className="text-white">
-                      Idade
-                    </Label>
-                    <Input
-                      id="idade"
-                      type="number"
-                      value={formData.idade}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setFormData({ ...formData, idade: e.target.value })
-                      }
-                      className="bg-gray-800 border-gray-600 text-white"
-                      placeholder="25"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="cidade" className="text-white">
-                    Cidade
-                  </Label>
-                  <Input
-                    id="cidade"
-                    value={formData.cidade}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                      setFormData({ ...formData, cidade: e.target.value })
-                    }
-                    className="bg-gray-800 border-gray-600 text-white"
-                    placeholder="São Paulo, SP"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          )}
-          */}
-          
-          {/* 
-          ========================================
-          ETAPA 2: EXPERIÊNCIA TÉCNICA
-          ========================================
-          Esta seção avalia o nível técnico do usuário:
-          - Nível de experiência (iniciante até expert)
-          - Linguagens de programação conhecidas
-          Está comentada para não aparecer no formulário atual
-          */}
-          {/*
-          {currentStep === 1 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Brain className="w-6 h-6 text-green-400" />
-                  Experiência Técnica
-                </CardTitle>
-                <CardDescription className="text-gray-300">
-                  Conte-nos sobre seu nível de experiência em tecnologia
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label className="text-white mb-3 block">Nível de Experiência *</Label>
-                  <Select
-                    value={formData.experiencia}
-                    onValueChange={(value: string): void => setFormData({ ...formData, experiencia: value })}
-                  >
-                    <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
-                      <SelectValue placeholder="Selecione seu nível" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-600">
-                      {experienceLevels.map((level: ExperienceLevel) => (
-                        <SelectItem key={level.value} value={level.value} className="text-white">
-                          {level.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label className="text-white mb-3 block">Linguagens de Programação Conhecidas</Label>
-                  <p className="text-sm text-gray-400 mb-4">Selecione todas que você conhece (mesmo que básico)</p>
-                  <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
-                    {programmingLanguages.map((language: string) => (
-                      <div
-                        key={language}
-                        onClick={(): void => handleLanguageToggle(language)}
-                        className={`p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 text-center ${
-                          formData.linguagens.includes(language)
-                            ? "border-blue-400 bg-blue-400/20 text-blue-300"
-                            : "border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500"
-                        }`}
-                      >
-                        <span className="text-sm font-medium">{language}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-          */}
-
-          {/* ✅ ETAPA 3: SELEÇÃO ÚNICA DE TRILHA */}
-          {currentStep === 2 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Zap className="w-6 h-6 text-yellow-400" />
-                  Escolha sua Trilha
-                </CardTitle>
-                <CardDescription className="text-gray-300">
-                  Selecione UMA trilha da tecnologia que deseja seguir
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {techAreas.map((area: TechArea) => {
-                    const Icon = area.icon
-                    return (
-                      <div
-                        key={area.id}
-                        onClick={(): void => handleAreaSelect(area.id)} // ✅ Nova função
-                        className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                          formData.areasInteresse === area.id // ✅ Comparação simples
-                            ? "border-cyan-400 bg-cyan-400/20 text-cyan-300"
-                            : "border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500"
-                        }`}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <Icon className="w-6 h-6" />
-                          <span className="font-medium">{area.label}</span>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-                
-                {/* ✅ Feedback visual da trilha selecionada */}
-                {formData.areasInteresse && (
-                  <div className="mt-6 p-4 bg-cyan-900/30 border border-cyan-500/30 rounded-lg">
-                    <h3 className="text-cyan-300 font-semibold mb-2">Trilha Selecionada:</h3>
-                    <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-300">
-                      {techAreas.find(area => area.id === formData.areasInteresse)?.label}
-                    </Badge>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* 
-          ========================================
-          ETAPA 4: OBJETIVOS E MOTIVAÇÃO
-          ========================================
-          Esta seção coleta informações sobre:
-          - Objetivos profissionais do usuário
-          - Disponibilidade de tempo para estudos
-          - Motivação para estudar tecnologia
-          - Resumo do perfil selecionado
-          Está comentada para não aparecer no formulário atual
-          */}
-          {/*
-          {currentStep === 3 && (
-            <Card className="bg-gray-900/50 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center gap-2">
-                  <Shield className="w-6 h-6 text-purple-400" />
-                  Objetivos e Disponibilidade
-                </CardTitle>
-                <CardDescription className="text-gray-300">
-                  Finalize seu cadastro com seus objetivos de carreira
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label htmlFor="objetivos" className="text-white">
-                    Objetivos Profissionais
-                  </Label>
-                  <Textarea
-                    id="objetivos"
-                    value={formData.objetivos}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
-                      setFormData({ ...formData, objetivos: e.target.value })
-                    }
-                    className="bg-gray-800 border-gray-600 text-white"
-                    placeholder="Ex: Quero me tornar um desenvolvedor full-stack, conseguir meu primeiro emprego na área..."
-                    rows={4}
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-white mb-3 block">Disponibilidade para Estudos</Label>
-                  <Select
-                    value={formData.disponibilidade}
-                    onValueChange={(value: string): void => setFormData({ ...formData, disponibilidade: value })}
-                  >
-                    <SelectTrigger className="bg-gray-800 border-gray-600 text-white">
-                      <SelectValue placeholder="Selecione sua disponibilidade" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-600">
-                      <SelectItem value="1-2h" className="text-white">
-                        1-2 horas por dia
-                      </SelectItem>
-                      <SelectItem value="3-4h" className="text-white">
-                        3-4 horas por dia
-                      </SelectItem>
-                      <SelectItem value="5-6h" className="text-white">
-                        5-6 horas por dia
-                      </SelectItem>
-                      <SelectItem value="tempo-integral" className="text-white">
-                        Tempo integral
-                      </SelectItem>
-                      <SelectItem value="fins-semana" className="text-white">
-                        Apenas fins de semana
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label htmlFor="motivacao" className="text-white">
-                    O que te motiva a estudar tecnologia?
-                  </Label>
-                  <Textarea
-                    id="motivacao"
-                    value={formData.motivacao}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void =>
-                      setFormData({ ...formData, motivacao: e.target.value })
-                    }
-                    className="bg-gray-800 border-gray-600 text-white"
-                    placeholder="Conte-nos o que te inspira na área de tecnologia..."
-                    rows={3}
-                  />
-                </div>
-
-                {/* ✅ Resumo atualizado para seleção única */}
-                {/*
-                <div className="bg-gray-800/50 p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-white mb-3">Resumo do seu perfil:</h3>
-                  <div className="space-y-2">
-                    <p className="text-gray-300">
-                      <strong>Experiência:</strong>{" "}
-                      {experienceLevels.find((l: ExperienceLevel): boolean => l.value === formData.experiencia)
-                        ?.label || "Não informado"}
-                    </p>
-                    {formData.areasInteresse && (
-                      <div>
-                        <strong className="text-gray-300">Trilha escolhida:</strong>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                          {(() => {
-                            const area = techAreas.find((a: TechArea): boolean => a.id === formData.areasInteresse)
-                            return area ? (
-                              <Badge key={area.id} variant="secondary">
-                                {area.label}
-                              </Badge>
-                            ) : null
-                          })()}
-                        </div>
-                      </div>
-                    )}
-                    {formData.linguagens.length > 0 && (
-                      <div>
-                        <strong className="text-gray-300">Linguagens conhecidas:</strong>
-                        <div className="flex flex-wrap gap-2 mt-1">
-                          {formData.linguagens.map((lang: string) => (
-                            <Badge key={lang} variant="outline">
-                              {lang}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-          */}
-        
-          {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8">
-            <Button
-              type="button"
-              onClick={prevStep}
-              disabled={currentStep === 1}
-              variant="outline"
-              className="bg-gray-800 border-gray-600 text-white hover:bg-gray-700"
-            >
-              Anterior
-            </Button>
-
-            {currentStep < totalSteps ? (
-              <Button type="button" onClick={nextStep} className="bg-blue-600 hover:bg-blue-700 text-white">
-                Próximo
-              </Button>
+          <form onSubmit={handleInscricao}>
+            {status === 'loading' && !trilhas.length ? (
+              <div className="flex justify-center p-12">
+                <Loader2 className="w-12 h-12 animate-spin text-blue-400" />
+              </div>
             ) : (
-              <Button
-                type="submit"
-                className="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white px-8"
-              >
-                Finalizar Cadastro de Trilha
-              </Button>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                {trilhas.map((trilha) => {
+                  const Icon = iconMap[trilha.nome] || Code;
+                  const isSelected = trilhaSelecionada === trilha.ID;
+                  return (
+                    <div
+                      key={trilha.ID}
+                      onClick={() => setTrilhaSelecionada(trilha.ID)}
+                      className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 flex items-center gap-4
+                        ${isSelected
+                          ? 'border-cyan-400 bg-cyan-400/20 text-cyan-300 ring-2 ring-cyan-400'
+                          : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500'
+                        }`}
+                    >
+                      <Icon className="w-7 h-7" />
+                      <span className="text-lg font-medium">{trilha.nome}</span>
+                    </div>
+                  );
+                })}
+              </div>
             )}
-          </div>
-        </form>
-      </div>
+
+            <div className="mt-8 h-12"> {/* Altura fixa para evitar que o layout pule */}
+              {status === 'success' && (
+                <div className="flex items-center justify-center gap-2 text-green-400 p-3 bg-green-900/50 rounded-md">
+                    <CheckCircle size={20} />
+                    <span>{feedback}</span>
+                </div>
+              )}
+              {status === 'error' && (
+                <div className="flex items-center justify-center gap-2 text-red-400 p-3 bg-red-900/50 rounded-md">
+                    <AlertCircle size={20} />
+                    <span>{feedback}</span>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-end mt-4">
+              <button
+                type="submit"
+                disabled={!trilhaSelecionada || status === 'loading' || status === 'success'}
+                className="px-8 py-3 rounded-lg font-bold text-lg text-white transition-transform bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {status === 'loading' ? (
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                ) : "Inscrever-se na Trilha"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
     </div>
-  )
+  );
 }

@@ -175,23 +175,22 @@ export const CourseDetailPage: React.FC = () => {
         <div className="flex justify-between items-center">
           <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">Cursos</div>
           <nav className="flex items-center space-x-6">
-            <InteractiveButton href="/" variant="nav">
-              Início
-            </InteractiveButton>
-            <InteractiveButton href="/simulado" variant="nav">
-              Simulados
-            </InteractiveButton>
+                       
+            {localStorage.getItem('usuarioLogado') ? (
+                <InteractiveButton href="/perfil" variant="nav">
+                    Início
+                </InteractiveButton>
+            ) : (
+                <InteractiveButton href="/" variant="nav">
+                    Início
+                </InteractiveButton>
+            )}           
+            
             <InteractiveButton href="/cursos" variant="nav">
               Cursos
             </InteractiveButton>
             <InteractiveButton href="#" variant="nav">
               Sobre
-            </InteractiveButton>
-            <InteractiveButton href="/login" variant="navButton">
-              Entrar
-            </InteractiveButton>
-            <InteractiveButton href="/cadastrar" variant="navButton">
-              Cadastrar
             </InteractiveButton>
           </nav>
         </div>
@@ -276,21 +275,23 @@ export const CoursesPage: React.FC = () => {
         <div className="flex justify-between items-center">
           <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">Cursos</div>
           <nav className="flex items-center space-x-6">
-            <InteractiveButton href="/" variant="nav">
-              Início
-            </InteractiveButton>
+
+            {localStorage.getItem('usuarioLogado') ? (
+                <InteractiveButton href="/perfil" variant="nav">
+                    Início
+                </InteractiveButton>
+            ) : (
+                <InteractiveButton href="/" variant="nav">
+                    Início
+                </InteractiveButton>
+            )}
+            
             <InteractiveButton href="/trilhas" variant="nav">
               Trilhas
             </InteractiveButton>
 
             <InteractiveButton href="#" variant="nav">
               Sobre
-            </InteractiveButton>
-            <InteractiveButton href="/login" variant="navButton">
-              Entrar
-            </InteractiveButton>
-            <InteractiveButton href="/cadastrar" variant="navButton">
-              Cadastrar
             </InteractiveButton>
           </nav>
         </div>
