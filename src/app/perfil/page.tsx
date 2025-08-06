@@ -121,7 +121,7 @@ export default function PerfilPage(): React.JSX.Element {
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-900 to-[#1a1a2e] text-white">
 
-    <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
+                <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
                     <div className="flex justify-between items-center">
                         <img src="/image/pj1.png" alt="projourney border-" className="w-24 h-24 " />
                         <div className="text-3xl font-bold text-[#00aaff] ">PROJOURNEY</div>
@@ -148,7 +148,7 @@ export default function PerfilPage(): React.JSX.Element {
                 {/* Cabeçalho do Perfil */}
                 <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10">
                     <div>
-                        <h1 className="text-4xl font-bold text-white">Bem-vindo(a), {usuario.nome.split(' ')[0]}!</h1>
+                        <h1 className="text-4xl font-bold text-white">Olá, {usuario.nome.split(' ')[0]}!</h1>
                         <p className="text-gray-400 mt-2">Aqui está o resumo da sua jornada de aprendizado.</p>
                     </div>
 
@@ -166,7 +166,14 @@ export default function PerfilPage(): React.JSX.Element {
                             {trilhas.map(trilha => (
                                 <div key={trilha.ID} className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 flex flex-col justify-between">
                                     <div>
-                                        <h3 className="text-xl font-bold text-white mb-2"> <a href="/aulas" className="hover:text-blue-400">{trilha.nome}</a> </h3>
+                                        <h3 className="text-xl font-bold text-white mb-2">
+                                            <Link 
+                                                to={`/aulas/${trilha.ID}`} 
+                                                className="transition-colors duration-300 hover:text-blue-400 hover:underline"
+                                            >
+                                                {trilha.nome}
+                                            </Link>
+                                        </h3>
                                         <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusColors[trilha.progresso]}`}>
                                             {trilha.progresso}
                                         </div>
