@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import InteractiveButton from '../../components/interactive-button';
+import InteractiveButton from '../components/common/interactive-button';
 
 // Tipos
 interface Course {

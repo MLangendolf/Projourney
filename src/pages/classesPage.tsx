@@ -1,5 +1,5 @@
 
-import InteractiveButton from "../../components/interactive-button" 
+import InteractiveButton from "../components/common/interactive-button" 
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Loader2, AlertCircle, ExternalLink, LogOut } from 'lucide-react';

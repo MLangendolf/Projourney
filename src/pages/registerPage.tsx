@@ -2,11 +2,11 @@ import { useState } from "react";
 import type React from "react";
 // Corrija o import do Link para usar o de react-router-dom
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
-import { Textarea } from "../../components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 
 // Interface simplificada para os dados do formulário, correspondendo à tabela PJ_ALUNO

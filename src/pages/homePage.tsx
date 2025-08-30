@@ -1,8 +1,8 @@
-// src/app/page.tsx
+// src/app/layout.tsx
 
 import { useState, useRef, useEffect } from "react"
 import type { MousePosition, ParticleProps } from "../types"
-import InteractiveButton from "../components/interactive-button" 
+import InteractiveButton from "../components/common/interactive-button" 
 import type { JSX } from "react/jsx-runtime"
 
 // Particle class with TypeScript (mantida aqui por ser parte do background da HomePage)

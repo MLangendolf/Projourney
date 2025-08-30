@@ -1,6 +1,6 @@
 // src/app/perfil/page.tsx
 
-import InteractiveButton from "../../components/interactive-button" 
+import InteractiveButton from "../components/common/interactive-button" 
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, BookOpen, MoreVertical, Loader2, AlertCircle, CheckCircle, LogOut } from "lucide-react";

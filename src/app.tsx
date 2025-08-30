@@ -1,15 +1,15 @@
-// src/router.tsx
+// src/app.tsx
 
 import { Routes, Route } from 'react-router-dom';
 
 // Importe seus componentes de página existentes
-import HomePage from './app/layout';
-import CadastrarPage from './app/cadastrar/page';
-import LoginPage from './app/login/page';
-import TrilhasPage from './app/trilhas/page';
-import PerfilPage from './app/perfil/page'; 
-import AulasPage from './app/aulas/page'; 
-import { CoursesPage, CourseDetailPage } from './app/cursos/page';
+import HomePage from './pages/homePage';
+import CadastrarPage from './pages/registerPage';
+import LoginPage from './pages/loginPage';
+import TrilhasPage from './pages/trailsPage';
+import PerfilPage from './pages/profilePage'; 
+import AulasPage from './pages/classesPage'; 
+import { CoursesPage, CourseDetailPage } from './pages/coursesPage';
 
 
 function Router() {
@@ -24,12 +24,9 @@ function Router() {
             <Route path="/trilhas" element={<TrilhasPage />} />
             <Route path="/perfil" element={<PerfilPage />} /> 
             <Route path="/aulas/:trilhaId" element={<AulasPage />} /> 
-            {/* Adicione suas outras rotas aqui, mapeando o caminho para o componente */}
-            {/* Exemplo: <Route path="/simulado" element={<SimuladoPage />} /> */}
-            {/* Exemplo: <Route path="/inicio" element={<InicioPage />} /> */}
+            {/* Adicionar outras rotas aqui, mapeando o caminho para o componente */}
         </Routes>
     );
 }
 
-// Exportação mudou para Router (com R maiúsculo)
 export default Router;
