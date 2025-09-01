@@ -1,12 +1,12 @@
 
-// src/components/interactive-button.tsx
+// src/components/common/interactive-button.tsx
 //  COMPONENTE DE BOTÃO INTERATIVO
 
 import { useState, useRef, useEffect } from "react"
 import React from "react" // <-- Importe React aqui
 import { Link } from "react-router-dom" // <-- Importe Link do react-router-dom
-import { cn } from "../lib/utils"
-import type { RippleProps, InteractiveButtonProps } from "../types"
+import { cn } from "../../lib/utils"
+import type { RippleProps, InteractiveButtonProps } from "../../types"
 import type { JSX } from "react/jsx-runtime"
 
 export default function InteractiveButton({ // <-- Este é o componente do botão

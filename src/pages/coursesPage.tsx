@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import InteractiveButton from '../components/common/interactive-button';
+import ParticleBackground from '@/components/effects/particlebackground';
 
 // Tipos
 interface Course {
@@ -169,9 +170,9 @@ export const CourseDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a1a] text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
+      <div className="min-h-screen bg-[#0a0a1a] text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
+        {/* Header */}
+        <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
         <div className="flex justify-between items-center">
           <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">Cursos</div>
           <nav className="flex items-center space-x-6">
