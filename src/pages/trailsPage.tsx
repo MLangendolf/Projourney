@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Code, Database, Shield, Smartphone, Globe, Cpu, Brain, Zap, Loader2, AlertCircle, CheckCircle } from "lucide-react";
+import ParticleBackground from "../components/effects/particlebackground";
 
 // --- Interfaces e Mapeamento de Ícones ---
 
@@ -14,9 +15,9 @@ interface Trilha {
 
 // Interface para os dados do usuário armazenados no localStorage
 interface UsuarioLogado {
-    ID: number;
-    nome: string;
-    // outros campos que o login.php retorna...
+  ID: number;
+  nome: string;
+  // outros campos que o login.php retorna...
 }
 
 // Mapeamento para associar o nome da trilha a um ícone
@@ -38,7 +39,7 @@ export default function TrilhasPage(): React.JSX.Element {
   const [trilhas, setTrilhas] = useState<Trilha[]>([]);
   const [trilhaSelecionada, setTrilhaSelecionada] = useState<number | null>(null);
   const [usuario, setUsuario] = useState<UsuarioLogado | null>(null);
-  
+
   // Estados para controle da UI
   const [status, setStatus] = useState<'loading' | 'idle' | 'error' | 'success'>('loading');
   const [feedback, setFeedback] = useState<string>('');
@@ -49,11 +50,11 @@ export default function TrilhasPage(): React.JSX.Element {
   useEffect(() => {
     const dadosUsuarioString = localStorage.getItem('usuarioLogado');
     if (dadosUsuarioString) {
-        setUsuario(JSON.parse(dadosUsuarioString));
+      setUsuario(JSON.parse(dadosUsuarioString));
     } else {
-        // Se não houver usuário logado, redireciona para a página de login
-        alert("Você precisa estar logado para acessar esta página.");
-        navigate('/login');
+      // Se não houver usuário logado, redireciona para a página de login
+      alert("Você precisa estar logado para acessar esta página.");
+      navigate('/login');
     }
   }, [navigate]);
 
@@ -63,7 +64,7 @@ export default function TrilhasPage(): React.JSX.Element {
       setStatus('loading');
       setFeedback('');
       try {
-        const response = await fetch('http://localhost:8000/listar_trilhas.php' );
+        const response = await fetch('http://localhost:8000/listar_trilhas.php');
         if (!response.ok) {
           throw new Error('Não foi possível carregar as trilhas.');
         }
@@ -83,7 +84,7 @@ export default function TrilhasPage(): React.JSX.Element {
   // --- Função de Inscrição ---
   const handleInscricao = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!trilhaSelecionada) {
       setFeedback("Por favor, selecione uma trilha para continuar.");
       setStatus('error');
@@ -91,9 +92,9 @@ export default function TrilhasPage(): React.JSX.Element {
     }
 
     if (!usuario) {
-        setFeedback("Erro: Usuário não identificado. Por favor, faça login novamente.");
-        setStatus('error');
-        return;
+      setFeedback("Erro: Usuário não identificado. Por favor, faça login novamente.");
+      setStatus('error');
+      return;
     }
 
     setStatus('loading');
@@ -106,7 +107,7 @@ export default function TrilhasPage(): React.JSX.Element {
         body: JSON.stringify({
           alunoId: usuario.ID,
           trilhaId: trilhaSelecionada,
-        } ),
+        }),
       });
 
       const result = await response.json();
@@ -117,7 +118,7 @@ export default function TrilhasPage(): React.JSX.Element {
 
       setFeedback(result.mensagem);
       setStatus('success');
-      
+
       setTimeout(() => {
 
         navigate('/perfil'); // Redireciona para o perfil do aluno
@@ -132,7 +133,8 @@ export default function TrilhasPage(): React.JSX.Element {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#16213e] text-white font-sans flex flex-col">
+    <div className="min-h-screen  text-white font-sans flex flex-col">
+      <ParticleBackground />
       <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-6 py-4 sticky top-0 z-10">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <Link to="/perfil" className="flex items-center space-x-3 text-[#00aaff] text-xl font-bold">
@@ -184,14 +186,14 @@ export default function TrilhasPage(): React.JSX.Element {
             <div className="mt-8 h-12"> {/* Altura fixa para evitar que o layout pule */}
               {status === 'success' && (
                 <div className="flex items-center justify-center gap-2 text-green-400 p-3 bg-green-900/50 rounded-md">
-                    <CheckCircle size={20} />
-                    <span>{feedback}</span>
+                  <CheckCircle size={20} />
+                  <span>{feedback}</span>
                 </div>
               )}
               {status === 'error' && (
                 <div className="flex items-center justify-center gap-2 text-red-400 p-3 bg-red-900/50 rounded-md">
-                    <AlertCircle size={20} />
-                    <span>{feedback}</span>
+                  <AlertCircle size={20} />
+                  <span>{feedback}</span>
                 </div>
               )}
             </div>

@@ -86,9 +86,10 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
 
   return (
     <div className="bg-blue-900/40 backdrop-blur-md border border-blue-500/30 rounded-lg overflow-hidden hover:bg-blue-800/40 transition-colors">
+
       <div className="relative">
-        <img 
-          src={course.image} 
+        <img
+          src={course.image}
           alt={course.title}
           className="w-full h-48 object-cover"
         />
@@ -138,7 +139,7 @@ export const CourseDetailPage: React.FC = () => {
   React.useEffect(() => {
     const courseId = parseInt(id || '0');
     const foundCourse = mockCourses.find(c => c.id === courseId);
-    
+
     if (foundCourse) {
       setCourse(foundCourse);
     }
@@ -170,23 +171,23 @@ export const CourseDetailPage: React.FC = () => {
   }
 
   return (
-      <div className="min-h-screen bg-[#0a0a1a] text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
-        {/* Header */}
-        <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
+    <div className="min-h-screen bg-[#0a0a1a] text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
+      {/* Header */}
+      <header className="sticky top-0  bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
         <div className="flex justify-between items-center">
           <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">Cursos</div>
           <nav className="flex items-center space-x-6">
-                       
+
             {localStorage.getItem('usuarioLogado') ? (
-                <InteractiveButton href="/perfil" variant="nav">
-                    Início
-                </InteractiveButton>
+              <InteractiveButton href="/perfil" variant="nav">
+                Início
+              </InteractiveButton>
             ) : (
-                <InteractiveButton href="/" variant="nav">
-                    Início
-                </InteractiveButton>
-            )}           
-            
+              <InteractiveButton href="/" variant="nav">
+                Início
+              </InteractiveButton>
+            )}
+
             <InteractiveButton href="/cursos" variant="nav">
               Cursos
             </InteractiveButton>
@@ -208,8 +209,8 @@ export const CourseDetailPage: React.FC = () => {
         </InteractiveButton>
 
         <div className="bg-blue-900/40 backdrop-blur-md border border-blue-500/30 rounded-lg overflow-hidden">
-          <img 
-            src={course.image} 
+          <img
+            src={course.image}
             alt={course.title}
             className="w-full h-64 object-cover"
           />
@@ -270,30 +271,24 @@ export const CourseDetailPage: React.FC = () => {
 // Página Principal de Cursos
 export const CoursesPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#0a0a1a] text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
+    <div className=" text-white font-['Poppins',Arial,sans-serif]">
+            <ParticleBackground />
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
+      <header className="sticky  bg-blue-900 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
         <div className="flex justify-between items-center">
           <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">Cursos</div>
           <nav className="flex items-center space-x-6">
 
             {localStorage.getItem('usuarioLogado') ? (
-                <InteractiveButton href="/perfil" variant="nav">
-                    Início
-                </InteractiveButton>
+              <InteractiveButton href="/perfil" variant="nav">
+                Início
+              </InteractiveButton>
             ) : (
-                <InteractiveButton href="/" variant="nav">
-                    Início
-                </InteractiveButton>
+              <InteractiveButton href="/" variant="nav">
+                Início
+              </InteractiveButton>
             )}
-            
-            <InteractiveButton href="/trilhas" variant="nav">
-              Trilhas
-            </InteractiveButton>
 
-            <InteractiveButton href="#" variant="nav">
-              Sobre
-            </InteractiveButton>
           </nav>
         </div>
       </header>

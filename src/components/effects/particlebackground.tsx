@@ -128,5 +128,5 @@ export default function ParticleBackground(): JSX.Element {
         }
     }, [])
 
-    return <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full bg-[#08081a]" style={{ zIndex: -1 }} />
+    return <canvas ref={canvasRef} className="fixed top-0 left-0 min-w-full h-full bg-[#08081a]" style={{ zIndex: -1 }} />
 }

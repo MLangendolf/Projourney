@@ -1,9 +1,10 @@
 // src/app/perfil/page.tsx
 
-import InteractiveButton from "../components/common/interactive-button" 
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, BookOpen, MoreVertical, Loader2, AlertCircle, CheckCircle, LogOut } from "lucide-react";
+import { User, BookOpen, MoreVertical, Loader2, AlertCircle, CheckCircle, LogOut } from 
+"lucide-react";
+import ParticleBackground from "@/components/effects/particlebackground";
 
 // --- Interfaces para Tipagem dos Dados ---
 interface Usuario {
@@ -36,7 +37,7 @@ export default function PerfilPage(): React.JSX.Element {
     const [feedback, setFeedback] = useState<string>('');
 
     // --- Função para Buscar Dados do Perfil ---
-   useEffect(() => {
+    useEffect(() => {
         const dadosUsuarioString = localStorage.getItem('usuarioLogado');
         if (!dadosUsuarioString) {
             navigate('/login');
@@ -49,9 +50,9 @@ export default function PerfilPage(): React.JSX.Element {
         const carregarDadosDoPerfil = async () => {
             setStatus('loading');
             try {
-                const response = await fetch(`http://localhost:8000/perfil_aluno.php?alunoId=${usuarioLogado.ID}` );
+                const response = await fetch(`http://localhost:8000/perfil_aluno.php?alunoId=${usuarioLogado.ID}`);
                 if (!response.ok) throw new Error('Falha ao carregar dados do perfil.');
-                
+
                 const data = await response.json();
                 // Não precisamos mais fazer setUsuario(data.aluno) pois já fizemos acima
                 setTrilhas(data.trilhas);
@@ -64,7 +65,7 @@ export default function PerfilPage(): React.JSX.Element {
 
         carregarDadosDoPerfil();
 
-    }, [navigate]); 
+    }, [navigate]);
 
 
     // --- Função para Atualizar o Progresso ---
@@ -83,7 +84,7 @@ export default function PerfilPage(): React.JSX.Element {
                     alunoId: usuario.ID,
                     trilhaId: trilhaId,
                     progresso: novoProgresso,
-                } ),
+                }),
             });
             if (!response.ok) throw new Error('Falha ao atualizar o progresso.');
             // Se a API confirmar, tudo certo.
@@ -119,38 +120,25 @@ export default function PerfilPage(): React.JSX.Element {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-[#1a1a2e] text-white">
 
-                <header className="sticky top-0 z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
-                    <div className="flex justify-between items-center">
-                        <img src="/image/pj1.png" alt="projourney border-" className="w-24 h-24 " />
-                        <div className="text-3xl font-bold text-[#00aaff] ">PROJOURNEY</div>
-                        <nav className="flex items-center space-x-6">
-                            <InteractiveButton href="/cursos" variant="nav">
-                                Cursos
-                            </InteractiveButton>
-                            <InteractiveButton href="/trilhas" variant="nav">
-                                Trilhas
-                            </InteractiveButton>
-                            <InteractiveButton href="#" variant="nav">
-                                Sobre
-                            </InteractiveButton>
+        
+        <div className=" text-white">
+            <ParticleBackground />
 
-                            <button onClick={handleLogout} className="mt-4 sm:mt-0 flex items-center gap-2 bg-red-600/80 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-semibold">
-                                <LogOut size={16} />
-                                Sair
-                            </button>
-                        </nav>
-                    </div>
-                </header>
 
             <div className="max-w-5xl mx-auto p-4 sm:p-8">
                 {/* Cabeçalho do Perfil */}
+                
                 <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10">
                     <div>
                         <h1 className="text-4xl font-bold text-white">Olá, {usuario.nome.split(' ')[0]}!</h1>
                         <p className="text-gray-400 mt-2">Aqui está o resumo da sua jornada de aprendizado.</p>
                     </div>
+
+                <button onClick={handleLogout} className="mt-4 sm:mt-0 flex items-center gap-2 bg-red-600/80 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-semibold">
+                    <LogOut size={16} />
+                    Sair
+                </button>
 
                 </header>
 
@@ -167,8 +155,8 @@ export default function PerfilPage(): React.JSX.Element {
                                 <div key={trilha.ID} className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 flex flex-col justify-between">
                                     <div>
                                         <h3 className="text-xl font-bold text-white mb-2">
-                                            <Link 
-                                                to={`/aulas/${trilha.ID}`} 
+                                            <Link
+                                                to={`/aulas/${trilha.ID}`}
                                                 className="transition-colors duration-300 hover:text-blue-400 hover:underline"
                                             >
                                                 {trilha.nome}
