@@ -253,7 +253,7 @@ export const CourseDetailPage: React.FC = () => {
                 href="#"
                 variant="primary"
                 className="w-full md:w-auto"
-                onClick={(e) => {
+                onClick={(e: React.MouseEvent) => {
                   e.preventDefault();
                   handleEnrollment();
                 }}

@@ -22,7 +22,7 @@ interface AlunoFormData {
     areasInteresse: string[]; // Exemplo: ['frontend', 'backend']
 }
 
-export default function CadastrarAlunoPage(): JSX.Element {
+export default function CadastrarAlunoPage() {
     const navigate = useNavigate(); // Hook para redirecionamento
     const [formData, setFormData] = useState<AlunoFormData>({
         nome: "",

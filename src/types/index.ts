@@ -36,6 +36,7 @@ export interface InteractiveButtonProps {
   children: React.ReactNode
   variant?: "primary" | "outline" | "nav" | "navButton"
   className?: string
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 export interface ParticleProps {

@@ -14,6 +14,7 @@ export default function InteractiveButton({ // <-- Este é o componente do botã
   children,
   variant = "primary",
   className,
+  onClick,
 }: InteractiveButtonProps): JSX.Element {
   const [ripples, setRipples] = useState<RippleProps[]>([])
   const buttonRef = useRef<HTMLAnchorElement>(null)
