@@ -1,6 +1,5 @@
 <?php
 
-
 // --- Conexão com o Banco de Dados ---
 $servidor = "localhost:3306";
 $usuario_bd = "root";

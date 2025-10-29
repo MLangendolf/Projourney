@@ -1,7 +1,6 @@
 <?php
 require_once 'db.php';
 
-
 // Habilita o CORS para permitir que seu app React acesse a API
 header("Access-Control-Allow-Origin: *"); // Em produção, troque "*" pelo seu domínio real
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
