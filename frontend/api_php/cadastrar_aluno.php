@@ -66,7 +66,7 @@ $area_interesse = isset($dados['areasInteresse']) ? implode(', ', $dados['areasI
 
 // 4. Verificar se o e-mail já existe
 try {
-    $stmt = $pdo->prepare("SELECT ID FROM PJ_ALUNO WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id FROM aluno WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->rowCount() > 0) {
         http_response_code(409); // Conflict
@@ -80,7 +80,7 @@ try {
 }
 
 // 5. Inserir o novo aluno no banco
-$sql = "INSERT INTO PJ_ALUNO (nome, email, data_nascimento, telefone, senha, cidade, descricao, area_interesse) 
+$sql = "INSERT INTO aluno (nome, email, data_nascimento, telefone, senha, cidade, descricao, area_interesse) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 try {

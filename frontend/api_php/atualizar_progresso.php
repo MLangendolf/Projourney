@@ -30,7 +30,7 @@ $trilhaId = $dados->trilhaId;
 $progresso = $dados->progresso;
 
 // 3. Preparar e executar o comando UPDATE
-$sql = "UPDATE PJ_TRILHA_ALUNO SET progresso = ? WHERE PJ_ALUNO_ID = ? AND PJ_TRILHA_ID = ?";
+$sql = "UPDATE trilha_aluno SET progresso = ? WHERE aluno_id = ? AND trilha_id = ?";
 
 try {
     $stmt = $pdo->prepare($sql);

@@ -1,4 +1,3 @@
-// src/app/trilhas/page.tsx
 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,13 +8,13 @@ import ParticleBackground from "../components/effects/particlebackground";
 
 // Interface para os dados da trilha que virão da API PHP
 interface Trilha {
-  ID: number;   // O PHP retorna chaves em maiúsculas por padrão do PDO::FETCH_ASSOC
+  id: number;   // O PHP retorna chaves em maiúsculas por padrão do PDO::FETCH_ASSOC
   nome: string;
 }
 
 // Interface para os dados do usuário armazenados no localStorage
 interface UsuarioLogado {
-  ID: number;
+  id: number;
   nome: string;
   // outros campos que o login.php retorna...
 }
@@ -105,7 +104,7 @@ export default function TrilhasPage(): React.JSX.Element {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          alunoId: usuario.ID,
+          alunoId: usuario.id,
           trilhaId: trilhaSelecionada,
         }),
       });
@@ -164,11 +163,11 @@ export default function TrilhasPage(): React.JSX.Element {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
                 {trilhas.map((trilha) => {
                   const Icon = iconMap[trilha.nome] || Code;
-                  const isSelected = trilhaSelecionada === trilha.ID;
+                  const isSelected = trilhaSelecionada === trilha.id;
                   return (
                     <div
-                      key={trilha.ID}
-                      onClick={() => setTrilhaSelecionada(trilha.ID)}
+                      key={trilha.id}
+                      onClick={() => setTrilhaSelecionada(trilha.id)}
                       className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 flex items-center gap-4
                         ${isSelected
                           ? 'border-cyan-400 bg-cyan-400/20 text-cyan-300 ring-2 ring-cyan-400'

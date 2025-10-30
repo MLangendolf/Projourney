@@ -24,13 +24,13 @@ try {
     // --- Query SQL para buscar os cursos da trilha ---
     $stmt = $pdo->prepare("
         SELECT 
-            c.ID, 
+            c.id, 
             c.nome, 
             c.nivel, 
             c.link_curso
-        FROM PJ_CURSO c
-        JOIN PJ_CURSO_TRILHA ct ON c.ID = ct.PJ_CURSO_ID
-        WHERE ct.PJ_TRILHA_ID = ?
+        FROM curso c
+        JOIN curso_trilha ct ON c.id = ct.curso_id
+        WHERE ct.trilha_id = ?
     ");
     $stmt->execute([$trilhaId]);
     $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);

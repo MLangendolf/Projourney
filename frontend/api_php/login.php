@@ -23,7 +23,7 @@ if (empty($dados->email) || empty($dados->password)) {
 // Inicia um bloco try...catch (tentar...pegar) para capiturar erros do Banco de Dados.
 try {
     // prepara uma consulta SQL segura...
-    $stmt = $pdo->prepare(" SELECT ID, nome, senha FROM PJ_ALUNO WHERE email = ?");
+    $stmt = $pdo->prepare(" SELECT id, nome, senha FROM aluno WHERE email = ?");
     // executa a consulta. 
     $stmt->execute([$dados->email]);
 
@@ -31,7 +31,7 @@ try {
     $aluno = $stmt->fetch();
 
     // '$aluno' checa usuário foi encontrado.
-    // 'password_veryfy' compara senha fonecida no back-end com o hash armaxenado no banco de dados.
+    // 'password_veryfy' compara senha fonecida no front-end com o hash armaxenado no banco de dados.
     if ($aluno && password_verify($dados->password, $aluno['senha'])) {
 
         unset($aluno['senha']); // Remove a senha do array por segurança.

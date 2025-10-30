@@ -1,4 +1,3 @@
-// src/app/perfil/page.tsx
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,13 +7,13 @@ import ParticleBackground from "@/components/effects/particlebackground";
 
 // --- Interfaces para Tipagem dos Dados ---
 interface Usuario {
-    ID: number;
+    id: number;
     nome: string;
     email: string;
 }
 
 interface TrilhaInscrita {
-    ID: number;
+    id: number;
     nome: string;
     progresso: 'Inscrito' | 'Cursando' | 'Suspenso' | 'Concluido';
 }
@@ -50,7 +49,7 @@ export default function PerfilPage(): React.JSX.Element {
         const carregarDadosDoPerfil = async () => {
             setStatus('loading');
             try {
-                const response = await fetch(`http://localhost:8000/perfil_aluno.php?alunoId=${usuarioLogado.ID}`);
+                const response = await fetch(`http://localhost:8000/perfil_aluno.php?alunoId=${usuarioLogado.id}`);
                 if (!response.ok) throw new Error('Falha ao carregar dados do perfil.');
 
                 const data = await response.json();
@@ -74,14 +73,14 @@ export default function PerfilPage(): React.JSX.Element {
 
         // Otimização: Atualiza a UI primeiro para uma resposta mais rápida
         const trilhasAntigas = [...trilhas];
-        setTrilhas(trilhas.map(t => t.ID === trilhaId ? { ...t, progresso: novoProgresso } : t));
+        setTrilhas(trilhas.map(t => t.id === trilhaId ? { ...t, progresso: novoProgresso } : t));
 
         try {
             const response = await fetch('http://localhost:8000/atualizar_progresso.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    alunoId: usuario.ID,
+                    alunoId: usuario.id,
                     trilhaId: trilhaId,
                     progresso: novoProgresso,
                 }),
@@ -152,11 +151,11 @@ export default function PerfilPage(): React.JSX.Element {
                     {trilhas.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {trilhas.map(trilha => (
-                                <div key={trilha.ID} className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 flex flex-col justify-between">
+                                <div key={trilha.id} className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 flex flex-col justify-between">
                                     <div>
                                         <h3 className="text-xl font-bold text-white mb-2">
                                             <Link
-                                                to={`/aulas/${trilha.ID}`}
+                                                to={`/aulas/${trilha.id}`}
                                                 className="transition-colors duration-300 hover:text-blue-400 hover:underline"
                                             >
                                                 {trilha.nome}
@@ -176,7 +175,7 @@ export default function PerfilPage(): React.JSX.Element {
                                                 {Object.keys(statusColors).map(statusKey => (
                                                     <button
                                                         key={statusKey}
-                                                        onClick={() => handleProgressoChange(trilha.ID, statusKey as TrilhaInscrita['progresso'])}
+                                                        onClick={() => handleProgressoChange(trilha.id, statusKey as TrilhaInscrita['progresso'])}
                                                         className="w-full text-left px-4 py-2 hover:bg-gray-600 first:rounded-t-lg last:rounded-b-lg"
                                                     >
                                                         {statusKey}

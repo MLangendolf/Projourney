@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // --- Lógica para Buscar as Trilhas ---
 try {
     // Prepara uma consulta SQL para selecionar o ID e o nome de todas as trilhas
-    $stmt = $pdo->prepare("SELECT ID, nome FROM PJ_TRILHA ORDER BY nome ASC");
+    $stmt = $pdo->prepare("SELECT id, nome FROM trilha ORDER BY nome ASC");
     
     // Executa a consulta
     $stmt->execute();

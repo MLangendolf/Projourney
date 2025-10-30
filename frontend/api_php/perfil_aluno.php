@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
-// 1. Validação do ID do aluno (recebido via parâmetro GET na URL)
+// 1. Validação do id do aluno (recebido via parâmetro GET na URL)
 if (!isset($_GET['alunoId']) || !is_numeric($_GET['alunoId'])) {
     http_response_code(400 );
     echo json_encode(["status" => "erro", "mensagem" => "ID do aluno é obrigatório."]);
@@ -22,7 +22,7 @@ $resposta = [];
 
 try {
     // 2. Buscar os dados básicos do aluno
-    $stmtAluno = $pdo->prepare("SELECT ID, nome, email FROM PJ_ALUNO WHERE ID = ?");
+    $stmtAluno = $pdo->prepare("SELECT id, nome, email FROM aluno WHERE id = ?");
     $stmtAluno->execute([$alunoId]);
     $aluno = $stmtAluno->fetch(PDO::FETCH_ASSOC);
 
@@ -36,15 +36,15 @@ try {
     // 3. Buscar as trilhas do aluno com o progresso
     $sqlTrilhas = "
         SELECT 
-            t.ID, 
+            t.id, 
             t.nome, 
             ta.progresso 
         FROM 
-            PJ_TRILHA_ALUNO ta
+            trilha_aluno ta
         JOIN 
-            PJ_TRILHA t ON ta.PJ_TRILHA_ID = t.ID
+            trilha t ON ta.trilha_id = t.id
         WHERE 
-            ta.PJ_ALUNO_ID = ?
+            ta.aluno_id = ?
         ORDER BY 
             t.nome ASC
     ";

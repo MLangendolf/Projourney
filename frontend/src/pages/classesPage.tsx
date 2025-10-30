@@ -7,7 +7,7 @@ import ParticleBackground from '../components/effects/particlebackground';
 
 // Interface para tipar os dados do curso que vêm da API
 interface Curso {
-    ID: number;
+    id: number;
     nome: string;
     nivel: string;
     link_curso: string;
@@ -112,7 +112,7 @@ export default function AulasPage(): React.JSX.Element {
                     {cursos.length > 0 ? (
                         cursos.map(curso => (
                             <a
-                                key={curso.ID}
+                                key={curso.id}
                                 href={curso.link_curso} // link direto do banco
                                 target="_blank" // Abre o link em uma nova aba
                                 rel="noopener noreferrer" // Boa prática de segurança para links externos

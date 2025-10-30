@@ -5,7 +5,7 @@ $teste = 'Servidor PHP funcionando!';
 var_dump($teste);
 echo "\n";
 
-$busca = $pdo->query("SELECT * FROM PJ_CURSO");
+$busca = $pdo->query("SELECT * FROM curso");
 $cursos = $busca->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -13,13 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nivel = $_POST['nivel'];
     $link_curso = $_POST['link_url'];
 
-    $stm = $pdo->prepare("SELECT * FROM PJ_CURSO WHERE nome = ?");
+    $stm = $pdo->prepare("SELECT * FROM curso WHERE nome = ?");
     $stm->execute([$nome]);
 
     if ($stm->fetch()) {
         echo "<script> alert('Curso de mesmo nome já existe!')</script>";
     } else {
-        $stm = $pdo->prepare("INSERT INTO PJ_CURSO (nome, nivel, link_curso) VALUES (?, ?, ?)");
+        $stm = $pdo->prepare("INSERT INTO curso (nome, nivel, link_curso) VALUES (?, ?, ?)");
         if ($stm->execute([$nome, $nivel, $link_curso])) {
             header("location: " . $_SERVER['PHP_SELF'] . "?status=success");
             echo "Curso $nome cadastrado com sucesso";

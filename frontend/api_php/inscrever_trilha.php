@@ -32,7 +32,7 @@ $trilha_id = $dados->trilhaId;
 
 // 3. (Opcional, mas recomendado) Verificar se o aluno já está inscrito na trilha
 try {
-    $stmt = $pdo->prepare("SELECT * FROM PJ_TRILHA_ALUNO WHERE PJ_ALUNO_ID = ? AND PJ_TRILHA_ID = ?");
+    $stmt = $pdo->prepare("SELECT * FROM trilha_aluno WHERE aluno_id = ? AND trilha_id = ?");
     $stmt->execute([$aluno_id, $trilha_id]);
     
     if ($stmt->rowCount() > 0) {
@@ -48,7 +48,7 @@ try {
 
 
 // 4. Inserir o novo registro na tabela de associação
-$sql = "INSERT INTO PJ_TRILHA_ALUNO (PJ_ALUNO_ID, PJ_TRILHA_ID, progresso) VALUES (?, ?, ?)";
+$sql = "INSERT INTO trilha_aluno (aluno_id, trilha_id, progresso) VALUES (?, ?, ?)";
 
 try {
     $stmt = $pdo->prepare($sql);

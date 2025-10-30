@@ -1,0 +1,219 @@
+.
+├── backend
+│   ├── app
+│   │   ├── Http
+│   │   │   ├── Controllers
+│   │   │   ├── Middleware
+│   │   │   └── Requests
+│   │   ├── Models
+│   │   │   └── User.php
+│   │   └── Providers
+│   │       ├── AppServiceProvider.php
+│   │       └── FortifyServiceProvider.php
+│   ├── artisan
+│   ├── bootstrap
+│   │   ├── app.php
+│   │   ├── cache
+│   │   │   ├── .gitignore
+│   │   │   ├── packages.php
+│   │   │   └── services.php
+│   │   └── providers.php
+│   ├── components.json
+│   ├── composer.json
+│   ├── composer.lock
+│   ├── config
+│   │   ├── app.php
+│   │   ├── auth.php
+│   │   ├── cache.php
+│   │   ├── database.php
+│   │   ├── filesystems.php
+│   │   ├── fortify.php
+│   │   ├── inertia.php
+│   │   ├── logging.php
+│   │   ├── mail.php
+│   │   ├── queue.php
+│   │   ├── services.php
+│   │   └── session.php
+│   ├── database
+│   │   ├── database.sqlite
+│   │   ├── factories
+│   │   │   └── UserFactory.php
+│   │   ├── .gitignore
+│   │   ├── migrations
+│   │   │   ├── 0001_01_01_000000_create_users_table.php
+│   │   │   ├── 0001_01_01_000001_create_cache_table.php
+│   │   │   ├── 0001_01_01_000002_create_jobs_table.php
+│   │   │   └── 2025_08_26_100418_add_two_factor_columns_to_users_table.php
+│   │   └── seeders
+│   │       └── DatabaseSeeder.php
+│   ├── .editorconfig
+│   ├── .env
+│   ├── .env.example
+│   ├── eslint.config.js
+│   ├── .gitattributes
+│   ├── .github
+│   │   └── workflows
+│   │       ├── lint.yml
+│   │       └── tests.yml
+│   ├── .gitignore
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── phpunit.xml
+│   ├── .prettierignore
+│   ├── .prettierrc
+│   ├── public
+│   │   ├── apple-touch-icon.png
+│   │   ├── build
+│   │   │   ├── assets
+│   │   │   └── manifest.json
+│   │   ├── favicon.ico
+│   │   ├── favicon.svg
+│   │   ├── .htaccess
+│   │   ├── index.php
+│   │   ├── logo.svg
+│   │   └── robots.txt
+│   ├── resources
+│   │   ├── css
+│   │   │   └── app.css
+│   │   ├── js
+│   │   │   ├── actions
+│   │   │   ├── app.tsx
+│   │   │   ├── components
+│   │   │   ├── hooks
+│   │   │   ├── layouts
+│   │   │   ├── lib
+│   │   │   ├── pages
+│   │   │   ├── routes
+│   │   │   ├── ssr.tsx
+│   │   │   ├── types
+│   │   │   └── wayfinder
+│   │   └── views
+│   │       └── app.blade.php
+│   ├── routes
+│   │   ├── auth.php
+│   │   ├── console.php
+│   │   ├── settings.php
+│   │   └── web.php
+│   ├── storage
+│   │   ├── app
+│   │   │   ├── .gitignore
+│   │   │   ├── private
+│   │   │   └── public
+│   │   ├── framework
+│   │   │   ├── cache
+│   │   │   ├── .gitignore
+│   │   │   ├── sessions
+│   │   │   ├── testing
+│   │   │   └── views
+│   │   ├── logs
+│   │   │   ├── .gitignore
+│   │   │   └── laravel.log
+│   │   └── pail
+│   │       └── .gitignore
+│   ├── tests
+│   │   ├── Feature
+│   │   │   ├── Auth
+│   │   │   ├── DashboardTest.php
+│   │   │   ├── ExampleTest.php
+│   │   │   └── Settings
+│   │   ├── Pest.php
+│   │   ├── TestCase.php
+│   │   └── Unit
+│   │       └── ExampleTest.php
+│   ├── tsconfig.json
+│   └── vite.config.ts
+├── estrutura
+└── frontend
+    ├── api_php
+    │   ├── atualizar_progresso.php
+    │   ├── banco
+    │   │   ├── popular_Projourney.sql
+    │   │   └── projourney_db.sql
+    │   ├── cadastrar_aluno.php
+    │   ├── css
+    │   │   └── styles.css
+    │   ├── cursos_da_trilha.php
+    │   ├── db.php
+    │   ├── index.php
+    │   ├── inscrever_trilha.php
+    │   ├── listar_trilhas.php
+    │   ├── login.php
+    │   └── perfil_aluno.php
+    ├── dist
+    │   ├── teste2.js
+    │   └── teste.js
+    ├── .gitignore
+    ├── index.html
+    ├── package.json
+    ├── package-lock.json
+    ├── postcss.config.js
+    ├── public
+    │   └── image
+    │       ├── pj1.png
+    │       ├── pj_image.jpeg
+    │       ├── pj_image.png
+    │       └── pj.png
+    ├── README.md
+    ├── src
+    │   ├── app.tsx
+    │   ├── assets
+    │   │   └── globals.css
+    │   ├── components
+    │   │   ├── common
+    │   │   ├── effects
+    │   │   ├── layout
+    │   │   └── ui
+    │   ├── lib
+    │   │   └── utils.ts
+    │   ├── main.tsx
+    │   ├── pages
+    │   │   ├── classesPage.tsx
+    │   │   ├── coursesPage.tsx
+    │   │   ├── homePage.tsx
+    │   │   ├── loginPage.tsx
+    │   │   ├── profilePage.tsx
+    │   │   ├── registerPage.tsx
+    │   │   └── trailsPage.tsx
+    │   └── types
+    │       └── index.ts
+    ├── .stylelintrc.json
+    ├── tailwind.config.js
+    ├── tsconfig.json
+    ├── tutorial.md
+    ├── .vite
+    │   └── deps
+    │       ├── chunk-5HNGYYSW.js
+    │       ├── chunk-5HNGYYSW.js.map
+    │       ├── chunk-DN7IIDOB.js
+    │       ├── chunk-DN7IIDOB.js.map
+    │       ├── chunk-G3PMV62Z.js
+    │       ├── chunk-G3PMV62Z.js.map
+    │       ├── chunk-KDVGFZWC.js
+    │       ├── chunk-KDVGFZWC.js.map
+    │       ├── chunk-TVFQMRVC.js
+    │       ├── chunk-TVFQMRVC.js.map
+    │       ├── class-variance-authority.js
+    │       ├── class-variance-authority.js.map
+    │       ├── clsx.js
+    │       ├── clsx.js.map
+    │       ├── lucide-react.js
+    │       ├── lucide-react.js.map
+    │       ├── _metadata.json
+    │       ├── package.json
+    │       ├── @radix-ui_react-label.js
+    │       ├── @radix-ui_react-label.js.map
+    │       ├── @radix-ui_react-slot.js
+    │       ├── @radix-ui_react-slot.js.map
+    │       ├── react-dom_client.js
+    │       ├── react-dom_client.js.map
+    │       ├── react.js
+    │       ├── react.js.map
+    │       ├── react_jsx-dev-runtime.js
+    │       ├── react_jsx-dev-runtime.js.map
+    │       ├── react-router-dom.js
+    │       ├── react-router-dom.js.map
+    │       ├── tailwind-merge.js
+    │       └── tailwind-merge.js.map
+    └── vite.config.ts
+
+70 directories, 147 files
