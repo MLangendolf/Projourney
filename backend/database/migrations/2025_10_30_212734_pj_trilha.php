@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema:create('pj_trilha', function (Blueprint $table){
+        Schema::create('pj_trilha', function (Blueprint $table){
             $table->id();
             $table->string('nome', 100);
-        })
+        });
     }
 
     /**
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema:dropIfExists('pj_trilha');
+        Schema::dropIfExists('pj_trilha');
     }
 };
