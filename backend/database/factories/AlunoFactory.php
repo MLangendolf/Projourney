@@ -14,8 +14,8 @@ class AlunoFactory extends Factory
             'data_nascimento' => $this->faker->date('Y-m-d', '2005-12-31'),
             'telefone' => $this->faker->phoneNumber(),
             'cidade' => $this->faker->city(),
-            'descricao' => $this->faker->sentence(10),
-            'area_interesse' => $this->faker->word(),
+            'desc' => $this->faker->sentence(10),
+            'area_inter' => $this->faker->word(),
             'senha' => bcrypt('senha123'),
         ];
     }

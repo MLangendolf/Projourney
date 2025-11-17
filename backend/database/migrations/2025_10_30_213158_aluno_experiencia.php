@@ -12,6 +12,7 @@ return new class extends Migration
             $table->foreignId('experiencias_id')->constrained('experiencias')->cascadeOnDelete();
             $table->foreignId('alunos_id')->constrained('alunos')->cascadeOnDelete();
             $table->primary(['experiencias_id', 'alunos_id']);
+            $table->timestamps();
         });
     }
 

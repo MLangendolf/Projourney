@@ -18,9 +18,10 @@ return new class extends Migration
             $table->date('data_nascimento');
             $table->string('telefone', 30);
             $table->string('cidade', 100)->nullable();
-            $table->string('descrição', 500)->nullable();
-            $table->string('area_interesse', 100)->nullable();
+            $table->string('desc', 500)->nullable();
+            $table->string('area_inter', 100)->nullable();
             $table->string('senha', 300);
+        $table->timestamps();
         });
     }
 

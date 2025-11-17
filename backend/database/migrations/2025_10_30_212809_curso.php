@@ -14,6 +14,7 @@ return new class extends Migration
             $table->text('descricao')->nullable();
             $table->integer('duracao')->nullable(); // minutos
             $table->string('nivel', 50)->nullable();
+            $table->timestamps();
         });
     }
 

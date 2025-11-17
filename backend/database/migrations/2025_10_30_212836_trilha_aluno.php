@@ -13,6 +13,8 @@ return new class extends Migration
             $table->foreignId('alunos_id')->constrained('alunos')->cascadeOnDelete();
             $table->enum('progresso', ['Inscrito', 'Cursando', 'Suspenso', 'Concluido'])->default('Inscrito');
             $table->primary(['trilhas_id', 'alunos_id']);
+            $table->timestamps();
+
         });
     }
 
