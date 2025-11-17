@@ -8,16 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('pj_trilha_aluno', function (Blueprint $table) {
-            $table->foreignId('pj_trilha_id')->constrained('pj_trilha')->cascadeOnDelete();
-            $table->foreignId('pj_aluno_id')->constrained('pj_aluno')->cascadeOnDelete();
+        Schema::create('trilha_aluno', function (Blueprint $table) {
+            $table->foreignId('trilhas_id')->constrained('trilhas')->cascadeOnDelete();
+            $table->foreignId('alunos_id')->constrained('alunos')->cascadeOnDelete();
             $table->enum('progresso', ['Inscrito', 'Cursando', 'Suspenso', 'Concluido'])->default('Inscrito');
-            $table->primary(['pj_trilha_id', 'pj_aluno_id']);
+            $table->primary(['trilhas_id', 'alunos_id']);
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('pj_trilha_aluno');
+        Schema::dropIfExists('trilha_aluno');
     }
 };

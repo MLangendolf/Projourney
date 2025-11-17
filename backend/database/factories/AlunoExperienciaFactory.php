@@ -4,12 +4,14 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PjTrilhaFactory extends Factory
+class AlunoExperienciaFactory extends Factory
 {
     public function definition(): array
     {
         return [
-            'nome' => ucfirst($this->faker->words(2, true)),
+            'experiencia_id' => \App\Models\PjExperiencia::factory(),
+            'aluno_id' => \App\Models\PjAluno::factory(),
         ];
     }
 }
+

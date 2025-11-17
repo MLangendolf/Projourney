@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PjExperienciaFactory extends Factory
+class ExperienciaFactory extends Factory
 {
     public function definition(): array
     {

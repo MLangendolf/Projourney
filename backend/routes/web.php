@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlunoController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,3 +16,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+//criação da api do alunos (create,delite,edit e show)
+Route::resource('/alunos', AlunoController::class);
