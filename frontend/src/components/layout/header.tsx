@@ -19,7 +19,7 @@ export default function Header() {
                     <SimpleLink to="/trilhas" variant="nav">
                         Trilhas
                     </SimpleLink>
-                    <SimpleLink to="#" variant="nav">
+                    <SimpleLink to="/sobre" variant="nav">
                         Sobre
                     </SimpleLink>
                 </nav>

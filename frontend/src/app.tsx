@@ -11,7 +11,7 @@ import TrilhasPage from './pages/trailsPage';
 import PerfilPage from './pages/profilePage';
 import AulasPage from './pages/classesPage';
 import { CoursesPage, CourseDetailPage } from './pages/coursesPage';
-
+import SobrePage from './pages/sobrePage';
 
 function App() {
     return (
@@ -26,6 +26,7 @@ function App() {
                 <Route path="/trilhas" element={<TrilhasPage />} />
                 <Route path="/perfil" element={<PerfilPage />} />
                 <Route path="/aulas/:trilhaId" element={<AulasPage />} />
+                <Route path="/sobre" element={<SobrePage />} />
             </Route>
         </Routes>
     );
