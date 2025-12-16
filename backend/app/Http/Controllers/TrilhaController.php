@@ -28,7 +28,26 @@ class TrilhaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nome' => 'nullable|string|max:100'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status'   => 'erro',
+                'mensagem' => $validator->errors()
+            ], 400);
+        }
+
+        $dados = $validator->validated();
+
+        $trilha = Trilha::create($dados);
+
+        return response()->json([
+            'status'  => 'sucesso',
+            'mensagem'=> 'Trilha criada com sucesso!',
+            'trilha'   => $trilha
+        ], 201);
     }
 
     /**
