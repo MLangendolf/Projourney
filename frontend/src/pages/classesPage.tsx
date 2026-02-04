@@ -77,7 +77,7 @@ export default function AulasPage(): React.JSX.Element {
             <ParticleBackground />
 
             {/* Header */}
-            <header className="sticky top-0 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
+            <header className="sticky top-0 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4">
                 <div className="flex justify-between items-center">
                         <h1 className="text-2xl font-bold text-white">Cursos da Trilha</h1>
                     <nav className="flex items-center justify-between space-x-6">

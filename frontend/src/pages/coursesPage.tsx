@@ -2,6 +2,8 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import InteractiveButton from '../components/common/interactive-button';
 import ParticleBackground from '@/components/effects/particlebackground';
+import SimpleLink from "../components/common/simpleLink";
+import { Loader2, AlertCircle, ArrowLeft, ExternalLink, LogOut } from 'lucide-react';
 
 // Tipos
 interface Course {
@@ -27,6 +29,8 @@ const getCategoryColor = (category: string): string => {
   };
   return colors[category] || 'bg-purple-600';
 };
+
+
 
 // Mock de dados dos cursos
 const mockCourses: Course[] = [
@@ -156,7 +160,7 @@ export const CourseDetailPage: React.FC = () => {
 
   if (!course) {
     return (
-      <div className="min-h-screen bg-[#0a0a1a] flex items-center justify-center font-['Poppins',Arial,sans-serif]">
+      <div className="min-h-screen  flex items-center justify-center font-['Poppins',Arial,sans-serif]">
         <div className="text-center">
           <div className="text-white text-xl mb-4">Curso não encontrado</div>
           <InteractiveButton
@@ -171,29 +175,26 @@ export const CourseDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a1a] text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
+    <div className="min-h-screen  text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
+      <ParticleBackground />
       {/* Header */}
-      <header className="sticky top-0  bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
-        <div className="flex justify-between items-center">
-          <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">Cursos</div>
-          <nav className="flex items-center space-x-6">
+      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
 
-            {localStorage.getItem('usuarioLogado') ? (
-              <InteractiveButton href="/perfil" variant="nav">
-                Início
-              </InteractiveButton>
-            ) : (
-              <InteractiveButton href="/" variant="nav">
-                Início
-              </InteractiveButton>
-            )}
-
-            <InteractiveButton href="/cursos" variant="nav">
-              Cursos
-            </InteractiveButton>
-            <InteractiveButton href="#" variant="nav">
-              Sobre
-            </InteractiveButton>
+        <div className="flex items-center justify-between mx-auto">
+          <h1 className="text-2xl font-bold text-[#00aaff]">Curssos Publicados</h1>
+          <nav className="flex items-center justify-between space-x-6">
+            <div className="flex items-center space-x-4">
+              {localStorage.getItem('usuarioLogado') ? (
+                <SimpleLink to="/perfil" variant="nav">
+                  <ArrowLeft className="w-5 h-5" />
+                  Início
+                </SimpleLink>
+              ) : (
+                <SimpleLink to="/" variant="nav">
+                  Início
+                </SimpleLink>
+              )}
+            </div>
           </nav>
         </div>
       </header>
@@ -249,17 +250,7 @@ export const CourseDetailPage: React.FC = () => {
               </div>
             </div>
             <div className="flex justify-center">
-              <InteractiveButton
-                href="#"
-                variant="primary"
-                className="w-full md:w-auto"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleEnrollment();
-                }}
-              >
-                {course.isEnrolled ? 'Acessar curso' : 'Inscrever-se no curso'}
-              </InteractiveButton>
+              <p> Confira mais detalhes sobre este curso no site oficial da instituição de ensino.</p>
             </div>
           </div>
         </div>
@@ -272,23 +263,25 @@ export const CourseDetailPage: React.FC = () => {
 export const CoursesPage: React.FC = () => {
   return (
     <div className=" text-white font-['Poppins',Arial,sans-serif]">
-            <ParticleBackground />
+      <ParticleBackground />
       {/* Header */}
-      <header className="sticky  bg-blue-900 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
-        <div className="flex justify-between items-center">
-          <div className="text-3xl font-bold text-[#00aaff] drop-shadow-lg">Cursos</div>
-          <nav className="flex items-center space-x-6">
+      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
 
-            {localStorage.getItem('usuarioLogado') ? (
-              <InteractiveButton href="/perfil" variant="nav">
-                Início
-              </InteractiveButton>
-            ) : (
-              <InteractiveButton href="/" variant="nav">
-                Início
-              </InteractiveButton>
-            )}
-
+        <div className="flex items-center justify-between mx-auto">
+          <h1 className="text-2xl font-bold text-[#00aaff]">Curssos Publicados</h1>
+          <nav className="flex items-center justify-between space-x-6">
+            <div className="flex items-center space-x-4">
+              {localStorage.getItem('usuarioLogado') ? (
+                <SimpleLink to="/perfil" variant="nav">
+                  <ArrowLeft className="w-5 h-5" />
+                  Início
+                </SimpleLink>
+              ) : (
+                <SimpleLink to="/" variant="nav">
+                  Início
+                </SimpleLink>
+              )}
+            </div>
           </nav>
         </div>
       </header>

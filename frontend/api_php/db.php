@@ -2,8 +2,8 @@
 
 // --- Conexão com o Banco de Dados ---
 $servidor = "localhost:3306";
-$usuario_bd = "web";
-$senha_bd = "web";
+$usuario_bd = "root";
+$senha_bd = "root";
 $banco = "projourney_2"; 
 
 try {

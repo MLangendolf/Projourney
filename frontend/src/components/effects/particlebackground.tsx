@@ -1,5 +1,6 @@
 import { ParticleProps, MousePosition } from "@/types"
 import { JSX, useRef, useEffect } from "react"
+import { useTheme } from "./theme-provider"
 
 
 // Particle class with TypeScript 
@@ -35,8 +36,8 @@ class Particle implements ParticleProps {
             this.x, this.y, 0,
             this.x, this.y, this.size * 2
         )
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`)
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
+        gradient.addColorStop(0, `rgba(250, 255, 255, ${this.opacity})`)
+        gradient.addColorStop(1, 'rgba(55, 58, 24, 0.49)')
 
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
@@ -48,6 +49,7 @@ class Particle implements ParticleProps {
 // Particle system component with TypeScript
 export default function ParticleBackground(): JSX.Element {
     const canvasRef = useRef<HTMLCanvasElement>(null)
+    const { theme } = useTheme()
 
     useEffect((): (() => void) => {
         const canvas: HTMLCanvasElement | null = canvasRef.current
@@ -83,7 +85,7 @@ export default function ParticleBackground(): JSX.Element {
         let animationFrameId: number;
 
         const animate = (): void => {
-            ctx.fillStyle = 'rgba(8, 8, 20, 0.4)'
+            ctx.fillStyle = theme;
             ctx.fillRect(0, 0, canvas.width, canvas.height)
 
             particles.forEach((particle: Particle, i: number): void => {
@@ -126,7 +128,7 @@ export default function ParticleBackground(): JSX.Element {
             window.removeEventListener("resize", resizeCanvas)
             canvas.removeEventListener("mousemove", handleMouseMove)
         }
-    }, [])
+    }, [theme])
 
     return <canvas ref={canvasRef} className="fixed top-0 left-0 min-w-full h-full bg-[#08081a]" style={{ zIndex: -1 }} />
 }
