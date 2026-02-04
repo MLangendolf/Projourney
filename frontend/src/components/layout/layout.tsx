@@ -6,7 +6,7 @@ import Header from './header';
 
 export default function Layout() {
     return (
-        <div className="inline-block min-w-full ">
+        <div className="inline-block min-w-full min-h-screen bg-background text-foreground">
             <Header />
             <main>
                 <Outlet/> {/* Renderiza o componente da rota filha aqui */}

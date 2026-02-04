@@ -178,13 +178,13 @@ export const CourseDetailPage: React.FC = () => {
     <div className="min-h-screen  text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
       <ParticleBackground />
       {/* Header */}
-      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
+      <header className="bg-blue-901/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
         <div className="flex items-center justify-between mx-auto">
-          <h1 className="text-2xl font-bold text-[#00aaff]">Cursos Publicados</h1>
+          <h1 className="text-2xl font-bold text-white">Cursos Publicados</h1>
           <nav className="flex items-center justify-between space-x-6">
             <div className="flex items-center space-x-4">
               {localStorage.getItem('usuarioLogado') ? (
-                <SimpleLink to="/perfil" variant="nav">
+                <SimpleLink to="/perfil" variant="nav" className="text-white">
                   <ArrowLeft className="w-5 h-5" />
                   Início
                 </SimpleLink>

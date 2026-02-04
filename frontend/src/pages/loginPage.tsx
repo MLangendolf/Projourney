@@ -76,7 +76,7 @@ export default function LoginPage(): JSX.Element {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#0a0a1a] via-[#1a1a2e] to-[#16213e] text-white flex items-center justify-center p-4">
+        <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
 
             <div className="w-full max-w-md relative z-10">
                 {/* Header */}

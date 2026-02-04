@@ -84,8 +84,12 @@ export default function ParticleBackground(): JSX.Element {
         
         let animationFrameId: number;
 
+        // Cores de fundo baseadas no tema
+        const bgColor = theme === 'dark' ? '#08081a' : '#f8fafc'
+        const lineColor = theme === 'dark' ? 'rgba(255, 255, 255,' : 'rgba(0, 100, 200,'
+
         const animate = (): void => {
-            ctx.fillStyle = theme;
+            ctx.fillStyle = bgColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height)
 
             particles.forEach((particle: Particle, i: number): void => {
@@ -102,7 +106,7 @@ export default function ParticleBackground(): JSX.Element {
                         ctx.beginPath()
                         ctx.moveTo(particle.x, particle.y)
                         ctx.lineTo(otherParticle.x, otherParticle.y)
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 160)})`
+                        ctx.strokeStyle = `${lineColor} ${0.1 * (1 - distance / 160)})`
                         ctx.lineWidth = 0.3
                         ctx.stroke()
                     }
@@ -114,7 +118,7 @@ export default function ParticleBackground(): JSX.Element {
                     ctx.beginPath()
                     ctx.moveTo(particle.x, particle.y)
                     ctx.lineTo(mouse.x, mouse.y)
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 * (1 - mouseDistance / 180)})`
+                    ctx.strokeStyle = `${lineColor} ${0.2 * (1 - mouseDistance / 180)})`
                     ctx.lineWidth = 0.3
                     ctx.stroke()
                 }
@@ -130,5 +134,5 @@ export default function ParticleBackground(): JSX.Element {
         }
     }, [theme])
 
-    return <canvas ref={canvasRef} className="fixed top-0 left-0 min-w-full h-full bg-[#08081a]" style={{ zIndex: -1 }} />
+    return <canvas ref={canvasRef} className="fixed top-0 left-0 min-w-full h-full bg-slate-50 dark:bg-[#08081a]" style={{ zIndex: -1 }} />
 }

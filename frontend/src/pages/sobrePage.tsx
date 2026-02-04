@@ -13,7 +13,7 @@ export default function About() {
   return (
     <>
       <header className="sticky top-0 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-10 py-4">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between mx-auto">
           <h1 className="text-2xl font-bold text-white">Sobre</h1>
 
           <nav className="flex items-center space-x-6">
@@ -21,7 +21,7 @@ export default function About() {
               to={localStorage.getItem('usuarioLogado') ? "/perfil" : "/"}
               variant="nav"
             >
-              Início
+              início
             </SimpleLink>
           </nav>
         </div>
@@ -30,25 +30,25 @@ export default function About() {
       <main className="p-8">
         <ParticleBackground />
 
-        <Card className="max-w-2xl mx-auto mt-10 bg-white/10 backdrop-blur text-white border-white/20">
+        <Card className="max-w-2xl mx-auto mt-10 bg-blue-900/40 backdrop-blur-md border border-blue-500/30 rounded-lg overflow-hidden border-white/20">
           <CardHeader>
-            <CardTitle>Objetivo</CardTitle>
+            <CardTitle className="text-white">Objetivo</CardTitle>
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <p>
+            <p className="text-white">
               Somos estudantes do IFPE – Campus Igarassu e criamos este projeto
               com o objetivo de melhorar a forma de estudo online, oferecendo
               trilhas personalizadas que tornam o aprendizado mais eficiente e direcionado.
             </p>
 
-            <h2 className="text-xl font-semibold">Integrantes</h2>
+            <h2 className="text-xl font-semibold text-white">Integrantes</h2>
 
             <ul className="list-disc list-inside">
-              <li>Gabriel Henrique</li>
-              <li>Cristiano</li>
-              <li>Maviael</li>
-              <li>Gabriel Suruba</li>
+              <li className="text-white">Gabriel Henrique</li>
+              <li className="text-white">Cristiano</li>
+              <li className="text-white">Maviael</li>
+              <li className="text-white">Gabriel Suruba</li>
             </ul>
           </CardContent>
         </Card>

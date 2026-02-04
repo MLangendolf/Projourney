@@ -145,7 +145,7 @@ export default function TrilhasPage(): React.JSX.Element {
       <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
 
         <div className="flex items-center justify-between mx-auto">
-          <h1 className="text-2xl font-bold text-[#00aaff]">Escolha sua Trilha</h1>
+          <h1 className="text-2xl font-bold text-white">Escolha sua Trilha</h1>
           <nav className="flex items-center justify-between space-x-6">
             <div className="flex items-center space-x-4">
               {localStorage.getItem('usuarioLogado') ? (
@@ -158,11 +158,6 @@ export default function TrilhasPage(): React.JSX.Element {
                   Início
                 </SimpleLink>
               )}
-
-              <button onClick={handleLogout} className="mt-4 sm:mt-0 flex items-center gap-2 bg-yellow-600/80 hover:bg-yellow-600 px-4 py-2 rounded-lg text-sm font-semibold">
-                <LogOut size={16} />
-                Sair
-              </button>
             </div>
           </nav>
         </div>

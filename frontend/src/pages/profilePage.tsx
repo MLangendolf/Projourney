@@ -133,11 +133,6 @@ export default function PerfilPage(): React.JSX.Element {
                         <h1 className="text-4xl font-bold text-white">Olá, {usuario.nome.split(' ')[0]}!</h1>
                         <p className="text-gray-400 mt-2">Aqui está o resumo da sua jornada de aprendizado.</p>
                     </div>
-
-                <button onClick={handleLogout} className="mt-4 sm:mt-0 flex items-center gap-2 bg-yellow-600/80 hover:bg-yellow-600 px-4 py-2 rounded-lg text-sm font-semibold">
-                    <LogOut size={16} />
-                    Sair
-                </button>
                 </header>
 
                 {/* Seção de Trilhas */}
