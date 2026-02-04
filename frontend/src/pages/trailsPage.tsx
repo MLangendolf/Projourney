@@ -1,7 +1,9 @@
 
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Code, Database, Shield, Smartphone, Globe, Cpu, Brain, Zap, Loader2, AlertCircle, CheckCircle } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Code, Database, Shield, Smartphone, Globe, Cpu, Brain, Zap, Loader2, AlertCircle, CheckCircle, LogOut } from "lucide-react";
+
+import SimpleLink from "../components/common/simpleLink";
 import ParticleBackground from "../components/effects/particlebackground";
 
 // --- Interfaces e Mapeamento de Ícones ---
@@ -42,6 +44,11 @@ export default function TrilhasPage(): React.JSX.Element {
   // Estados para controle da UI
   const [status, setStatus] = useState<'loading' | 'idle' | 'error' | 'success'>('loading');
   const [feedback, setFeedback] = useState<string>('');
+
+  const handleLogout = () => {
+    localStorage.removeItem('usuarioLogado');
+    navigate('/login');
+  }
 
   // --- Efeitos para carregar dados ---
 
@@ -134,13 +141,30 @@ export default function TrilhasPage(): React.JSX.Element {
   return (
     <div className="min-h-screen  text-white font-sans flex flex-col">
       <ParticleBackground />
-      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-6 py-4 sticky top-0 z-10">
-        <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <Link to="/perfil" className="flex items-center space-x-3 text-[#00aaff] text-xl font-bold">
-            <ArrowLeft className="w-5 h-5" />
-            <span>Voltar</span>
-          </Link>
+
+      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
+
+        <div className="flex items-center justify-between mx-auto">
           <h1 className="text-2xl font-bold text-[#00aaff]">Escolha sua Trilha</h1>
+          <nav className="flex items-center justify-between space-x-6">
+            <div className="flex items-center space-x-4">
+              {localStorage.getItem('usuarioLogado') ? (
+                <SimpleLink to="/perfil" variant="nav">
+                  <ArrowLeft className="w-5 h-5" />
+                  Início
+                </SimpleLink>
+              ) : (
+                <SimpleLink to="/" variant="nav">
+                  Início
+                </SimpleLink>
+              )}
+
+              <button onClick={handleLogout} className="mt-4 sm:mt-0 flex items-center gap-2 bg-yellow-600/80 hover:bg-yellow-600 px-4 py-2 rounded-lg text-sm font-semibold">
+                <LogOut size={16} />
+                Sair
+              </button>
+            </div>
+          </nav>
         </div>
       </header>
 
@@ -174,7 +198,7 @@ export default function TrilhasPage(): React.JSX.Element {
                           : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500'
                         }`}
                     >
-                      <Icon className="w-7 h-7" />
+                      <Icon className="w-7 h-7 text-cyan-400" />
                       <span className="text-lg font-medium">{trilha.nome}</span>
                     </div>
                   );

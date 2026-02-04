@@ -1,5 +1,5 @@
 <?php
-require_once "db.php";
+require_once __DIR__. '/db.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -45,12 +45,12 @@ try {
     } else {
         http_response_code(401); // Código de status "Unauthorized".
         echo json_encode([
-            "status" => "errro",
+            "status" => "erro",
             "mensagem" => "Credenciais inválidas. Verifique email e senha."
         ]);
     }
 } catch (PDOException $e) {
     // caso ocorra erro de conexão com o banco de dados.
     http_response_code(500); // código de atatus "Iternal Server Error".
-    echo json_encode(["status" => "erro", "mesagem" => "Erro no servidor."]);
+    echo json_encode(["status" => "erro", "mensagem" => "Erro no servidor."]);
 }
