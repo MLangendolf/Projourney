@@ -1,5 +1,6 @@
 //src/components/layout/header.tsx
 
+import Dropdown from "../common/dropdown"
 import SimpleLink from "../common/simpleLink"
 
 {/* Header */ }
@@ -22,6 +23,7 @@ export default function Header() {
                     <SimpleLink to="/sobre" variant="nav">
                         Sobre
                     </SimpleLink>
+                    <Dropdown label="Login" className="text-2xl font-bold" />
                 </nav>
             </div>
         </header>
