@@ -8,7 +8,6 @@ import SimpleLink from "../components/common/simpleLink"
 export default function HomePage(): JSX.Element {
     return (
         <div className=" text-white font-['Poppins',Arial,sans-serif]">
-            <ParticleBackground />
             
             <div className="m-6 flex justify-end space-x-6">
                 <SimpleLink to="/login" variant="navButton">

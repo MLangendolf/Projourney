@@ -3,7 +3,7 @@ import { JSX, useRef, useEffect } from "react"
 import { useTheme } from "./theme-provider"
 
 
-// Particle class with TypeScript 
+// Particle class 
 class Particle implements ParticleProps {
     public x: number
     public y: number
@@ -37,7 +37,7 @@ class Particle implements ParticleProps {
             this.x, this.y, this.size * 2
         )
         gradient.addColorStop(0, `rgba(250, 255, 255, ${this.opacity})`)
-        gradient.addColorStop(1, 'rgba(55, 58, 24, 0.49)')
+        gradient.addColorStop(1, 'rgba(125, 128, 94, 0.49)')
 
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
@@ -46,7 +46,7 @@ class Particle implements ParticleProps {
     }
 }
 
-// Particle system component with TypeScript
+// Particle system component
 export default function ParticleBackground(): JSX.Element {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const { theme } = useTheme()
@@ -58,7 +58,7 @@ export default function ParticleBackground(): JSX.Element {
         const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d")
         if (!ctx) return (): void => { }
 
-        // Set canvas size with TypeScript
+        // Set canvas size
         const resizeCanvas = (): void => {
             canvas.width = window.innerWidth
             canvas.height = window.innerHeight
@@ -66,13 +66,13 @@ export default function ParticleBackground(): JSX.Element {
         resizeCanvas()
         window.addEventListener("resize", resizeCanvas)
 
-        // Create particles with TypeScript
+        // Create particles
         const particles: Particle[] = []
         for (let i = 0; i < 75; i++) {
             particles.push(new Particle(canvas.width, canvas.height))
         }
 
-        // Mouse interaction with TypeScript
+        // Mouse interaction
         const mouse: MousePosition = { x: 0, y: 0 }
         const handleMouseMove = (e: MouseEvent): void => {
             mouse.x = e.clientX
@@ -80,19 +80,18 @@ export default function ParticleBackground(): JSX.Element {
         }
         canvas.addEventListener("mousemove", handleMouseMove)
 
-        // Animation loop with TypeScript
+        // Animation loop
         
         let animationFrameId: number;
 
         const animate = (): void => {
-            ctx.fillStyle = theme;
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
 
             particles.forEach((particle: Particle, i: number): void => {
                 particle.update(canvas.width, canvas.height)
                 particle.draw(ctx)
 
-                // Draw connections with TypeScript
+                // Draw connections
                 particles.slice(i + 1).forEach((otherParticle: Particle): void => {
                     const dx: number = particle.x - otherParticle.x
                     const dy: number = particle.y - otherParticle.y
@@ -108,7 +107,7 @@ export default function ParticleBackground(): JSX.Element {
                     }
                 })
 
-                // Mouse interaction with TypeScript
+                // Mouse interaction
                 const mouseDistance: number = Math.sqrt((particle.x - mouse.x) ** 2 + (particle.y - mouse.y) ** 2)
                 if (mouseDistance < 180) {
                     ctx.beginPath()
@@ -130,5 +129,5 @@ export default function ParticleBackground(): JSX.Element {
         }
     }, [theme])
 
-    return <canvas ref={canvasRef} className="fixed top-0 left-0 min-w-full h-full bg-[#08081a]" style={{ zIndex: -1 }} />
+    return <canvas ref={canvasRef} className="fixed top-0 left-0 min-w-full h-full " style={{ zIndex: -2 }} />
 }

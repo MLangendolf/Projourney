@@ -1,10 +1,57 @@
-                                                                                                  
+import { createContext, useContext, useEffect, useState } from "react"
+
+type Theme = "light" | "dark"
+
+interface ThemeContextType {
+  theme: Theme
+  toggleTheme: () => void
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>(() => {
+    const savedTheme = localStorage.getItem("theme")
+    return savedTheme === "dark" ? "dark" : "light"
+  })
+
+  useEffect(() => {
+    const root = document.documentElement
+
+    root.classList.remove("light", "dark")
+    root.classList.add(theme)
+
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === "light" ? "dark" : "light"))
+  }
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext)
+  if (!context) {
+    throw new Error("useTheme deve ser usado dentro de um ThemeProvider")
+  }
+  return context
+}
+
+
+
+/*
 import { createContext, useContext, useEffect, useState } from "react"
 
 // Define the two color themes
 const themes = {
-  light: 'rgba(65, 98, 88, 0.37)',
-  dark: 'rgba(8, 8, 20, 0.4)'
+  light: 'rgb(103, 136, 133)',
+  dark: 'hsl(240, 100%, 2%)'
 }
 
 interface ThemeContextType {
@@ -54,4 +101,4 @@ export const useTheme = () => {
   return context
 }
                                                                                                  
-                         
+*/

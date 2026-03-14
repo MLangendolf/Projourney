@@ -1,6 +1,6 @@
 //src/components/layout/header.tsx
 
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, SunMoon } from "lucide-react"
 import { useTheme } from "../effects/theme-provider"
 import SimpleLink from "../common/simpleLink"
 import { Button } from "../ui/button"
@@ -8,9 +8,6 @@ import { Button } from "../ui/button"
 {/* Header */ }
 export default function Header() {
     const { theme, toggleTheme } = useTheme()
-
-    // Define the dark theme color
-    const darkThemeColor = 'rgba(8, 8, 20, 0.4)'
 
     return (
         <header className="sticky top-0 left-0 min-w-full h-full z-50 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 pl-[75px] pr-[75px] py-2">
@@ -29,11 +26,11 @@ export default function Header() {
                     <SimpleLink to="/sobre" variant="nav">
                         Sobre
                     </SimpleLink>
-                <Button onClick={toggleTheme} variant="outline" size="icon">
-                    {theme === darkThemeColor ? (
-                        <Sun className="" />
+                <Button onClick={toggleTheme} variant="ghost" size="icon">
+                    {theme === 'dark' ? (
+                        <Sun />
                     ) : (
-                        <Moon className="" />
+                        <Moon />
                     )}
                     <span className="sr-only">Toggle theme</span>
                 </Button>
