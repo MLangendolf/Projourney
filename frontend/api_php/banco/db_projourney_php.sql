@@ -1,38 +1,28 @@
 -- CONFIGURAÇÕES:
 --
--- CREATE USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+-- CREATE USER '<userName>'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>';
 --
--- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; 
+-- ALTER USER '<userName>'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>'; 
 --
 --
 --
 
-CREATE DATABASE projourney_2;
-USE projourney_2;
+CREATE DATABASE projourney_php;
+USE projourney_php;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(60) NOT NULL,
   email VARCHAR(100) NOT NULL,
   senha VARCHAR(300) NOT NULL,
+  tipo ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+  data_nascimento DATE,
+  telefone VARCHAR(30),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT USERS_EMAIL_UNIQUE UNIQUE (email)
 );
-
-CREATE TABLE aluno (
-  id INT NOT NULL AUTO_INCREMENT,
-  nome VARCHAR(60) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  data_nascimento DATE NOT NULL,
-  telefone VARCHAR(30) NOT NULL,
-  cidade VARCHAR(100) NULL,
-  descricao VARCHAR(500) NULL,
-  area_interesse VARCHAR(100) NULL,
-  senha VARCHAR(300) NOT NULL,
-  PRIMARY KEY (id),
-  CONSTRAINT ALUNO_EMAIL_UNIQUE UNIQUE (email)
-);
-
 
 CREATE TABLE trilha (
   id INT NOT NULL AUTO_INCREMENT,
@@ -47,7 +37,7 @@ CREATE TABLE trilha_aluno (
   aluno_id INT NOT NULL,
   progresso ENUM('Inscrito', 'Cursando', 'Suspenso', 'Concluido') NOT NULL DEFAULT 'Inscrito',
   FOREIGN KEY (trilha_id) REFERENCES trilha (id),
-  FOREIGN KEY (aluno_id) REFERENCES aluno (id)
+  FOREIGN KEY (aluno_id) REFERENCES users (id)
     ON DELETE CASCADE
     ON UPDATE RESTRICT
 );
@@ -65,7 +55,7 @@ CREATE TABLE aluno_experiencia (
   aluno_id INT NOT NULL,
   PRIMARY KEY (experiencia_id, aluno_id),
   FOREIGN KEY (experiencia_id) REFERENCES experiencia (id),
-  FOREIGN KEY (aluno_id) REFERENCES aluno (id)
+  FOREIGN KEY (aluno_id) REFERENCES users (id)
       ON DELETE CASCADE 
       ON UPDATE RESTRICT
 );

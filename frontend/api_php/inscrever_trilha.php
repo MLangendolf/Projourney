@@ -30,7 +30,7 @@ if (
 $aluno_id = $dados->alunoId;
 $trilha_id = $dados->trilhaId;
 
-// 3. (Opcional, mas recomendado) Verificar se o aluno já está inscrito na trilha
+// 3. Verificar se o aluno já está inscrito na trilha
 try {
     $stmt = $pdo->prepare("SELECT * FROM trilha_aluno WHERE aluno_id = ? AND trilha_id = ?");
     $stmt->execute([$aluno_id, $trilha_id]);
@@ -48,14 +48,13 @@ try {
 
 
 // 4. Inserir o novo registro na tabela de associação
-$sql = "INSERT INTO trilha_aluno (aluno_id, trilha_id, progresso) VALUES (?, ?, ?)";
+$sql = "INSERT INTO trilha_aluno (aluno_id, trilha_id) VALUES (?, ?)";
 
 try {
     $stmt = $pdo->prepare($sql);
-    // O valor padrão 'Inscrito' é definido no banco, mas podemos ser explícitos aqui
-    $stmt->execute([$aluno_id, $trilha_id, 'Inscrito']);
+    $stmt->execute([$aluno_id, $trilha_id]);
 
-    // Retorna uma resposta de sucesso
+    // Retornar uma resposta de sucesso
     http_response_code(201 ); // Created
     echo json_encode([
         "status" => "sucesso",
@@ -63,13 +62,15 @@ try {
     ]);
 
 } catch (PDOException $e) {
-    // Trata erros de chave estrangeira (ex: alunoId ou trilhaId não existem) ou outros erros de BD
+		
     http_response_code(500 );
     // Mensagem de erro genérica para o usuário por segurança
     echo json_encode([
         "status" => "erro", 
         "mensagem" => "Não foi possível concluir a inscrição. Verifique os dados e tente novamente."
-        // "debug_info" => $e->getMessage() // Descomente apenas para depuração
+	
+	// Trata erros de chave estrangeira (ex: alunoId ou trilhaId não existem) ou outros erros do SGBD
+        // "debug_info" => $e->getMessage()      // Descomentar apenas para depuração
     ]);
 }
 ?>

@@ -9,17 +9,13 @@ import { Textarea } from "../components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 
-// Interface simplificada para os dados do formulário, correspondendo à tabela PJ_ALUNO
 interface AlunoFormData {
     nome: string;
     email: string;
     senha: string;
     confirmarSenha: string;
-    data_nascimento: string; // Usamos string no formulário para facilitar a digitação
-    telefone: string;
-    cidade: string;
-    objetivos: string; // Mapeado para a coluna 'descricao' no banco
-    areasInteresse: string[]; // Exemplo: ['frontend', 'backend']
+    data_nascimento: string; 
+    telefone: string;   
 }
 
 export default function CadastrarAlunoPage(): JSX.Element {
@@ -31,9 +27,6 @@ export default function CadastrarAlunoPage(): JSX.Element {
         confirmarSenha: "",
         data_nascimento: "",
         telefone: "",
-        cidade: "",
-        objetivos: "",
-        areasInteresse: [], // Começa vazio
     });
 
     // Estados para controlar o feedback da interface
@@ -58,7 +51,7 @@ export default function CadastrarAlunoPage(): JSX.Element {
             return;
         }
 
-        setLoading(true); // Mostra um indicador de carregamento
+        setLoading(true);
 
         try {
             // Envia os dados para a API PHP
@@ -68,16 +61,12 @@ export default function CadastrarAlunoPage(): JSX.Element {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // Enviamos apenas os dados que o script PHP espera
                 body: JSON.stringify({ // Converte os dados do formulário para JSON
                     nome: formData.nome,
                     email: formData.email,
                     senha: formData.senha,
                     data_nascimento: formData.data_nascimento,
                     telefone: formData.telefone,
-                    cidade: formData.cidade,
-                    objetivos: formData.objetivos,
-                    areasInteresse: formData.areasInteresse, // Você pode adicionar a seleção de áreas depois
                 }),
             });
 
@@ -91,7 +80,7 @@ export default function CadastrarAlunoPage(): JSX.Element {
             setSuccess(result.mensagem);
             setTimeout(() => {
                 navigate('/login'); // Redireciona para o login após o sucesso
-            }, 2000);
+            }, 500);
 
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Falha na comunicação com o servidor.';
@@ -119,7 +108,7 @@ export default function CadastrarAlunoPage(): JSX.Element {
                     <CardHeader>
                         <CardTitle className="text-3xl text-white">Crie sua Conta</CardTitle>
                         <CardDescription className="text-gray-400">
-                            Preencha os campos abaixo para iniciar sua jornada.
+                            Preencha os campos abaixo para criar sua conta.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="text-white">
@@ -143,21 +132,13 @@ export default function CadastrarAlunoPage(): JSX.Element {
                                     <Input id="confirmarSenha" type="password" value={formData.confirmarSenha} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
                                 </div>
                                 <div>
-                                    <Label htmlFor="data_nascimento">Data de nascimento *</Label>
-                                    <Input id="data_nascimento" type="date" value={formData.data_nascimento} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                    <Label htmlFor="data_nascimento">Data de nascimento (opicional)</Label>
+                                    <Input id="data_nascimento" type="date" value={formData.data_nascimento} onChange={handleChange} className="bg-gray-700 border-gray-600" />
                                 </div>
                                 <div>
-                                    <Label htmlFor="telefone">Telefone *</Label>
-                                    <Input id="telefone" type="tel" value={formData.telefone} onChange={handleChange} required placeholder="(11) 99999-9999" className="bg-gray-700 border-gray-600" />
+                                    <Label htmlFor="telefone">Telefone (opicional)</Label>
+                                    <Input id="telefone" type="tel" value={formData.telefone} onChange={handleChange} placeholder="(11) 99999-9999" className="bg-gray-700 border-gray-600" />
                                 </div>
-                            </div>
-                            <div>
-                                <Label htmlFor="cidade">Cidade (Opcional)</Label>
-                                <Input id="cidade" value={formData.cidade} onChange={handleChange} className="bg-gray-700 border-gray-600" />
-                            </div>
-                            <div>
-                                <Label htmlFor="objetivos">Descreva seus objetivos (Opcional)</Label>
-                                <Textarea id="objetivos" value={formData.objetivos} onChange={handleChange} placeholder="Ex: Conseguir meu primeiro emprego como dev front-end." className="bg-gray-700 border-gray-600" />
                             </div>
 
                             {/* Botão de Envio e Feedback */}

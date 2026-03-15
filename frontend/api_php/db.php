@@ -4,7 +4,7 @@
 $servidor = "localhost:3306";
 $usuario_bd = "root";
 $senha_bd = "root";
-$banco = "projourney_2"; 
+$banco = "projourney_php"; 
 
 try {
     $pdo = new PDO("mysql:host=$servidor;dbname=$banco;charset=utf8", $usuario_bd, $senha_bd);

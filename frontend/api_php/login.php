@@ -16,14 +16,14 @@ $dados = json_decode(file_get_contents("php://input"));
 // Validação simples para garantir dados não vasios.
 if (empty($dados->email) || empty($dados->password)) {
     http_response_code(400); // Define o código de status HTTP para "Bad Request".
-    echo json_encode(["status" => "erro", "mensagem" => "E-mail e senhas são obrigatórios."]);
+    echo json_encode(["status" => "erro", "mensagem" => "E-mail e senha são obrigatórios."]);
     exit();
 }
 
 // Inicia um bloco try...catch (tentar...pegar) para capiturar erros do Banco de Dados.
 try {
     // prepara uma consulta SQL segura...
-    $stmt = $pdo->prepare(" SELECT id, nome, senha FROM aluno WHERE email = ?");
+    $stmt = $pdo->prepare(" SELECT id, nome, senha FROM users WHERE email = ?");
     // executa a consulta. 
     $stmt->execute([$dados->email]);
 

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.43, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.45, for Linux (x86_64)
 --
--- Host: localhost    Database: projourney_2
+-- Host: localhost    Database: projourney_php
 -- ------------------------------------------------------
--- Server version	8.0.43-0ubuntu0.24.04.2
+-- Server version	8.0.45-0ubuntu0.24.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -15,37 +15,10 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `aluno`
---
 
-DROP TABLE IF EXISTS `aluno`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `aluno` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(60) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `data_nascimento` date NOT NULL,
-  `telefone` varchar(30) NOT NULL,
-  `cidade` varchar(100) DEFAULT NULL,
-  `descricao` varchar(500) DEFAULT NULL,
-  `area_interesse` varchar(100) DEFAULT NULL,
-  `senha` varchar(300) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ALUNO_EMAIL_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+CREATE DATABASE projourney_php;
+USE projourney_php;
 
---
--- Dumping data for table `aluno`
---
-
-LOCK TABLES `aluno` WRITE;
-/*!40000 ALTER TABLE `aluno` DISABLE KEYS */;
-INSERT INTO `aluno` VALUES (1,'José Oliveira.','exemplo@gmail.com','1998-06-25','81998989898','Recife-PE','','','$argon2id$v=19$m=65536,t=4,p=1$QnI5RmVWdkIuVnNLZ2ZUbQ$GAjbkobb7KeSZ/VNT6O6I3p6qD5FQk1cfWfjlSwo/JQ'),(2,'MAVIAEL OLIVEIRA DE MELO','exemplo1@gmail.com','1999-10-10','81998982298','Igarassu','Testando...','','$argon2id$v=19$m=65536,t=4,p=1$djdROHlKTktaNk1WbGt3TA$060dunIJbFntSV7Z/Ob4jHnrlYpsYoVMP3vM3d50yV4'),(3,'Ana Lúcia.','exemplo2@gmail.com','2000-02-22','11988888888','Recife-PE','','','$argon2id$v=19$m=65536,t=4,p=1$OHVYc3VnQXc2Mk1OcDBCMg$Tvt224j1JsZw7iCs0UK8bCsSXpiTSiNaAv6cpL/NZgo');
-/*!40000 ALTER TABLE `aluno` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `aluno_experiencia`
@@ -60,7 +33,7 @@ CREATE TABLE `aluno_experiencia` (
   PRIMARY KEY (`experiencia_id`,`aluno_id`),
   KEY `aluno_id` (`aluno_id`),
   CONSTRAINT `aluno_experiencia_ibfk_1` FOREIGN KEY (`experiencia_id`) REFERENCES `experiencia` (`id`),
-  CONSTRAINT `aluno_experiencia_ibfk_2` FOREIGN KEY (`aluno_id`) REFERENCES `aluno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+  CONSTRAINT `aluno_experiencia_ibfk_2` FOREIGN KEY (`aluno_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -187,7 +160,7 @@ CREATE TABLE `trilha_aluno` (
   KEY `trilha_id` (`trilha_id`),
   KEY `aluno_id` (`aluno_id`),
   CONSTRAINT `trilha_aluno_ibfk_1` FOREIGN KEY (`trilha_id`) REFERENCES `trilha` (`id`),
-  CONSTRAINT `trilha_aluno_ibfk_2` FOREIGN KEY (`aluno_id`) REFERENCES `aluno` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+  CONSTRAINT `trilha_aluno_ibfk_2` FOREIGN KEY (`aluno_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -197,7 +170,6 @@ CREATE TABLE `trilha_aluno` (
 
 LOCK TABLES `trilha_aluno` WRITE;
 /*!40000 ALTER TABLE `trilha_aluno` DISABLE KEYS */;
-INSERT INTO `trilha_aluno` VALUES (5,2,'Concluido'),(8,1,'Inscrito'),(7,1,'Inscrito'),(4,1,'Inscrito');
 /*!40000 ALTER TABLE `trilha_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,9 +185,14 @@ CREATE TABLE `users` (
   `nome` varchar(60) NOT NULL,
   `email` varchar(100) NOT NULL,
   `senha` varchar(300) NOT NULL,
+  `tipo` enum('admin','user') NOT NULL DEFAULT 'user',
+  `data_nascimento` date DEFAULT NULL,
+  `telefone` varchar(30) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `USERS_EMAIL_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -224,6 +201,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'admin','admin@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$1KAOOnHG1L2dpqOaV9Wdpw$JBasxz0RhKgyYR7YllvIhSRmwF/GF0MO+l/Uny6qcwg','user',NULL,'','2026-03-14 20:03:07','2026-03-14 20:03:07');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -236,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-30 13:11:12
+-- Dump completed on 2026-03-15 17:32:13
