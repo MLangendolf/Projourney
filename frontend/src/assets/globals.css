@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
 body {
   font-family: "Poppins", Arial, Helvetica, sans-serif;
   margin: 0;
 }
+
+
 
 @layer utilities {
   .text-balance {
@@ -15,8 +20,8 @@ body {
 
 @layer base {
   :root {
-
-    --background: 197 37% 24;
+    --teste: hsl(147, 71%, 34%);
+    --background: 148, 50%, 80%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -51,7 +56,9 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 240 100% 2%;
+    
+    --teste: #04021b;
+    --background: 0 100% 2%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -86,11 +93,13 @@ body {
   }
 }
 
+
+
 @layer base {
   * {
-    @apply border-[color:var(--border)];
-    box-sizing: border-box;
-  }
+    @apply border-[color:var(--border)] ;
+    box-sizing: var(--radius)
+  } 
   body {
     @apply bg-background text-foreground;
   }

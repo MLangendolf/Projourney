@@ -3,11 +3,11 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", //  todos os seus arquivos React/TypeScript dentro de src
+    "./src/**/*.{js,ts,jsx,tsx}", //  todos os arquivos React/TypeScript dentro de src
   ],
   theme: {
     extend: {
-      colors: {
+      colors: {              
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

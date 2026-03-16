@@ -8,7 +8,7 @@ import ParticleBackground from '../effects/particlebackground';
 export default function Layout() {
     return (
         <>
-        <div className="min-h-screen bg-background text-foreground relative z-[0]">
+        <div className="min-h-screen relative z-[0]">
             <ParticleBackground />
             <Header />
 

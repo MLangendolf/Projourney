@@ -204,9 +204,9 @@ export const CourseDetailPage: React.FC = () => {
         <InteractiveButton
           href="/cursos"
           variant="nav"
-          className="mb-6"
+          className=""
         >
-          ← Voltar para lista de cursos
+           Voltar para lista de cursos
         </InteractiveButton>
 
         <div className="bg-blue-900/40 backdrop-blur-md border border-blue-500/30 rounded-lg overflow-hidden">
