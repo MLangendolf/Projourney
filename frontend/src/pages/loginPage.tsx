@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import type React from "react"
 import { Button } from "../components/ui/button"
@@ -8,6 +7,8 @@ import ParticleBackground from "@/components/effects/particlebackground"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 import { ArrowLeft, Eye, EyeOff, Lock, Mail, Github, Chrome } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"  // Mudança do 'next/link' para o 'react-router-dom"
+import SimpleLink from "../components/common/simpleLink"
+import InteractiveButton from "../components/common/interactive-button";
 import type { JSX } from "react/jsx-runtime"
 
 interface LoginFormData {
@@ -39,14 +40,14 @@ export default function LoginPage(): JSX.Element {
             const response = await fetch('http://localhost:8000/login.php', {
                 method: 'POST',
                 headers: {
-                    'Content-Type' : 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                   email: formData.email,
-                   password: formData.password,
+                    email: formData.email,
+                    password: formData.password,
                 }),
             })
-            
+
             const result = await response.json()
 
             if (!response.ok) {
@@ -54,12 +55,12 @@ export default function LoginPage(): JSX.Element {
             }
 
             alert(result.mensagem)
-            
+
             // Guarda os dados do usuário no navegador para 'lembrar' que está logado.
             localStorage.setItem('usuarioLogado', JSON.stringify(result.dados_usuario))
 
 
-             navigate('/perfil')
+            navigate('/perfil')
 
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'falha na comunicação.';
@@ -76,39 +77,37 @@ export default function LoginPage(): JSX.Element {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="centralize">
             <ParticleBackground />
-
-            <div className="w-full max-w-md relative z-10">
-                {/* Header */}
-                <div className="mb-8">
-                    <Link
+            <div>
+                <div className="divCard">
+                    <SimpleLink
                         to="/"
-                        className="flex items-center space-x-3 mb-6 text-[#00aaff] hover:text-blue-300 transition-colors"
+                        variant="navLink"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         <span className="text-lg font-semibold">Voltar ao início</span>
-                    </Link>
-                    <div className="text-center">
-                        <h1 className="text-4xl font-bold text-white mb-2">Bem-vindo de volta!</h1>
-                        <p className="text-gray-400">Entre na sua conta para continuar aprendendo</p>
-                    </div>
+                    </SimpleLink>
+                </div>
+                <div>
+                    <h1 className="title">Bem-vindo de volta!</h1>
+                    <p className="divCard">Entre na sua conta para continuar aprendendo</p>
                 </div>
 
                 {/* Login  */}
-                <Card className="bg-gray-900/50 border-gray-700 backdrop-blur-sm">
+                <Card className="card1">
                     <CardHeader className="space-y-1">
-                        <CardTitle className="text-2xl text-white flex items-center gap-2">
-                            <Lock className="w-6 h-6 text-blue-400" />
+                        <CardTitle className="title">
+                            <Lock/>
                             Entrar na Conta
                         </CardTitle>
-                        <CardDescription className="text-gray-300">Digite suas credenciais para acessar sua conta</CardDescription>
+                        <CardDescription>Digite suas credenciais para acessar sua conta</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <form onSubmit={handleSubmit} className="space-y-4">
                             {/* quando o email da erro*/}
                             <div className="space-y-2">
-                                <Label htmlFor="email" className="text-white">
+                                <Label htmlFor="email" className="textCard2">
                                     E-mail *
                                 </Label>
                                 <div className="relative">
@@ -129,7 +128,7 @@ export default function LoginPage(): JSX.Element {
 
                             {/* senha errada */}
                             <div className="space-y-2">
-                                <Label htmlFor="password" className="text-white">
+                                <Label htmlFor="password" className="textCard2">
                                     Senha *
                                 </Label>
                                 <div className="relative">
@@ -183,10 +182,11 @@ export default function LoginPage(): JSX.Element {
                             )}
 
                             {/* Login Button */}
-                            <Button
+                            <InteractiveButton
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-3 transition-all duration-300"
+                                variant="primary"
+                                as="button" // Specify that this should render as a button
                             >
                                 {isLoading ? (
                                     <div className="flex items-center space-x-2">
@@ -196,50 +196,15 @@ export default function LoginPage(): JSX.Element {
                                 ) : (
                                     "Entrar"
                                 )}
-                            </Button>
+                            </InteractiveButton>
                         </form>
-
-                        {/* Divider */}
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center">
-                                <span className="w-full border-t border-gray-600" />
-                            </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-gray-900 px-2 text-gray-400">Ou continue com</span>
-                            </div>
-                        </div>
-
-                        {/* Social Login */}
-                        <div className="grid grid-cols-2 gap-3">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={(): void => handleSocialLogin("Google")}
-                                className="bg-gray-800 border-gray-600 text-white hover:bg-gray-700 transition-colors"
-                            >
-                                <Chrome className="w-4 h-4 mr-2" />
-                                Google
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                onClick={(): void => handleSocialLogin("GitHub")}
-                                className="bg-gray-800 border-gray-600 text-white hover:bg-gray-700 transition-colors"
-                            >
-                                <Github className="w-4 h-4 mr-2" />
-                                GitHub
-                            </Button>
-                        </div>
-
-                        {/* Sign Up Link */}
-                        <div className="text-center">
-                            <p className="text-gray-400">
-                                Não tem uma conta?{" "}
-                                <Link to="/cadastrar" className="text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+                    
+                            <p className="divCard">
+                                Não tem uma conta?
+                                <SimpleLink to="/cadastrar" variant="navLink">
                                     Cadastre-se aqui
-                                </Link>
+                                </SimpleLink>
                             </p>
-                        </div>
                     </CardContent>
                 </Card>
 
@@ -262,3 +227,4 @@ export default function LoginPage(): JSX.Element {
         </div>
     )
 }
+

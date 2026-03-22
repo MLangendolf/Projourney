@@ -149,12 +149,12 @@ export default function TrilhasPage(): React.JSX.Element {
           <nav className="flex items-center justify-between space-x-6">
             <div className="flex items-center space-x-4">
               {localStorage.getItem('usuarioLogado') ? (
-                <SimpleLink to="/perfil" variant="nav">
+                <SimpleLink to="/perfil" variant="navLink">
                   <ArrowLeft className="w-5 h-5" />
                   Início
                 </SimpleLink>
               ) : (
-                <SimpleLink to="/" variant="nav">
+                <SimpleLink to="/" variant="navLink">
                   Início
                 </SimpleLink>
               )}

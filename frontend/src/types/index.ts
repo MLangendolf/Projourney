@@ -34,7 +34,7 @@ export interface RippleProps {
 export interface InteractiveButtonProps {
   href: string
   children: React.ReactNode
-  variant?: "primary" | "outline" | "nav" | "navButton"
+  variant?: "primary" | "outline" | "navLink" | "navButton"
   className?: string
 }
 

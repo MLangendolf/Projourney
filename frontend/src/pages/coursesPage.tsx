@@ -16,7 +16,6 @@ interface Course {
   instructor: string;
   image: string;
   level: string;
-  isEnrolled: boolean;
 }
 
 // Função de utilidade para cores das categorias
@@ -30,8 +29,6 @@ const getCategoryColor = (category: string): string => {
   return colors[category] || 'bg-purple-600';
 };
 
-
-
 // Mock de dados dos cursos
 const mockCourses: Course[] = [
   {
@@ -44,7 +41,6 @@ const mockCourses: Course[] = [
     instructor: 'Prof. Dr. João Silva',
     image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop',
     level: 'Intermediário',
-    isEnrolled: false
   },
   {
     id: 2,
@@ -56,7 +52,6 @@ const mockCourses: Course[] = [
     instructor: 'Prof. Dra. Maria Santos',
     image: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=2070&auto=format&fit=crop',
     level: 'Avançado',
-    isEnrolled: false
   },
   {
     id: 3,
@@ -68,7 +63,6 @@ const mockCourses: Course[] = [
     instructor: 'Prof. Dr. Carlos Oliveira',
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop',
     level: 'Iniciante',
-    isEnrolled: false
   },
   {
     id: 4,
@@ -80,7 +74,6 @@ const mockCourses: Course[] = [
     instructor: 'Prof. Ana Costa',
     image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop',
     level: 'Intermediário',
-    isEnrolled: false
   }
 ];
 
@@ -89,7 +82,7 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-blue-900/40 backdrop-blur-md border border-blue-500/30 rounded-lg overflow-hidden hover:bg-blue-800/40 transition-colors">
+    <div className="card1">
 
       <div className="relative">
         <img
@@ -105,28 +98,21 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
             {course.level}
           </span>
         </div>
-        {course.isEnrolled && (
-          <div className="absolute top-4 right-4">
-            <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm">
-              Inscrito
-            </span>
-          </div>
-        )}
       </div>
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-white mb-2">{course.title}</h3>
-        <p className="text-gray-300 mb-4">{course.description}</p>
-        <div className="flex items-center justify-between text-sm text-gray-300 mb-4">
+      <div className="">
+        <h3 className="title">{course.title}</h3>
+        <p className="divCard">{course.description}</p>
+        <div className="divCard">
           <span>{course.duration}</span>
           <span>{course.institution}</span>
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-300">{course.instructor}</span>
+        <div className="divCard">
+          <span>{course.instructor}</span>
           <InteractiveButton
             href={`/cursos/${course.id}`}
             variant="primary"
           >
-            {course.isEnrolled ? 'Acessar curso' : 'Ver detalhes'}
+            Ver Detalhes
           </InteractiveButton>
         </div>
       </div>
@@ -149,20 +135,11 @@ export const CourseDetailPage: React.FC = () => {
     }
   }, [id]);
 
-  const handleEnrollment = () => {
-    if (course) {
-      setCourse({
-        ...course,
-        isEnrolled: true
-      });
-    }
-  };
-
   if (!course) {
     return (
-      <div className="min-h-screen  flex items-center justify-center font-['Poppins',Arial,sans-serif]">
+      <div className="min-h-screen  flex items-center justify-center">
         <div className="text-center">
-          <div className="text-white text-xl mb-4">Curso não encontrado</div>
+          <div className="title">Não há curso publicado recentemente.</div>
           <InteractiveButton
             href="/cursos"
             variant="primary"
@@ -175,41 +152,37 @@ export const CourseDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen  text-white overflow-x-hidden font-['Poppins',Arial,sans-serif]">
+    <>
       <ParticleBackground />
       {/* Header */}
-      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
+      <header className="header z-[40]">
 
-        <div className="flex items-center justify-between mx-auto">
-          <h1 className="text-2xl font-bold text-[#00aaff]">Curssos Publicados</h1>
-          <nav className="flex items-center justify-between space-x-6">
-            <div className="flex items-center space-x-4">
-              {localStorage.getItem('usuarioLogado') ? (
-                <SimpleLink to="/perfil" variant="nav">
-                  <ArrowLeft className="w-5 h-5" />
-                  Início
-                </SimpleLink>
-              ) : (
-                <SimpleLink to="/" variant="nav">
-                  Início
-                </SimpleLink>
-              )}
-            </div>
-          </nav>
-        </div>
+        <h1 className="title">Cursos Publicados</h1>
+        <nav>
+            {localStorage.getItem('usuarioLogado') ? (
+              <SimpleLink to="/perfil" variant="navLink">
+                <ArrowLeft className="w-5 h-5" />
+                Início
+              </SimpleLink>
+            ) : (
+              <SimpleLink to="/" variant="navLink">
+                <ArrowLeft className="w-5 h-5" />
+                Início
+              </SimpleLink>
+            )}
+        </nav>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-8 py-12">
+      <main className="centralize">
         <InteractiveButton
           href="/cursos"
-          variant="nav"
-          className=""
+          variant="navLink"
         >
-           Voltar para lista de cursos
+          Voltar para lista de cursos
         </InteractiveButton>
 
-        <div className="bg-blue-900/40 backdrop-blur-md border border-blue-500/30 rounded-lg overflow-hidden">
+        <div className="card1">
           <img
             src={course.image}
             alt={course.title}
@@ -223,30 +196,25 @@ export const CourseDetailPage: React.FC = () => {
               <span className="bg-blue-900/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm">
                 {course.level}
               </span>
-              {course.isEnrolled && (
-                <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm">
-                  Inscrito
-                </span>
-              )}
             </div>
-            <h1 className="text-3xl font-bold text-white mb-4">{course.title}</h1>
-            <p className="text-gray-300 text-lg mb-6">{course.description}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <h1 className="title">{course.title}</h1>
+            <p className="">{course.description}</p>
+            <div className="containerGrid">
               <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
-                <h3 className="text-white font-semibold mb-2">Duração</h3>
-                <p className="text-gray-300">{course.duration}</p>
+                <h3 className="textCard2">Duração</h3>
+                <p>{course.duration}</p>
               </div>
               <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
-                <h3 className="text-white font-semibold mb-2">Instituição</h3>
-                <p className="text-gray-300">{course.institution}</p>
+                <h3 className="textCard2">Instituição</h3>
+                <p>{course.institution}</p>
               </div>
               <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
-                <h3 className="text-white font-semibold mb-2">Instrutor</h3>
-                <p className="text-gray-300">{course.instructor}</p>
+                <h3 className="textCard2">Instrutor</h3>
+                <p>{course.instructor}</p>
               </div>
               <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
-                <h3 className="text-white font-semibold mb-2">Nível</h3>
-                <p className="text-gray-300">{course.level}</p>
+                <h3 className="textCard2">Nível</h3>
+                <p>{course.level}</p>
               </div>
             </div>
             <div className="flex justify-center">
@@ -255,44 +223,40 @@ export const CourseDetailPage: React.FC = () => {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 };
 
 // Página Principal de Cursos
 export const CoursesPage: React.FC = () => {
   return (
-    <div className=" text-white font-['Poppins',Arial,sans-serif]">
+    <div>
       <ParticleBackground />
       {/* Header */}
-      <header className="bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4 sticky top-0 z-10">
+      <header className="header z-[40]">
 
-        <div className="flex items-center justify-between mx-auto">
-          <h1 className="text-2xl font-bold text-[#00aaff]">Curssos Publicados</h1>
-          <nav className="flex items-center justify-between space-x-6">
-            <div className="flex items-center space-x-4">
-              {localStorage.getItem('usuarioLogado') ? (
-                <SimpleLink to="/perfil" variant="nav">
-                  <ArrowLeft className="w-5 h-5" />
-                  Início
-                </SimpleLink>
-              ) : (
-                <SimpleLink to="/" variant="nav">
-                  Início
-                </SimpleLink>
-              )}
-            </div>
-          </nav>
-        </div>
+        <h1 className="title">Cursos Publicados</h1>
+        <nav>
+          {localStorage.getItem('usuarioLogado') ? (
+            <SimpleLink to="/perfil" variant="navLink">
+              <ArrowLeft className="w-5 h-5" />
+              Início
+            </SimpleLink>
+          ) : (
+            <SimpleLink to="/" variant="navLink">
+              <ArrowLeft className="w-5 h-5" />
+              Início
+            </SimpleLink>
+          )}
+        </nav>
+
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mockCourses.map(course => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </div>
+      <main className="containerGrid">
+        {mockCourses.map(course => (
+          <CourseCard key={course.id} course={course} />
+        ))}
       </main>
     </div>
   );

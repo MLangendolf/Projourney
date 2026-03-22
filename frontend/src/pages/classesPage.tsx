@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Loader2, AlertCircle, ExternalLink, LogOut } from 'lucide-react';
 import SimpleLink from "../components/common/simpleLink";
-import ParticleBackground from '../components/effects/particlebackground';  
+import ParticleBackground from '../components/effects/particlebackground';
 
 // Interface para tipar os dados do curso que vêm da API
 interface Curso {
@@ -76,18 +76,17 @@ export default function AulasPage(): React.JSX.Element {
         <div className=" text-white">
             <ParticleBackground />
 
-            {/* Header */}
             <header className="sticky top-0 bg-blue-900/40 backdrop-blur-md border-b border-blue-500/30 px-[90px] py-4">
                 <div className="flex justify-between items-center">
-                        <h1 className="text-2xl font-bold text-white">Cursos da Trilha</h1>
+                    <h1 className="text-2xl font-bold text-white">Cursos da Trilha</h1>
                     <nav className="flex items-center justify-between space-x-6">
                         <div className="flex items-center space-x-4">
                             {localStorage.getItem('usuarioLogado') ? (
-                                <SimpleLink to="/perfil" variant="nav">
+                                <SimpleLink to="/perfil" variant="navLink">
                                     Início
                                 </SimpleLink>
                             ) : (
-                                <SimpleLink to="/" variant="nav">
+                                <SimpleLink to="/" variant="navLink">
                                     Início
                                 </SimpleLink>
                             )}

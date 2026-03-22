@@ -20,10 +20,19 @@ body {
 
 @layer base {
   :root {
-    --teste: hsl(147, 71%, 34%);
-    --background: 148, 50%, 80%;
+    --teste: hsl(209, 94%, 44%);;
+    --background: 0, 0%, 80%;
     --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
+    --header: 209, 56%, 59%, 0.5;
+    --particle1: 214, 98%, 46%;
+    --particle2: 0, 0%, 0%;
+    --particle3: 0, 0%, 0%;
+    --particle4: 0, 0%, 0%;
+    --button-1: 256, 78%, 53%;
+    --button-1-foreground: 221, 83%, 53%;
+    --button-2: 229, 90%, 16%;
+    --button-2-foreground: 209, 94%, 44%;
+    --card: 221, 39%, 11%, 0.50;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
@@ -55,12 +64,22 @@ body {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
-    
-    --teste: #04021b;
+
+    --teste: hsl(0, 0%, 0%);
     --background: 0 100% 2%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    --header: 224, 64%, 33%, 0.4;
+    --particle1: 61, 100%, 86%, 0.6;
+    --particle2: 0, 0%, 100%;
+    --particle3: 0, 0%, 100%;
+    --particle4: 0, 0%, 100%;
+    --button-1: 221, 83%, 53%;
+    --button-1-foreground: 200, 100%, 50%;
+    --button-2: 200, 100%, 50%;
+    --button-2-foreground: 200, 100%, 70%;
+    --card: 0, 0%, 0%, 0.3;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -94,13 +113,93 @@ body {
 }
 
 
-
-@layer base {
-  * {
-    @apply border-[color:var(--border)] ;
-    box-sizing: var(--radius)
-  } 
+@layer components {
   body {
     @apply bg-background text-foreground;
+  }
+
+  .header {
+    background-color: hsl(var(--header));
+    @apply sticky top-0 left-0 min-w-full h-full z-50 backdrop-blur-md border-b border-blue-500/30 pl-[75px] pr-[75px] flex justify-between items-center;
+  }
+
+  /* buttons */
+  .buttonPrimary {
+    background-color: hsl(var(--button-1));
+    @apply text-white px-4 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 ease-in-out flex;
+  }
+
+  .buttonPrimary:hover {
+    background-color: hsl(var(--button-1-foreground));
+    @apply px-5 shadow-[#177687];
+  }
+
+  .buttonLink {
+    color: hsl(var(--button-2));
+    @apply m-5 font-semibold border-b-2 border-transparent items-center gap-2 flex;
+  }
+
+  .buttonLink:hover {
+    color: hsl(var(--button-2-foreground));
+    border-bottom-color: hsl(var(--button-2-foreground));
+    @apply transition-colors
+  }
+
+  .buttonOutline {
+    border: 2px solid hsl(var(--button-2));
+    color: hsl(var(--button-2));
+    @apply font-semibold px-9 py-4 rounded-full flex;
+  }
+
+  .buttonOutline:hover {
+    background-color: hsl(var(--button-2));
+    color: white;
+    @apply transition-colors
+  }
+
+  .buttonNav {
+    background-color: hsl(var(--button-1));
+    @apply text-white px-4 py-2 rounded-md font-semibold flex;
+  }
+
+  .buttonNav:hover {
+    background-color: hsl(var(--button-1-foreground));
+    @apply transition-colors
+  }
+
+  /* texts */
+  .textBanner {
+    @apply text-5xl md:text-6xl font-bold mb-6 max-w-4xl;
+  }
+
+  .title {
+    @apply text-3xl font-bold m-2 ;
+    color: hsl(var(--button-2));
+  }
+
+  .textCard {
+    @apply text-xl font-semibold my-2 max-w-2xl leading-relaxed  ;
+  }
+
+  .textCard2 {
+    @apply  font-semibold my-2 max-w-2xl leading-relaxed  ;
+  }
+
+  /* Indentation */
+  .divCard {
+    @apply flex items-center p-2 justify-between
+  }
+
+  .card1 {
+    background-color: hsl(var(--card));
+    @apply   p-2 border-2 border-gray-700 text-white rounded-lg 
+  }
+
+  .centralize {
+    @apply m-[5%] p-[2%] flex flex-col items-center justify-center px-8 py-24 text-center;
+  }
+
+  .containerGrid {
+    @apply mx-auto px-10 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8
   }
 }
