@@ -20,9 +20,9 @@ interface TrilhaInscrita {
 
 // Mapeamento de cores para os status
 const statusColors: { [key: string]: string } = {
-    Inscrito: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+    Inscrito: 'bg-blue-700/20 text-blue-300 border-blue-500/30',
     Cursando: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-    Suspenso: 'bg-gray-500/20 text-gray-300 border-gray-500/30',
+    Suspenso: 'bg-gray-100/20 text-gray-300 border-gray-500/30',
     Concluido: 'bg-green-500/20 text-green-300 border-green-500/30',
 };
 
@@ -109,32 +109,29 @@ export default function PerfilPage(): React.JSX.Element {
 
     if (status === 'error' || !usuario) {
         return (
-            <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center text-white p-4">
+            <div className="centralize">
                 <AlertCircle className="w-16 h-16 text-red-400 mb-4" />
-                <h1 className="text-2xl font-bold mb-2">Ocorreu um Erro</h1>
-                <p className="text-gray-400 mb-6">{feedback || "Não foi possível carregar os dados do perfil."}</p>
-                <button onClick={() => navigate('/login')} className="bg-blue-600 px-6 py-2 rounded-lg">Voltar para o Login</button>
+                <h1 className="textCard">Ocorreu um Erro</h1>
+                <p>{feedback || "Não foi possível carregar os dados do perfil."}</p>
+                <button onClick={() => navigate('/login')} className="buttonPrimary">Voltar para o Login</button>
             </div>
         );
     }
 
     return (
 
-        
-        <div className=" text-white">
+        <>
             <ParticleBackground />
-
-
-            <div className="max-w-5xl mx-auto p-4 sm:p-8">
+            <div className="max-w-6xl mx-auto p-4 sm:p-8">
                 {/* Cabeçalho do Perfil */}
                 
-                <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10">
+                <header className="itemsJustify">
                     <div>
-                        <h1 className="text-4xl font-bold text-white">Olá, {usuario.nome.split(' ')[0]}!</h1>
-                        <p className="text-gray-400 mt-2">Aqui está o resumo da sua jornada de aprendizado.</p>
+                        <h1 className="title text-5xl">Olá, {usuario.nome.split(' ')[0]}!</h1>
+                        <p className="">Aqui está o resumo da sua jornada de aprendizado.</p>
                     </div>
 
-                <button onClick={handleLogout} className="mt-4 sm:mt-0 flex items-center gap-2 bg-yellow-600/80 hover:bg-yellow-600 px-4 py-2 rounded-lg text-sm font-semibold">
+                <button onClick={handleLogout} className="buttonNav">
                     <LogOut size={16} />
                     Sair
                 </button>
@@ -143,20 +140,20 @@ export default function PerfilPage(): React.JSX.Element {
 
                 {/* Seção de Trilhas */}
                 <section>
-                    <h2 className="text-2xl font-semibold flex items-center gap-3 mb-6">
+                    <h2 className="textCard itemsJustify2">
                         <BookOpen className="text-blue-400" />
                         Minhas Trilhas
                     </h2>
 
                     {trilhas.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="containerGrid ">
                             {trilhas.map(trilha => (
-                                <div key={trilha.id} className="bg-gray-800/50 border border-gray-700 rounded-lg p-5 flex flex-col justify-between">
+                                <div key={trilha.id} className="card1">
                                     <div>
-                                        <h3 className="text-xl font-bold text-white mb-2">
+                                        <h3 className="textCard3">
                                             <Link
                                                 to={`/aulas/${trilha.id}`}
-                                                className="transition-colors duration-300 hover:text-blue-400 hover:underline"
+                                                className="textLink"
                                             >
                                                 {trilha.nome}
                                             </Link>
@@ -167,16 +164,16 @@ export default function PerfilPage(): React.JSX.Element {
                                     </div>
                                     <div className="mt-6 relative">
                                         <details className="group">
-                                            <summary className="list-none flex items-center justify-end gap-2 cursor-pointer text-gray-400 hover:text-white">
+                                            <summary className=" itemsJustify2 justify-end textLink">
                                                 <span>Alterar Status</span>
                                                 <MoreVertical size={20} />
                                             </summary>
-                                            <div className="absolute right-0 bottom-full mb-2 w-48 bg-gray-700 border border-gray-600 rounded-lg shadow-lg z-10 hidden group-open:block">
+                                            <div className=" dropDown">
                                                 {Object.keys(statusColors).map(statusKey => (
                                                     <button
                                                         key={statusKey}
                                                         onClick={() => handleProgressoChange(trilha.id, statusKey as TrilhaInscrita['progresso'])}
-                                                        className="w-full text-left px-4 py-2 hover:bg-gray-600 first:rounded-t-lg last:rounded-b-lg"
+                                                        className="centralize2"
                                                     >
                                                         {statusKey}
                                                     </button>
@@ -188,16 +185,16 @@ export default function PerfilPage(): React.JSX.Element {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center border-2 border-dashed border-gray-700 rounded-lg p-12">
-                            <h3 className="text-xl font-semibold text-gray-300">Você ainda não se inscreveu em nenhuma trilha.</h3>
-                            <p className="text-gray-500 mt-2">Que tal começar uma nova jornada?</p>
-                            <Link to="/trilhas" className="mt-6 inline-block bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-bold">
+                        <div className=" centralize card2">
+                            <h3 className="textCard2">Você ainda não se inscreveu em nenhuma trilha.</h3>
+                            <p className="">Que tal começar uma nova jornada?</p>
+                            <Link to="/trilhas" className="buttonOutline">
                                 Explorar Trilhas
                             </Link>
                         </div>
                     )}
                 </section>
             </div>
-        </div>
+        </>
     );
 }

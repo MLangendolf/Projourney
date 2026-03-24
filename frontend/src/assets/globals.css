@@ -20,7 +20,7 @@ body {
 
 @layer base {
   :root {
-    --teste: hsl(209, 94%, 44%);;
+    --teste: hsl(194, 94%, 25%);
     --background: 0, 0%, 80%;
     --foreground: 0 0% 3.9%;
     --header: 209, 56%, 59%, 0.5;
@@ -28,12 +28,12 @@ body {
     --particle2: 0, 0%, 0%;
     --particle3: 0, 0%, 0%;
     --particle4: 0, 0%, 0%;
-    --button-1: 256, 78%, 53%;
+    --button-1: 194, 94%, 25%;
     --button-1-foreground: 221, 83%, 53%;
-    --button-2: 229, 90%, 16%;
+    --button-2: 229, 87%, 25%;
     --button-2-foreground: 209, 94%, 44%;
     --card: 221, 39%, 11%, 0.50;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 215, 25%, 35%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
     --primary: 0 0% 9%;
@@ -67,7 +67,7 @@ body {
 
   .dark {
 
-    --teste: hsl(0, 0%, 0%);
+    --teste: #076e18;
     --background: 0 100% 2%;
     --foreground: 0 0% 98%;
     --header: 224, 64%, 33%, 0.4;
@@ -80,7 +80,7 @@ body {
     --button-2: 200, 100%, 50%;
     --button-2-foreground: 200, 100%, 70%;
     --card: 0, 0%, 0%, 0.3;
-    --card-foreground: 0 0% 98%;
+    --card-foreground: 199, 57%, 22%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
@@ -120,13 +120,13 @@ body {
 
   .header {
     background-color: hsl(var(--header));
-    @apply sticky top-0 left-0 min-w-full h-full z-50 backdrop-blur-md border-b border-blue-500/30 pl-[75px] pr-[75px] flex justify-between items-center;
+    @apply sticky top-0 left-0 min-w-full h-full z-50 backdrop-blur-md border-b border-blue-500/30 pl-[30px] pr-[30px] flex justify-between items-center;
   }
 
   /* buttons */
   .buttonPrimary {
     background-color: hsl(var(--button-1));
-    @apply text-white px-4 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 ease-in-out flex;
+    @apply text-white px-4 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 ease-in-out flex items-center justify-center text-center;
   }
 
   .buttonPrimary:hover {
@@ -136,7 +136,7 @@ body {
 
   .buttonLink {
     color: hsl(var(--button-2));
-    @apply m-5 font-semibold border-b-2 border-transparent items-center gap-2 flex;
+    @apply m-4 font-semibold border-b-2 border-transparent gap-1 flex items-center justify-center text-center;
   }
 
   .buttonLink:hover {
@@ -148,7 +148,7 @@ body {
   .buttonOutline {
     border: 2px solid hsl(var(--button-2));
     color: hsl(var(--button-2));
-    @apply font-semibold px-9 py-4 rounded-full flex;
+    @apply font-semibold px-9 py-4 rounded-full flex items-center justify-center text-center;
   }
 
   .buttonOutline:hover {
@@ -159,7 +159,7 @@ body {
 
   .buttonNav {
     background-color: hsl(var(--button-1));
-    @apply text-white px-4 py-2 rounded-md font-semibold flex;
+    @apply flex items-center gap-1 text-white px-4 py-2 rounded-md font-semibold m-4 flex items-center justify-center text-center;
   }
 
   .buttonNav:hover {
@@ -173,31 +173,82 @@ body {
   }
 
   .title {
-    @apply text-3xl font-bold m-2 ;
+    @apply text-3xl font-bold m-2;
     color: hsl(var(--button-2));
   }
 
   .textCard {
-    @apply text-xl font-semibold my-2 max-w-2xl leading-relaxed  ;
+    @apply text-3xl font-semibold my-2 max-w-2xl leading-relaxed;
   }
 
   .textCard2 {
-    @apply  font-semibold my-2 max-w-2xl leading-relaxed  ;
+    @apply text-2xl font-semibold my-2 max-w-2xl leading-relaxed;
   }
 
-  /* Indentation */
-  .divCard {
-    @apply flex items-center p-2 justify-between
+  .textCard3 {
+    @apply text-xl font-semibold my-2 max-w-2xl leading-relaxed;
   }
 
+  .textLink {
+    @apply hover:text-[hsl(var(--button-2))];
+  }
+
+  /* card */
   .card1 {
     background-color: hsl(var(--card));
-    @apply   p-2 border-2 border-gray-700 text-white rounded-lg 
+    @apply p-2 border-2 border-gray-700 m-4 text-white rounded-lg space-y-4
+  }
+  
+  .card2 {
+    @apply border-2 border-dashed border-gray-700 rounded-lg p-12;
+  }
+
+  .elementeCard1 {
+    background-color: hsl(var(--card-foreground));
+    @apply border border-blue-500/20 rounded-lg p-4;
+  }
+
+  .elementeCard2 {
+    @apply border-cyan-400 p-4 rounded-lg bg-cyan-400/20 text-cyan-300 ring-2 ring-cyan-400
+  }
+
+  .warningError {
+    @apply flex items-center justify-center gap-2 text-red-400 p-3 m-2 bg-red-900/50 rounded-md
+  }
+
+  .warningSuccess {
+    @apply flex items-center justify-center gap-2 text-green-400 p-3 m-2 bg-green-900/50 rounded-md
+  }
+ .dropDown {
+   @apply absolute right-0  mb-2 w-48 bg-gray-700 border border-gray-600 rounded-lg shadow-lg z-10 hidden group-open:block
+
+ }
+
+
+  /* Indentation */
+  .inputCard {
+    background-color: hsl(var(--card-foreground)) !important;
+    @apply m-2 focus:border-blue-400;
+    @apply pl-10 !important;
+    @apply pr-10 !important;
+  }
+
+  .itemsJustify {
+    @apply relative flex items-center gap-2 p-2 justify-between !important ;
+  }
+
+  .itemsJustify2 {
+    @apply flex items-center space-x-2 gap-1;
   }
 
   .centralize {
-    @apply m-[5%] p-[2%] flex flex-col items-center justify-center px-8 py-24 text-center;
+    @apply m-[5%] p-[2%] flex flex-col items-center justify-center gap-3 px-8 py-24 text-center;
   }
+
+  .centralize2 {
+    @apply flex flex-col items-center justify-center p-2 text-center;
+  }
+
 
   .containerGrid {
     @apply mx-auto px-10 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8

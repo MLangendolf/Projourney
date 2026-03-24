@@ -12,11 +12,11 @@ export default function Header() {
     return (
         <header className="header">
 
-            <div className="divCard">
+            <div className=" itemsJustify">
                 <img src="/image/pj1.png" alt="projourney logo" className="w-16 h-16" />
                 <div className="title">PROJOURNEY</div>
             </div>
-            <nav className="divCard">
+            <nav className=" itemsJustify">
                 <SimpleLink to="/cursos" variant="navLink">
                     Cursos
                 </SimpleLink>
@@ -32,7 +32,6 @@ export default function Header() {
                     ) : (
                         <Moon />
                     )}
-                    <span className="sr-only">Toggle theme</span>
                 </Button>
             </nav>
 

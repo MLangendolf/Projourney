@@ -14,8 +14,8 @@ interface AlunoFormData {
     email: string;
     senha: string;
     confirmarSenha: string;
-    data_nascimento: string; 
-    telefone: string;   
+    data_nascimento: string;
+    telefone: string;
 }
 
 export default function CadastrarAlunoPage(): JSX.Element {
@@ -91,53 +91,51 @@ export default function CadastrarAlunoPage(): JSX.Element {
     };
 
     return (
-        
-        <div className="text-white p-4 sm:p-8">
+
+        <>
             <ParticleBackground />
-            <div className="max-w-2xl mx-auto">
+            <div className="centralize">
 
-                <header className="mb-8">
-                    <Link to="/" className="flex items-center space-x-2 text-blue-400 hover:text-blue-300">
-                        <ArrowLeft className="w-5 h-5" />
-                        <span>Voltar para o Início</span>
-                    </Link>
-                </header>
+                <Link to="/" className="buttonLink">
+                    <ArrowLeft className="w-5 h-5" />
+                    <span>Voltar para o Início</span>
+                </Link>
 
-                <Card className=" bg-gray-900/50 border-gray-700 backdrop-blur-sm">
-                    
+                <Card className="card1">
+
                     <CardHeader>
-                        <CardTitle className="text-3xl text-white">Crie sua Conta</CardTitle>
-                        <CardDescription className="text-gray-400">
+                        <CardTitle className="title">Crie sua Conta</CardTitle>
+                        <CardDescription className="textCard3">
                             Preencha os campos abaixo para criar sua conta.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="text-white">
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                    <CardContent>
+                        <form onSubmit={handleSubmit}>
                             {/* Campos do formulário */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <Label htmlFor="nome">Nome Completo *</Label>
-                                    <Input id="nome" value={formData.nome} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                    <Input id="nome" value={formData.nome} onChange={handleChange} required className="inputCard" />
                                 </div>
                                 <div>
                                     <Label htmlFor="email">E-mail *</Label>
-                                    <Input id="email" type="email" value={formData.email} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                    <Input id="email" type="email" value={formData.email} onChange={handleChange} required className="inputCard" />
                                 </div>
                                 <div>
                                     <Label htmlFor="senha">Senha *</Label>
-                                    <Input id="senha" type="password" value={formData.senha} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                    <Input id="senha" type="password" value={formData.senha} onChange={handleChange} required className="inputCard" />
                                 </div>
                                 <div>
                                     <Label htmlFor="confirmarSenha">Confirmar Senha *</Label>
-                                    <Input id="confirmarSenha" type="password" value={formData.confirmarSenha} onChange={handleChange} required className="bg-gray-700 border-gray-600" />
+                                    <Input id="confirmarSenha" type="password" value={formData.confirmarSenha} onChange={handleChange} required className="inputCard" />
                                 </div>
                                 <div>
                                     <Label htmlFor="data_nascimento">Data de nascimento (opicional)</Label>
-                                    <Input id="data_nascimento" type="date" value={formData.data_nascimento} onChange={handleChange} className="bg-gray-700 border-gray-600" />
+                                    <Input id="data_nascimento" type="date" value={formData.data_nascimento} onChange={handleChange} className="inputCard" />
                                 </div>
                                 <div>
                                     <Label htmlFor="telefone">Telefone (opicional)</Label>
-                                    <Input id="telefone" type="tel" value={formData.telefone} onChange={handleChange} placeholder="(11) 99999-9999" className="bg-gray-700 border-gray-600" />
+                                    <Input id="telefone" type="tel" value={formData.telefone} onChange={handleChange} placeholder="(11) 99999-9999" className="inputCard" />
                                 </div>
                             </div>
 
@@ -145,20 +143,20 @@ export default function CadastrarAlunoPage(): JSX.Element {
                             <div className="pt-4">
                                 {/* Mensagem de Sucesso */}
                                 {success && (
-                                    <div className="flex items-center gap-2 text-green-400 p-3 bg-green-900/50 rounded-md mb-4">
+                                    <div className="warningSuccess">
                                         <CheckCircle size={20} />
                                         <span>{success}</span>
                                     </div>
                                 )}
                                 {/* Mensagem de Erro */}
                                 {error && (
-                                    <div className="flex items-center gap-2 text-red-400 p-3 bg-red-900/50 rounded-md mb-4">
+                                    <div className="warningError">
                                         <AlertCircle size={20} />
                                         <span>{error}</span>
                                     </div>
                                 )}
 
-                                <Button type="submit" disabled={loading || !!success} className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500">
+                                <Button type="submit" disabled={loading || !!success} className="buttonPrimary">
                                     {loading ? <Loader2 className="animate-spin" /> : 'Finalizar Cadastro'}
                                 </Button>
                             </div>
@@ -166,6 +164,6 @@ export default function CadastrarAlunoPage(): JSX.Element {
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </>
     );
 }

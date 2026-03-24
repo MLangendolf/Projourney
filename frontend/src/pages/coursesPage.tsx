@@ -99,14 +99,14 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
           </span>
         </div>
       </div>
-      <div className="">
+      <div>
         <h3 className="title">{course.title}</h3>
-        <p className="divCard">{course.description}</p>
-        <div className="divCard">
+        <p className=" itemsJustify">{course.description}</p>
+        <div className=" itemsJustify">
           <span>{course.duration}</span>
           <span>{course.institution}</span>
         </div>
-        <div className="divCard">
+        <div className=" itemsJustify">
           <span>{course.instructor}</span>
           <InteractiveButton
             href={`/cursos/${course.id}`}
@@ -137,13 +137,15 @@ export const CourseDetailPage: React.FC = () => {
 
   if (!course) {
     return (
-      <div className="min-h-screen  flex items-center justify-center">
+      <div className="itemsJustify">
         <div className="text-center">
           <div className="title">Não há curso publicado recentemente.</div>
           <InteractiveButton
             href="/cursos"
+            className="text-center"
             variant="primary"
           >
+            <ArrowLeft className="w-5 h-5" />
             Voltar para lista de cursos
           </InteractiveButton>
         </div>
@@ -159,17 +161,17 @@ export const CourseDetailPage: React.FC = () => {
 
         <h1 className="title">Cursos Publicados</h1>
         <nav>
-            {localStorage.getItem('usuarioLogado') ? (
-              <SimpleLink to="/perfil" variant="navLink">
-                <ArrowLeft className="w-5 h-5" />
-                Início
-              </SimpleLink>
-            ) : (
-              <SimpleLink to="/" variant="navLink">
-                <ArrowLeft className="w-5 h-5" />
-                Início
-              </SimpleLink>
-            )}
+          {localStorage.getItem('usuarioLogado') ? (
+            <SimpleLink to="/perfil" variant="navLink">
+              <ArrowLeft className="w-5 h-5" />
+              Início
+            </SimpleLink>
+          ) : (
+            <SimpleLink to="/" variant="navLink">
+              <ArrowLeft className="w-5 h-5" />
+              Início
+            </SimpleLink>
+          )}
         </nav>
       </header>
 
@@ -177,8 +179,10 @@ export const CourseDetailPage: React.FC = () => {
       <main className="centralize">
         <InteractiveButton
           href="/cursos"
+          className="itemsJustify"
           variant="navLink"
         >
+          <ArrowLeft className="w-5 h-5" />
           Voltar para lista de cursos
         </InteractiveButton>
 
@@ -200,19 +204,19 @@ export const CourseDetailPage: React.FC = () => {
             <h1 className="title">{course.title}</h1>
             <p className="">{course.description}</p>
             <div className="containerGrid">
-              <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
+              <div className="elementeCard1">
                 <h3 className="textCard2">Duração</h3>
                 <p>{course.duration}</p>
               </div>
-              <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
+              <div className="elementeCard1">
                 <h3 className="textCard2">Instituição</h3>
                 <p>{course.institution}</p>
               </div>
-              <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
+              <div className="elementeCard1">
                 <h3 className="textCard2">Instrutor</h3>
                 <p>{course.instructor}</p>
               </div>
-              <div className="bg-blue-900/20 backdrop-blur-md border border-blue-500/20 rounded-lg p-4">
+              <div className="elementeCard1">
                 <h3 className="textCard2">Nível</h3>
                 <p>{course.level}</p>
               </div>

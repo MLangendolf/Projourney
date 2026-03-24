@@ -10,13 +10,12 @@ const variantStyles = {
   navButton: "buttonNav",
 };
 
-// Props simples: todas as props de um Link + a nossa 'variant'
+// Props simples: todas as props de um Link + a 'variant'
 interface Props extends LinkProps {
   variant?: keyof typeof variantStyles;
 }
 
 export default function SimpleLink({ className, children, variant = "primary", ...props }: Props) {
-  // O efeito de ripple pode ser adicionado depois se quisermos. Por agora, vamos focar na simplicidade.
   return (
     <Link className={cn(variantStyles[variant], className)} {...props}>
       {children}

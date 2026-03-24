@@ -11,7 +11,7 @@ import TrilhasPage from './pages/trailsPage';
 import PerfilPage from './pages/profilePage';
 import AulasPage from './pages/classesPage';
 import { CoursesPage, CourseDetailPage } from './pages/coursesPage';
-import SobrePage from './pages/sobrePage';
+import SobrePage from './pages/aboutPage';
 
 function App() {
     return (

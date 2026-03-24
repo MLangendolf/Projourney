@@ -54,8 +54,6 @@ export default function LoginPage(): JSX.Element {
                 throw new Error(result.mensagem || 'Ocorreu um erro desconhecido.')
             }
 
-            alert(result.mensagem)
-
             // Guarda os dados do usuário no navegador para 'lembrar' que está logado.
             localStorage.setItem('usuarioLogado', JSON.stringify(result.dados_usuario))
 
@@ -80,7 +78,7 @@ export default function LoginPage(): JSX.Element {
         <div className="centralize">
             <ParticleBackground />
             <div>
-                <div className="divCard">
+                <div className=" itemsJustify">
                     <SimpleLink
                         to="/"
                         variant="navLink"
@@ -91,48 +89,48 @@ export default function LoginPage(): JSX.Element {
                 </div>
                 <div>
                     <h1 className="title">Bem-vindo de volta!</h1>
-                    <p className="divCard">Entre na sua conta para continuar aprendendo</p>
+                    <p className=" itemsJustify">Entre na sua conta para continuar aprendendo</p>
                 </div>
 
                 {/* Login  */}
                 <Card className="card1">
-                    <CardHeader className="space-y-1">
+                    <CardHeader>
                         <CardTitle className="title">
                             <Lock/>
                             Entrar na Conta
                         </CardTitle>
                         <CardDescription>Digite suas credenciais para acessar sua conta</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-6">
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                    <CardContent>
+                        <form onSubmit={handleSubmit}>
                             {/* quando o email da erro*/}
-                            <div className="space-y-2">
+                            <div>
                                 <Label htmlFor="email" className="textCard2">
                                     E-mail *
                                 </Label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <div className="itemsJustify">
+                                    <Mail/>
                                     <Input
+                                        className="     inputCard"
                                         id="email"
                                         type="email"
                                         value={formData.email}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
                                             setFormData({ ...formData, email: e.target.value })
                                         }
-                                        className="bg-gray-800 border-gray-600 text-white pl-10 focus:border-blue-400"
                                         placeholder="seu@email.com"
                                         required
                                     />
                                 </div>
                             </div>
 
-                            {/* senha errada */}
-                            <div className="space-y-2">
+                            {/* senha */}
+                            <div>
                                 <Label htmlFor="password" className="textCard2">
                                     Senha *
                                 </Label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <div className="itemsJustify">
+                                    <Lock/>
                                     <Input
                                         id="password"
                                         type={showPassword ? "text" : "password"}
@@ -140,23 +138,24 @@ export default function LoginPage(): JSX.Element {
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
                                             setFormData({ ...formData, password: e.target.value })
                                         }
-                                        className="bg-gray-800 border-gray-600 text-white pl-10 pr-10 focus:border-blue-400"
+                                        className="    inputCard"
                                         placeholder="Sua senha"
                                         required
                                     />
                                     <button
+                                        className="absolute right-0  pr-6"
                                         type="button"
                                         onClick={(): void => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                                        
                                     >
-                                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5 z-2" />}
                                     </button>
                                 </div>
                             </div>
 
                             {/* Remember Me & Forgot Password */}
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-2">
+                            <div className=" itemsJustify">
+                                <div className=" itemsJustify">
                                     <input
                                         id="remember"
                                         type="checkbox"
@@ -164,19 +163,18 @@ export default function LoginPage(): JSX.Element {
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
                                             setFormData({ ...formData, rememberMe: e.target.checked })
                                         }
-                                        className="w-4 h-4 text-blue-600 bg-gray-800 border-gray-600 rounded focus:ring-blue-500"
                                     />
-                                    <Label htmlFor="remember" className="text-sm text-gray-300">
+                                    <Label htmlFor="remember">
                                         Lembrar de mim
                                     </Label>
                                 </div>
-                                <Link to="#" className="text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                                <SimpleLink to="#" variant="navLink">
                                     Esqueceu a senha?
-                                </Link>
+                                </SimpleLink>
                             </div>
 
                             {error && (
-                                <div className="text-cente text-red-400 bg-red-900/50 p-2 rounded-md text-sm">
+                                <div className="warningError">
                                     {error}
                                 </div>
                             )}
@@ -186,7 +184,7 @@ export default function LoginPage(): JSX.Element {
                                 type="submit"
                                 disabled={isLoading}
                                 variant="primary"
-                                as="button" // Specify that this should render as a button
+                                as="button" 
                             >
                                 {isLoading ? (
                                     <div className="flex items-center space-x-2">
@@ -199,30 +197,17 @@ export default function LoginPage(): JSX.Element {
                             </InteractiveButton>
                         </form>
                     
-                            <p className="divCard">
+                            <p className=" itemsJustify">
                                 Não tem uma conta?
-                                <SimpleLink to="/cadastrar" variant="navLink">
-                                    Cadastre-se aqui
-                                </SimpleLink>
+                                <a href="/cadastrar"
+                                 className=" textLink"
+                                 >
+                                    Cadastre-se aqui!
+                                </a>
                             </p>
                     </CardContent>
                 </Card>
 
-                {/* Features */}
-                <div className="mt-8 text-center">
-                    <p className="text-gray-500 text-sm mb-4">Ao entrar, você terá acesso a:</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                        <div className="text-gray-400">
-                            <span className="text-blue-400">✓</span> Cursos personalizados
-                        </div>
-                        <div className="text-gray-400">
-                            <span className="text-green-400">✓</span> Progresso salvo
-                        </div>
-                        <div className="text-gray-400">
-                            <span className="text-yellow-400">✓</span> Certificados
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     )

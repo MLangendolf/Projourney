@@ -3,21 +3,21 @@ import ParticleBackground from "@/components/effects/particlebackground"
 
 export default function About() {
   return (
-    <main className="p-8">
+    <main className="p-8 max-w-4xl mx-auto">
       <ParticleBackground />
 
-      <Card className="max-w-2xl mx-auto mt-10 bg-white/10 backdrop-blur text-white border-white/20">
-        
+      <Card className="card1">
+
         <CardHeader>
           <CardTitle>Objetivo</CardTitle>
         </CardHeader>
 
-        <CardContent className="space-y-4">
+        <CardContent className="">
           <p>
             Somos estudantes do IFPE – Campus Igarassu e criamos este projeto com o objetivo de melhorar a forma de estudo online, oferecendo trilhas personalizadas que tornam o aprendizado mais eficiente e direcionado.
           </p>
 
-          <h2 className="text-xl font-semibold">Integrantes</h2>
+          <h2 className="textCard2">Integrantes</h2>
 
           <ul className="list-disc list-inside">
             <li>Gabriel Henrique</li>
