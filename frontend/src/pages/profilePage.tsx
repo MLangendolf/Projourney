@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, BookOpen, MoreVertical, Loader2, AlertCircle, CheckCircle, LogOut } from 
-"lucide-react";
+import { User, BookOpen, MoreVertical, Loader2, AlertCircle, CheckCircle, LogOut, Trash2 } from
+    "lucide-react";
 import ParticleBackground from "@/components/effects/particlebackground";
 
 // --- Interfaces para Tipagem dos Dados ---
@@ -40,7 +39,7 @@ export default function PerfilPage(): React.JSX.Element {
         const dadosUsuarioString = localStorage.getItem('usuarioLogado');
         if (!dadosUsuarioString) {
             navigate('/login');
-            return; // Para a execução se não houver usuário
+            return; // Se não houver usuário
         }
         const usuarioLogado: Usuario = JSON.parse(dadosUsuarioString);
         setUsuario(usuarioLogado); // Define o usuário no estado
@@ -49,13 +48,34 @@ export default function PerfilPage(): React.JSX.Element {
         const carregarDadosDoPerfil = async () => {
             setStatus('loading');
             try {
-                const response = await fetch(`http://localhost:8000/perfil_aluno.php?alunoId=${usuarioLogado.id}`);
-                if (!response.ok) throw new Error('Falha ao carregar dados do perfil.');
 
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    navigate('/login');
+                    return; // Se não houver token (mesmo que já tenha verificado antes)
+                };
+
+                const response = await fetch(`http://localhost:8000/perfil_aluno.php?alunoId=${usuarioLogado.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        alert("Sua sessão expirou ou é inválida. Faça login novamente.");
+                        localStorage.removeItem('token'); // Limpa o token inválido
+                        localStorage.removeItem('usuarioLogado');
+                        navigate('/login');
+                        return;
+                    }
+                    throw new Error('Falha ao carregar dados do perfil.');
+                }
                 const data = await response.json();
-                // Não precisamos mais fazer setUsuario(data.aluno) pois já fizemos acima
                 setTrilhas(data.trilhas);
                 setStatus('idle');
+
             } catch (err) {
                 setFeedback(err instanceof Error ? err.message : 'Erro desconhecido.');
                 setStatus('error');
@@ -86,11 +106,23 @@ export default function PerfilPage(): React.JSX.Element {
                 }),
             });
             if (!response.ok) throw new Error('Falha ao atualizar o progresso.');
-            // Se a API confirmar, tudo certo.
         } catch (err) {
-            // Se der erro, reverte a mudança na UI e mostra o erro
             alert("Não foi possível atualizar o progresso. Tente novamente.");
             setTrilhas(trilhasAntigas);
+        }
+    };
+
+    const handleDelete = async (trilhaId: number) => {
+        if (!window.confirm("Tem certeza que deseja excluir esta trilha?")) return;
+
+        try {
+            const response = await fetch(`http://localhost:8000/delete_user_trail.php?trilhaId=${trilhaId}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) throw new Error('Falha ao excluir a trilha.');
+            setTrilhas(trilhas.filter(t => t.id !== trilhaId));
+        } catch (err) {
+            alert("Não foi possível excluir a trilha. Tente novamente.");
         }
     };
 
@@ -124,17 +156,17 @@ export default function PerfilPage(): React.JSX.Element {
             <ParticleBackground />
             <div className="max-w-6xl mx-auto p-4 sm:p-8">
                 {/* Cabeçalho do Perfil */}
-                
+
                 <header className="itemsJustify">
                     <div>
                         <h1 className="title text-5xl">Olá, {usuario.nome.split(' ')[0]}!</h1>
                         <p className="">Aqui está o resumo da sua jornada de aprendizado.</p>
                     </div>
 
-                <button onClick={handleLogout} className="buttonNav">
-                    <LogOut size={16} />
-                    Sair
-                </button>
+                    <button onClick={handleLogout} className="buttonNav">
+                        <LogOut size={16} />
+                        Sair
+                    </button>
 
                 </header>
 
@@ -168,18 +200,25 @@ export default function PerfilPage(): React.JSX.Element {
                                                 <span>Alterar Status</span>
                                                 <MoreVertical size={20} />
                                             </summary>
-                                            <div className=" dropDown">
+                                            <div className=" dropDown centralize2">
                                                 {Object.keys(statusColors).map(statusKey => (
                                                     <button
                                                         key={statusKey}
                                                         onClick={() => handleProgressoChange(trilha.id, statusKey as TrilhaInscrita['progresso'])}
-                                                        className="centralize2"
+                                                        className="centralize2 linkGreen"
                                                     >
                                                         {statusKey}
                                                     </button>
                                                 ))}
                                             </div>
                                         </details>
+                                        <button
+                                            className="itemsJustify linkRed"
+                                            onClick={() => handleDelete(trilha.id)}
+                                        >
+                                            Excluir
+                                            <Trash2 />
+                                        </button>
                                     </div>
                                 </div>
                             ))}
@@ -198,3 +237,4 @@ export default function PerfilPage(): React.JSX.Element {
         </>
     );
 }
+

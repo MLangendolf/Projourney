@@ -51,11 +51,12 @@ export default function LoginPage(): JSX.Element {
             const result = await response.json()
 
             if (!response.ok) {
-                throw new Error(result.mensagem || 'Ocorreu um erro desconhecido.')
+                throw new Error(result.mensagem || 'Ocorreu um erro na verificação dos dados.')
             }
 
-            // Guarda os dados do usuário no navegador para 'lembrar' que está logado.
-            localStorage.setItem('usuarioLogado', JSON.stringify(result.dados_usuario))
+            // Guardar dados e token do usuário no navegador para 'lembrar' que está logado e autenticar requisições futuras.
+            localStorage.setItem('usuarioLogado', JSON.stringify(result.dados_usuario));
+            localStorage.setItem('token', result.token);
 
 
             navigate('/perfil')
@@ -67,11 +68,6 @@ export default function LoginPage(): JSX.Element {
         } finally {
             setIsLoading(false); // Desativa o estado de 'carregando'.
         }
-    }
-
-    const handleSocialLogin = (provider: string): void => {
-        console.log(`Login com ${provider}`)
-        alert(`Redirecionando para login com ${provider}...`)
     }
 
     return (
@@ -96,7 +92,7 @@ export default function LoginPage(): JSX.Element {
                 <Card className="card1">
                     <CardHeader>
                         <CardTitle className="title">
-                            <Lock/>
+                            <Lock />
                             Entrar na Conta
                         </CardTitle>
                         <CardDescription>Digite suas credenciais para acessar sua conta</CardDescription>
@@ -109,7 +105,7 @@ export default function LoginPage(): JSX.Element {
                                     E-mail *
                                 </Label>
                                 <div className="itemsJustify">
-                                    <Mail/>
+                                    <Mail />
                                     <Input
                                         className="     inputCard"
                                         id="email"
@@ -130,7 +126,7 @@ export default function LoginPage(): JSX.Element {
                                     Senha *
                                 </Label>
                                 <div className="itemsJustify">
-                                    <Lock/>
+                                    <Lock />
                                     <Input
                                         id="password"
                                         type={showPassword ? "text" : "password"}
@@ -146,7 +142,7 @@ export default function LoginPage(): JSX.Element {
                                         className="absolute right-0  pr-6"
                                         type="button"
                                         onClick={(): void => setShowPassword(!showPassword)}
-                                        
+
                                     >
                                         {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5 z-2" />}
                                     </button>
@@ -180,31 +176,31 @@ export default function LoginPage(): JSX.Element {
                             )}
 
                             {/* Login Button */}
-                            <InteractiveButton
-                                type="submit"
-                                disabled={isLoading}
-                                variant="primary"
-                                as="button" 
-                            >
-                                {isLoading ? (
-                                    <div className="flex items-center space-x-2">
-                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                        <span>Entrando...</span>
-                                    </div>
-                                ) : (
-                                    "Entrar"
-                                )}
-                            </InteractiveButton>
+                            <div className="centralize2">
+                                <button
+                                    type="submit"
+                                    className="buttonPrimary "
+                                >
+                                    {isLoading ? (
+                                        <div className="flex items-center space-x-2">
+                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                            <span>Entrando...</span>
+                                        </div>
+                                    ) : (
+                                        "Entrar"
+                                    )}
+                                </button>
+                            </div>
                         </form>
-                    
-                            <p className=" itemsJustify">
-                                Não tem uma conta?
-                                <a href="/cadastrar"
-                                 className=" textLink"
-                                 >
-                                    Cadastre-se aqui!
-                                </a>
-                            </p>
+
+                        <p className=" itemsJustify">
+                            Não tem uma conta?
+                            <a href="/cadastrar"
+                                className=" textLink"
+                            >
+                                Cadastre-se aqui!
+                            </a>
+                        </p>
                     </CardContent>
                 </Card>
 

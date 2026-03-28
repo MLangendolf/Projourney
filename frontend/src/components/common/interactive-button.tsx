@@ -9,9 +9,9 @@ export default function InteractiveButton({
   children,
   variant = "primary",
   className,
-  as = "a", // Default to rendering an anchor tag
+  as = "button", // Default to rendering an anchor tag
 
-}: InteractiveButtonProps & { as?: "a" | "button"; type?: string }) {
+}: InteractiveButtonProps & { as?: "button" | "link"; type?: string }) {
   const variantStyles = {
     primary: "buttonPrimary",
     outline: "buttonOutline",
@@ -21,23 +21,22 @@ export default function InteractiveButton({
 
   const commonClasses = "relative inline-block duration-300";
 
-  if (as === "button") {
+  
+  if (as === "link") {
     return (
-      <button
-        className={cn(commonClasses, variantStyles[variant], className)}
+      <Link
+      to={href}
+      className={cn(commonClasses, variantStyles[variant], className)}
       >
         {children}
-      </button>
-    );
-  }
-
-  return (
-    <Link
-      to={href}
-      // type={href} // This prop is not valid for Link, removed
+        </Link>
+      );
+    }
+    return (
+      <button
       className={cn(commonClasses, variantStyles[variant], className)}
-    >
-      {children}
-    </Link>
-  );
-}
+      >
+          {children}
+        </button>
+      );
+    }
