@@ -111,6 +111,7 @@ const CourseCard: React.FC<{ course: Course }> = ({ course }) => {
           <InteractiveButton
             href={`/cursos/${course.id}`}
             variant="primary"
+            as="link"
           >
             Ver Detalhes
           </InteractiveButton>
@@ -144,6 +145,7 @@ export const CourseDetailPage: React.FC = () => {
             href="/cursos"
             className="text-center"
             variant="primary"
+            as="link"
           >
             <ArrowLeft className="w-5 h-5" />
             Voltar para lista de cursos
@@ -181,6 +183,7 @@ export const CourseDetailPage: React.FC = () => {
           href="/cursos"
           className="itemsJustify"
           variant="navLink"
+          as="link"
         >
           <ArrowLeft className="w-5 h-5" />
           Voltar para lista de cursos

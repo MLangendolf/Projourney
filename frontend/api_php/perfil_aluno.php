@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/db.php';
+require_once __DIR__.'/auth.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -10,27 +11,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
+$userIdLogin = tokenVerify(); // token validation. Return user ID.
+
+/* 
 // 1. Validação do id do aluno (recebido via parâmetro GET na URL)
 if (!isset($_GET['alunoId']) || !is_numeric($_GET['alunoId'])) {
     http_response_code(400 );
     echo json_encode(["status" => "erro", "mensagem" => "ID do aluno é obrigatório."]);
     exit();
 }
+ */
 
-$alunoId = intval($_GET['alunoId']);
+$alunoId = $userIdLogin;
 $resposta = [];
 
 try {
+    
+/*     if (!$aluno) {
+        http_response_code(404 ); // Not Found
+        echo json_encode(["status" => "erro", "mensagem" => "Aluno não encontrado."]);
+        exit();
+    } */
+
     // 2. Buscar os dados básicos do aluno
     $stmtAluno = $pdo->prepare("SELECT id, nome, email FROM users WHERE id = ?");
     $stmtAluno->execute([$alunoId]);
     $aluno = $stmtAluno->fetch(PDO::FETCH_ASSOC);
 
-    if (!$aluno) {
-        http_response_code(404 ); // Not Found
-        echo json_encode(["status" => "erro", "mensagem" => "Aluno não encontrado."]);
-        exit();
-    }
     $resposta['aluno'] = $aluno;
 
     // 3. Buscar as trilhas do aluno com o progresso

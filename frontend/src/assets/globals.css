@@ -224,11 +224,13 @@ body {
   }
 
   .warningError {
-    @apply flex items-center justify-center gap-2 text-red-400 p-3 m-2 bg-red-900/50 rounded-md
+    color:#ffffff;
+    @apply flex items-center justify-center gap-2 p-3 m-2 bg-red-900/50 rounded-md
   }
 
   .warningSuccess {
-    @apply flex items-center justify-center gap-2 text-green-400 p-3 m-2 bg-green-900/50 rounded-md
+    color:#ffffff;
+    @apply flex items-center justify-center gap-2  p-3 m-2 bg-green-900/50 rounded-md
   }
 
   .dropDown {

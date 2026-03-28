@@ -33,6 +33,13 @@ export default function PerfilPage(): React.JSX.Element {
     const [trilhas, setTrilhas] = useState<TrilhaInscrita[]>([]);
     const [status, setStatus] = useState<'loading' | 'idle' | 'error'>('loading');
     const [feedback, setFeedback] = useState<string>('');
+    const [alert, setAlert] = useState<{ message: string; type: 'error' | 'success' } | null>(null);
+
+    // --- Função para disparar alertas (Fora de qualquer outro hook/função) ---
+    const showAlert = (message: string, type: 'error' | 'success') => {
+        setAlert({ message, type });
+        setTimeout(() => setAlert(null), 5000);
+    };
 
     // --- Função para Buscar Dados do Perfil ---
     useEffect(() => {
@@ -64,7 +71,7 @@ export default function PerfilPage(): React.JSX.Element {
                 });
                 if (!response.ok) {
                     if (response.status === 401 || response.status === 403) {
-                        alert("Sua sessão expirou ou é inválida. Faça login novamente.");
+                        window.alert("Sua sessão expirou ou é inválida. Faça login novamente.");
                         localStorage.removeItem('token'); // Limpa o token inválido
                         localStorage.removeItem('usuarioLogado');
                         navigate('/login');
@@ -107,7 +114,7 @@ export default function PerfilPage(): React.JSX.Element {
             });
             if (!response.ok) throw new Error('Falha ao atualizar o progresso.');
         } catch (err) {
-            alert("Não foi possível atualizar o progresso. Tente novamente.");
+            showAlert("Não foi possível atualizar o progresso.", "error");
             setTrilhas(trilhasAntigas);
         }
     };
@@ -116,13 +123,22 @@ export default function PerfilPage(): React.JSX.Element {
         if (!window.confirm("Tem certeza que deseja excluir esta trilha?")) return;
 
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8000/delete_user_trail.php?trilhaId=${trilhaId}`, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
-            if (!response.ok) throw new Error('Falha ao excluir a trilha.');
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.mensagem || 'Falha ao excluir a trilha.');
+
+            // Exibir mensagem de sucesso
+            showAlert(result.mensagem || "Trilha excluída com sucesso.", "success");
+
             setTrilhas(trilhas.filter(t => t.id !== trilhaId));
         } catch (err) {
-            alert("Não foi possível excluir a trilha. Tente novamente.");
+            showAlert(err instanceof Error ? err.message : "Erro ao excluir trilha.", "error");
         }
     };
 
@@ -144,7 +160,7 @@ export default function PerfilPage(): React.JSX.Element {
             <div className="centralize">
                 <AlertCircle className="w-16 h-16 text-red-400 mb-4" />
                 <h1 className="textCard">Ocorreu um Erro</h1>
-                <p>{feedback || "Não foi possível carregar os dados do perfil."}</p>
+                <p className="warningError">{feedback || "Não foi possível carregar os dados do perfil."}</p>
                 <button onClick={() => navigate('/login')} className="buttonPrimary">Voltar para o Login</button>
             </div>
         );
@@ -169,6 +185,12 @@ export default function PerfilPage(): React.JSX.Element {
                     </button>
 
                 </header>
+                {alert && (
+                    <div className={`${alert.type === 'error' ? 'warningError' : 'warningSuccess'}`}>
+                        {alert.message}
+                    </div>
+                )}
+
 
                 {/* Seção de Trilhas */}
                 <section>
@@ -204,7 +226,10 @@ export default function PerfilPage(): React.JSX.Element {
                                                 {Object.keys(statusColors).map(statusKey => (
                                                     <button
                                                         key={statusKey}
-                                                        onClick={() => handleProgressoChange(trilha.id, statusKey as TrilhaInscrita['progresso'])}
+                                                        onClick={(e) => {
+                                                            handleProgressoChange(trilha.id, statusKey as TrilhaInscrita['progresso']);
+                                                            (e.target as HTMLElement).closest('details')?.removeAttribute('open');
+                                                        }}
                                                         className="centralize2 linkGreen"
                                                     >
                                                         {statusKey}
