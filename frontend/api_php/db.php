@@ -2,9 +2,9 @@
 
 // --- Conexão com o Banco de Dados ---
 $servidor = "localhost:3306";
-$usuario_bd = "web";
-$senha_bd = "web";
-$banco = "projourney_2"; 
+$usuario_bd = "root";
+$senha_bd = "root";
+$banco = "projourney_2";
 
 try {
     $pdo = new PDO("mysql:host=$servidor;dbname=$banco;charset=utf8", $usuario_bd, $senha_bd);

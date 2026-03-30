@@ -36,7 +36,7 @@ export default function LoginPage(): JSX.Element {
         setError(null)
 
         try {
-            const response = await fetch('http://localhost:8000/login.php', {
+            const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',
