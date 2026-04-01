@@ -1,5 +1,5 @@
 <?php
-require_once('db.php');
+require_once __DIR__.'/db.php';
 
 $teste = 'Servidor PHP funcionando!';
 var_dump($teste);

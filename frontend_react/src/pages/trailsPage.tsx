@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Code, Database, Shield, Smartphone, Globe, Cpu, Brain, Zap, Loader2, AlertCircle, CheckCircle, LogOut } from "lucide-react";
 import SimpleButtom from "../components/common/simpleButton"
 import SimpleLink from "../components/common/simpleLink";
+import {BASE_URL} from "@/config/api";
 import ParticleBackground from "../components/effects/particlebackground";
 
 // --- Interfaces e Mapeamento de Ícones ---
@@ -70,7 +71,7 @@ export default function TrilhasPage(): React.JSX.Element {
       setStatus('loading');
       setFeedback('');
       try {
-        const response = await fetch('http://localhost:8000/listar_trilhas.php');
+        const response = await fetch(`${BASE_URL}/listar_trilhas.php`);
         if (!response.ok) {
           throw new Error('Não foi possível carregar as trilhas.');
         }
@@ -107,7 +108,7 @@ export default function TrilhasPage(): React.JSX.Element {
     setFeedback('');
 
     try {
-      const response = await fetch('http://localhost:8000/inscrever_trilha.php', {
+      const response = await fetch(`${BASE_URL}/inscrever_trilha.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

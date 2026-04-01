@@ -169,12 +169,11 @@ body {
 
   /* links */
   .linkGreen {
-    @apply m-4 font-semibold border-b-2 border-transparent gap-1 flex items-center justify-center text-center hover:text-[#6ee56e];
+    @apply m-4 font-semibold border-b-2 border-transparent gap-1 flex items-center justify-center text-center hover:text-[#36b936];
   }
   
   .linkRed {
-    @apply m-4 font-semibold border-b-2 border-transparent gap-1 flex items-center justify-center text-center hover:text-[#fc3333];
-
+    @apply m-4 font-semibold border-b-2 border-transparent gap-1 flex items-center justify-center text-center hover:text-[#d32828];
   }
 
 

@@ -1,5 +1,5 @@
 <?php
-require_once 'db.php';
+require_once __DIR__.'/db.php';
 
 // Habilitar o CORS para permitir que applicações acesse a API
 header("Access-Control-Allow-Origin: *"); // Em produção, troque "*" pelo seu domínio real

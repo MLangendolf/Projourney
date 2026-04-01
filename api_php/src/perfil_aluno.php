@@ -33,14 +33,12 @@ try {
         exit();
     } */
 
-    // 2. Buscar os dados básicos do aluno
     $stmtAluno = $pdo->prepare("SELECT id, nome, email FROM users WHERE id = ?");
     $stmtAluno->execute([$alunoId]);
     $aluno = $stmtAluno->fetch(PDO::FETCH_ASSOC);
 
     $resposta['aluno'] = $aluno;
 
-    // 3. Buscar as trilhas do aluno com o progresso
     $sqlTrilhas = "
         SELECT 
             t.id, 

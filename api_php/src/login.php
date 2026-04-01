@@ -1,12 +1,11 @@
 <?php
 require_once __DIR__. '/db.php';
-require_once __DIR__. '/vendor/autoload.php';
+require_once __DIR__. '/../vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__."/..");
 $dotenv->load();
 
 use Firebase\JWT\JWT;
-
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -19,17 +18,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 $token_key = $_ENV['JWT_SECRET'];
 
-// Pega o corpo da requisição (texto JSON) e decodifica para um objeto PHP.
+// Corpo da requisição (texto JSON): decodificaR para um objeto PHP.
 $dados = json_decode(file_get_contents("php://input"));
 
-// Validação simples para garantir dados não vasios.
+// Validação simples: garantir dados não vasios.
 if (empty($dados->email) || empty($dados->password)) {
-    http_response_code(400); // Define o código de status HTTP para "Bad Request".
+    http_response_code(400); 
     echo json_encode(["status" => "erro", "mensagem" => "E-mail e senha são obrigatórios."]);
     exit();
 }
 
-// Inicia um bloco try...catch (tentar...pegar) para capiturar erros do Banco de Dados.
 try {
     $stmt = $pdo->prepare(" SELECT id, nome, senha FROM users WHERE email = ?");
     $stmt->execute([$dados->email]);
@@ -38,7 +36,7 @@ try {
     // 'password_veryfy' compara senha vinda do front-end com o hash armazenado no banco de dados.
     if ($aluno && password_verify($dados->password, $aluno['senha'])) {
 
-        unset($aluno['senha']); // Remove a senha do array por segurança.
+        unset($aluno['senha']); // Remover a senha do array por segurança.
 
         $payload=[
             "iss" => "localhost:8000",
@@ -50,7 +48,7 @@ try {
 
         $jwt = JWT::encode($payload, $token_key, 'HS256');
 
-        http_response_code(200); // código de status 'OK'.
+        http_response_code(200);
         echo json_encode([
             "status" => "sucesso",
             "mensagem" => "Login realizado com sucesso!",
@@ -58,14 +56,14 @@ try {
             "dados_usuario" => $aluno
         ]);
     } else {
-        http_response_code(401); // Código de status "Unauthorized".
+        http_response_code(401); 
         echo json_encode([
             "status" => "erro",
             "mensagem" => "Credenciais inválidas. Verifique email e senha."
         ]);
     }
 } catch (PDOException $e) {
-    // caso ocorra erro de conexão com o banco de dados.
-    http_response_code(500); // código de atatus "Iternal Server Error".
+    http_response_code(500); 
     echo json_encode(["status" => "erro", "mensagem" => "Erro no servidor."]);
 }
+

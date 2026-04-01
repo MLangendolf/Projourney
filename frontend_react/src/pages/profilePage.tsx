@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {BASE_URL} from "@/config/api";
 import { User, BookOpen, MoreVertical, Loader2, AlertCircle, CheckCircle, LogOut, Trash2 } from
     "lucide-react";
 import ParticleBackground from "@/components/effects/particlebackground";
@@ -62,7 +63,7 @@ export default function PerfilPage(): React.JSX.Element {
                     return; // Se não houver token (mesmo que já tenha verificado antes)
                 };
 
-                const response = await fetch(`http://localhost:8000/perfil_aluno.php?alunoId=${usuarioLogado.id}`, {
+                const response = await fetch(`${BASE_URL}/perfil_aluno.php?alunoId=${usuarioLogado.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ export default function PerfilPage(): React.JSX.Element {
         setTrilhas(trilhas.map(t => t.id === trilhaId ? { ...t, progresso: novoProgresso } : t));
 
         try {
-            const response = await fetch('http://localhost:8000/atualizar_progresso.php', {
+            const response = await fetch(`${BASE_URL}/atualizar_progresso.php`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -124,7 +125,7 @@ export default function PerfilPage(): React.JSX.Element {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8000/delete_user_trail.php?trilhaId=${trilhaId}`, {
+            const response = await fetch(`${BASE_URL}/delete_user_trail.php?trilhaId=${trilhaId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

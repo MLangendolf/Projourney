@@ -1,6 +1,5 @@
 import { useState } from "react"
 import type React from "react"
-import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import ParticleBackground from "@/components/effects/particlebackground"
@@ -8,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { ArrowLeft, Eye, EyeOff, Lock, Mail, Github, Chrome } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"  // Mudança do 'next/link' para o 'react-router-dom"
 import SimpleLink from "../components/common/simpleLink"
-import InteractiveButton from "../components/common/interactive-button";
+import {BASE_URL} from "@/config/api";
 import type { JSX } from "react/jsx-runtime"
 
 interface LoginFormData {
@@ -37,7 +36,7 @@ export default function LoginPage(): JSX.Element {
         setError(null)
 
         try {
-            const response = await fetch('http://localhost:8000/login.php', {
+            const response = await fetch(`${BASE_URL}/login.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

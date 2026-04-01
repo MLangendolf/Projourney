@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Loader2, AlertCircle, ExternalLink, ArrowLeft, LogOut } from 'lucide-react';
 import SimpleLink from "../components/common/simpleLink";
 import SimpleButtom from "../components/common/simpleButton"
+import {BASE_URL} from "@/config/api";
 import ParticleBackground from '../components/effects/particlebackground';
 
 // Interface para tipar os dados do curso que vêm da API
@@ -32,7 +33,7 @@ export default function AulasPage(): React.JSX.Element {
         const fetchCursos = async () => {
             try {
                 // Chama o endpoint do backend
-                const response = await fetch(`http://localhost:8000/cursos_da_trilha.php?trilhaId=${trilhaId}`);
+                const response = await fetch(`${BASE_URL}/cursos_da_trilha.php?trilhaId=${trilhaId}`);
                 if (!response.ok) {
                     // Se a resposta não for OK, tenta ler o corpo como texto para ver o erro do PHP
                     const errorText = await response.text();

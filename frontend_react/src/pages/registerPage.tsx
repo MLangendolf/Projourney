@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Textarea } from "../components/ui/textarea";
+import {BASE_URL} from "@/config/api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle } from "lucide-react";
 
@@ -56,7 +56,7 @@ export default function CadastrarAlunoPage(): JSX.Element {
         try {
             // Envia os dados para a API PHP
             // URL para ser usada com a API rodando no comando 'php -S localhost:8000'
-            const response = await fetch('http://localhost:8000/cadastrar_aluno.php', {
+            const response = await fetch(`${BASE_URL}/cadastrar_aluno.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

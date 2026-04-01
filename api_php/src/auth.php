@@ -1,10 +1,10 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 function tokenVerify()
@@ -21,7 +21,7 @@ function tokenVerify()
             $decoded = JWT::decode($jwt, new Key($_ENV['JWT_SECRET'], 'HS256'));
             return $decoded->uid;
         } catch (Exception $e) {
-            http_response_code(401); // Unauthorized
+            http_response_code(401);
             header('content-type: application/json'); // Ensures JSON response. 
             echo json_encode(["status" => "erro", "mensasgem" => "Token inválido ou expirado. Por favor faça login novamente."]);
             exit();
@@ -33,3 +33,4 @@ function tokenVerify()
         exit();
     }
 };
+

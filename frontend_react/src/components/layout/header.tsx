@@ -4,6 +4,7 @@ import { Moon, Sun, SunMoon } from "lucide-react"
 import { useTheme } from "../effects/theme-provider"
 import SimpleLink from "../common/simpleLink"
 import { Button } from "../ui/button"
+import {APP_TITLE} from "@/config/api"
 
 {/* Header */ }
 export default function Header() {
@@ -13,8 +14,26 @@ export default function Header() {
         <header className="header">
 
             <div className=" itemsJustify">
-                <img src="/image/pj1.png" alt="projourney logo" className="w-16 h-16" />
-                <div className="title">PROJOURNEY</div>
+                {theme === 'dark' ? (
+                    <img
+                        src="/image/pj1.png"
+                        alt="projourney logo" className="w-16 h-16"
+                    />
+
+                ) : (
+
+                    <img
+                        src="/image/pj.png"
+                        alt="projourney logo" className="w-16 h-16"
+                    />
+                )}
+
+                <a
+                    className="title buttonLink"
+                    href="/perfil"
+                >
+                {`${APP_TITLE}`}
+                </a>
             </div>
             <nav className=" itemsJustify">
                 <SimpleLink to="/cursos" variant="navLink">
