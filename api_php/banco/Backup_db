@@ -15,24 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
-
--- CONFIGURAÇÕES:
---
--- mysql -u <usuário> -p < db_backup_projourney_php.sql
---
--- CREATE USER '<userName>'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>';
---
--- ALTER USER '<userName>'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>'; 
---
---
---
-
-
-CREATE DATABASE projourney_php;
-USE projourney_php;
-
-
 --
 -- Table structure for table `aluno_experiencia`
 --
@@ -146,7 +128,7 @@ CREATE TABLE `trilha` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +137,7 @@ CREATE TABLE `trilha` (
 
 LOCK TABLES `trilha` WRITE;
 /*!40000 ALTER TABLE `trilha` DISABLE KEYS */;
-INSERT INTO `trilha` VALUES (2,'Desenvolvimento Frontend'),(3,'Desenvolvimento Backend'),(4,'Desenvolvimento Mobile'),(5,'Desenvolvimento Full Stack'),(6,'Ciência de Dados'),(7,'DevOps e Cloud'),(8,'Inteligência Artificial'),(9,'Segurança da Informação');
+INSERT INTO `trilha` VALUES (2,'Desenvolvimento Frontend'),(3,'Desenvolvimento Backend'),(4,'Desenvolvimento Mobile'),(5,'Desenvolvimento Full Stack'),(6,'Ciência de Dados'),(7,'DevOps e Cloud'),(8,'Inteligência Artificial'),(9,'Segurança da Informação'),(10,'Trilha Teste Sem Cursos');
 /*!40000 ALTER TABLE `trilha` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,6 +165,7 @@ CREATE TABLE `trilha_aluno` (
 
 LOCK TABLES `trilha_aluno` WRITE;
 /*!40000 ALTER TABLE `trilha_aluno` DISABLE KEYS */;
+INSERT INTO `trilha_aluno` VALUES (8,4,'Inscrito'),(6,5,'Inscrito'),(3,5,'Inscrito'),(4,6,'Inscrito'),(8,6,'Inscrito'),(3,7,'Inscrito'),(2,7,'Inscrito'),(3,1,'Inscrito');
 /*!40000 ALTER TABLE `trilha_aluno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,7 +188,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `USERS_EMAIL_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,7 +197,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','admin@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$1KAOOnHG1L2dpqOaV9Wdpw$JBasxz0RhKgyYR7YllvIhSRmwF/GF0MO+l/Uny6qcwg','user',NULL,'','2026-03-14 20:03:07','2026-03-14 20:03:07');
+INSERT INTO `users` VALUES (1,'admin','admin@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$1KAOOnHG1L2dpqOaV9Wdpw$JBasxz0RhKgyYR7YllvIhSRmwF/GF0MO+l/Uny6qcwg','user',NULL,'','2026-03-14 20:03:07','2026-03-14 20:03:07'),(4,'José da Silva.','exemplo@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$Ne9dNNmsaV7XrXmKk7NA8A$lNgQM6P31ojDHW8q0uypZoBiSz3OBxSyGglQ4kOG5/Q','user','2000-04-28','81955555555','2026-03-24 02:59:21','2026-03-24 02:59:21'),(5,'Maria Lima','exemplo1@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$KTXL7pdvJcgCvxoeUJ3JUQ$uAeURtNSeUa+UJNcq4SgFj4eTCBtLpORTBuJ4eDnCQw','user',NULL,'','2026-03-24 03:47:49','2026-03-24 03:47:49'),(6,'Maria Madalena','exemplo01@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$LWoaEDsActtdwkU5tS6wzg$Wd2j6ntA0dFsH2GGQxhYuilSBjkeiDmD4p5yxjl/dSM','user',NULL,'','2026-03-28 23:57:50','2026-03-28 23:57:50'),(7,'Usuário Teste','exemplo02@gmail.com','$argon2id$v=19$m=65536,t=4,p=1$nszJrJrCUKOxabqmQfQIjw$uKtk94PvzQBxGT4dZ6cZukTCflrEYSFZVUQhBfz9SnI','user','1999-12-01','81955551111','2026-03-31 23:28:40','2026-03-31 23:28:40');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -227,4 +210,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-15 17:32:13
+-- Dump completed on 2026-04-01  0:02:17

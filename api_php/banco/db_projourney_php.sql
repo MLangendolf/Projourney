@@ -1,5 +1,7 @@
 -- CONFIGURAÇÕES:
 --
+-- mysql -u <usuário> -p < db_projourney_php.sql
+--
 -- CREATE USER '<userName>'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>';
 --
 -- ALTER USER '<userName>'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>'; 
