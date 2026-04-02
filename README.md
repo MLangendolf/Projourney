@@ -36,10 +36,12 @@ O **Projourne** é um projeto acadêmico desenvolvido por estudantes do curso de
 1. **api_php:**
     - Executar o comando ```composer install```;
     - Criar e configurar arquivo de variáveis de ambiente (```.env```);
+    - Teste localmente: ```php -S localhost:8000```
 
 1. **frontend_react:**
     - Executar o comando ```npm install```;
     - Criar e configurar arquivo de variáveis de ambiente (```.env```);
+    - Teste localmente: ```npm rum dev```
 
 1. **Banco de Dados:**
     - Ter instalado o SGBD MySQL;
@@ -108,8 +110,8 @@ Projourney
 * [Gabriel Saruba](https://github.com/gabrielsaruba)
 * [Arthur Pontes](https://github.com/apmrnh)
 * [Maviael Melo](https://github.com/MaviMelo)
-* [Gabriel Henrique](https://github.com/)
-* [Victor](https://github.com/)
+* [Gabriel Henrique](https://github.com/crocodileBigger)
+* [Victor Soares](https://github.com/VSoares27)
 * [Diego](https://github.com/Diego-jpeg-27)
 
 ## Professores orientadores ao longo do projeto:

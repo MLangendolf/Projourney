@@ -169,13 +169,20 @@ body {
 
   /* links */
   .linkGreen {
-    @apply m-4 font-semibold border-b-2 border-transparent gap-1 flex items-center justify-center text-center hover:text-[#36b936];
+    @apply m-4 font-semibold gap-1 flex items-center justify-center text-center hover:text-[#36b936];
+  }
+
+  .linkGreen2 {
+    @apply m-1 font-semibold border-b  gap-1  hover:text-[#36b936];
   }
   
   .linkRed {
-    @apply m-4 font-semibold border-b-2 border-transparent gap-1 flex items-center justify-center text-center hover:text-[#d32828];
+    @apply m-4 font-semibold gap-1 flex items-center justify-center text-center hover:text-[#d32828];
   }
 
+.linkRed2 {
+    @apply m-1 font-semibold border-b gap-1  hover:text-[#d32828];
+  }
 
   /* texts */
   .textBanner {

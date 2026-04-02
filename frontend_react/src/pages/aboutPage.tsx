@@ -6,24 +6,50 @@ export default function About() {
     <main className="p-8 max-w-4xl mx-auto">
       <ParticleBackground />
 
+      <h1 className="textBanner">Objetivo</h1>
+      <p>
+
+        O <a href="https://github.com/MaviMelo/Projourney" className="linkGreen2">Projourne</a>  é um projeto acadêmico desenvolvido por estudantes do curso de Tecnologia de Sistemas para a Internet - TSI - do Instituto Federal de Pernambuco, Campos Igarassu. O mesmo tem, na sua origem, como principal objetivo o redirecionamento de seus usuários para cursos onlines gratuitos com boa aprovação ou avaliação  popular. Permitindo seguir uma sequencia de cursos online,  denominadas como <strong>Trilas</strong>, que formam o conteúdo educacional necessário para uma determinada formação profissional ou pessoal.
+
+      </p>
+
       <Card className="card1">
 
-        <CardHeader>
-          <CardTitle>Objetivo</CardTitle>
+        <CardHeader className="itemsJustify2">
+          <CardTitle>Mais Informações</CardTitle>
         </CardHeader>
 
         <CardContent className="">
-          <p>
-            Somos estudantes do IFPE – Campus Igarassu e criamos este projeto com o objetivo de melhorar a forma de estudo online, oferecendo trilhas personalizadas que tornam o aprendizado mais eficiente e direcionado.
-          </p>
 
-          <h2 className="textCard2">Integrantes</h2>
+          <h2 className="textCard2">Recursos disponíveis:</h2>
 
           <ul className="list-disc list-inside">
-            <li>Gabriel Henrique</li>
-            <li>Cristiano</li>
-            <li>Maviael</li>
-            <li>Gabriel Suruba</li>
+            <li>Seguir trilhas de estudos;</li>
+            <li>Mural de cursos divulgados por instituições de ensino.</li>
+          </ul>
+
+          <h2 className="textCard2">Recursos futuros:</h2>
+
+          <ul className="list-disc list-inside">
+            <li>Criar trilhas personalizadas com os cursos ofertados;</li>
+            <li>Avaliar/comentar os cursos.</li>
+          </ul>
+
+          <h2 className="textCard2">Mantenedores do Prejeto:</h2>
+
+          <ul className="list-disc list-inside">
+            <li><a href="https://github.com/VSoares27" className="linkGreen2">Victor Soares</a></li>
+            <li><a href="https://github.com/crocodileBigger" className="linkGreen2">Gabriel Enrique</a></li>
+            <li><a href="github.com/Diego-jpeg-27" className="linkGreen2">Diego</a></li>
+            <li><a href="https://github.com/MaviMelo/" className="linkGreen2">Maviael Melo</a></li>
+
+            <h2 className="textCard2">Veja Também:</h2>
+            <ul className="list-disc list-inside">
+              <li>
+                <a href="https://github.com/MaviMelo/Projourney" className="linkGreen2"> Todos o desenvolvedores que já contribuiram para o projeto.</a>
+              </li>
+            </ul>
+
           </ul>
         </CardContent>
 

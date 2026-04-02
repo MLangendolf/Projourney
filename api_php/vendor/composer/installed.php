@@ -3,7 +3,7 @@
         'name' => 'work/api_php',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '9aeee3a07dec223d22be0cd48950e3dd8e61b26c',
+        'reference' => '60f77b9496c82d0928be1e65239f4df844c880ff',
         'type' => 'api-project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -76,7 +76,7 @@
         'work/api_php' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '9aeee3a07dec223d22be0cd48950e3dd8e61b26c',
+            'reference' => '60f77b9496c82d0928be1e65239f4df844c880ff',
             'type' => 'api-project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
