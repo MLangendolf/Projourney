@@ -8,18 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('cursos', function (Blueprint $table) {
+        Schema::create('curso', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo', 200);
-            $table->text('descricao')->nullable();
-            $table->integer('duracao')->nullable(); // minutos
-            $table->string('nivel', 50)->nullable();
+            $table->enum('nivel', ['Basico', 'Intermediario', 'Avançado'])->default('basico');
+            $table->String('link_curso');
+            $table->string('nome', 150);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('cursos');
+        Schema::dropIfExists('curso');
     }
 };

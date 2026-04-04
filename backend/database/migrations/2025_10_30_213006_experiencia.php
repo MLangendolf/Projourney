@@ -10,11 +10,7 @@ return new class extends Migration
     {
         Schema::create('experiencias', function (Blueprint $table) {
             $table->id();
-            $table->string('empresa', 100)->nullable();
-            $table->string('cargo', 100)->nullable();
-            $table->text('descricao')->nullable();
-            $table->date('inicio')->nullable();
-            $table->date('fim')->nullable();
+            $table->string('nome', 100)->nullable();
             $table->timestamps();
         });
     }
@@ -24,4 +20,3 @@ return new class extends Migration
         Schema::dropIfExists('experiencias');
     }
 };
-

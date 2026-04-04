@@ -9,9 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('curso_trilha', function (Blueprint $table) {
-            $table->foreignId('cursos_id')->constrained('cursos')->cascadeOnDelete();
-            $table->foreignId('trilhas_id')->constrained('trilhas')->cascadeOnDelete();
-            $table->primary(['cursos_id', 'trilhas_id']);
+            $table->foreignId('curso_id')->constrained('curso')->cascadeOnDelete();
+            $table->foreignId('trilha_id')->constrained('trilha')->cascadeOnDelete();
+            $table->primary(['curso_id', 'trilha_id']);
             $table->timestamps();
         });
     }
@@ -21,4 +21,3 @@ return new class extends Migration
         Schema::dropIfExists('curso_trilha');
     }
 };
-
